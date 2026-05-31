@@ -1099,7 +1099,7 @@ function prevQuiz() {
 }
 
 function resetProfile() {
-  Object.keys(profile).forEach(k=>profile[k]=null); profileStep=0;
+  Object.keys(profile).forEach(k=>profile[k]=null); profileStep=0; profile.school=0; profile.major=0;
   document.querySelectorAll('.quiz-step').forEach(el=>el.classList.remove('active'));
   document.querySelector('.quiz-step[data-step="0"]').classList.add('active');
   document.querySelectorAll('.profile-step-ind').forEach((el,i)=>el.classList.toggle('active',i===0));
@@ -1110,6 +1110,9 @@ function resetProfile() {
 }
 
 function showProfileResult() {
+  document.querySelectorAll('.quiz-step').forEach(el=>el.classList.remove('active'));
+  document.querySelector('.quiz-step[data-step="3"]').classList.add('active');
+  document.querySelectorAll('.profile-step-ind').forEach((el,i)=>el.classList.toggle('active',i===3));
   document.getElementById('quizProgress').style.width='100%';
   document.getElementById('quizNext').disabled=true;
   document.getElementById('quizNext').textContent='已完成 ✓';
@@ -1595,43 +1598,80 @@ function downloadExamPaper(subjectId, year) {
   const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
   if (!s || !s.papers || !s.papers[year]) { alert('该试卷暂不可下载'); return; }
   const paper = s.papers[year];
-  let text = `# ${year}年${s.name} 考研真题\n`;
-  text += `# 满分: ${paper.total}分 | 时间: ${paper.time}\n`;
-  text += `# 数据来源: ${s.source||'各校招生简章+教育部考试中心'}\n`;
-  text += `# ⚠️ 不确定性说明: 本真题为结构摘要+样本题，非原卷全文。完整试卷请参考各校官方渠道。\n\n`;
-  paper.questions.forEach(q => {
-    text += `## ${q.type} (${q.count}题 · ${q.desc})\n\n`;
-    text += `样本题:\n${q.sample}\n\n`;
-    text += `---\n\n`;
-  });
-  text += `\n---\n📋 来源: 本数据基于考研帮、王道论坛等社区历年真题回忆版交叉验证整理。\n`;
-  text += `⚠️ 不确定性: 样本题非完整试卷，完整试卷以研招网官方公布的PDF或各校研招办出售的真题为准。\n`;
 
-  const blob = new Blob([text], {type:'text/markdown;charset=utf-8'});
+  // Build a printable HTML exam paper
+  const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>${year}年${s.name}考研真题</title>
+<style>
+  body{font-family:'PingFang SC','Noto Sans SC',sans-serif;max-width:800px;margin:0 auto;padding:30px;color:#111;line-height:1.8}
+  h1{text-align:center;font-size:24px;border-bottom:2px solid #333;padding-bottom:12px;margin-bottom:8px}
+  .meta{text-align:center;color:#666;font-size:14px;margin-bottom:24px}
+  .meta span{margin:0 12px}
+  .disclaimer{background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:10px 14px;font-size:12px;color:#856404;margin-bottom:20px}
+  .section{margin-bottom:20px;page-break-inside:avoid}
+  .section h3{font-size:16px;background:#f5f5f5;padding:8px 12px;border-left:4px solid #3b82f6;margin-bottom:8px}
+  .section .info{font-size:13px;color:#666;margin-bottom:8px}
+  .question{background:#fafafa;padding:12px;border-radius:6px;font-family:'Courier New',monospace;font-size:14px;white-space:pre-wrap;line-height:1.8}
+  .footer{margin-top:30px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#999}
+  @media print{body{padding:15px}.section{page-break-inside:avoid}}
+</style></head><body>
+<h1>${year}年硕士研究生入学考试${s.name}真题</h1>
+<div class="meta"><span>满分: ${paper.total}分</span><span>考试时间: ${paper.time}</span></div>
+<div class="disclaimer">⚠️ 本试卷为结构摘要+样本题，基于各高校历年真题回忆版整理，非官方原卷。完整试卷请参考研招网或各校研招办。题型结构和分值分布与实际一致，样本题仅作参考。${s.source||''}</div>
+${paper.questions.map((q,i) => `<div class="section">
+<h3>${i+1}. ${q.type}（共${q.count}题）</h3>
+<div class="info">${q.desc}</div>
+<div class="question">${q.sample.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+</div>`).join('')}
+<div class="footer">
+  <p>数据来源: ${s.source||'考研帮/王道论坛等社区历年真题回忆版交叉验证'}</p>
+  <p>生成时间: ${new Date().toLocaleString('zh-CN')} | C9考研家长帮 · c9-helper.vercel.app</p>
+  <p>建议: 本试卷可打印练习。如需更多年份，请访问网站切换年份查看。</p>
+</div></body></html>`;
+
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `${year}_${s.name}_考研真题.md`;
-  a.click(); URL.revokeObjectURL(url);
+  a.href = url; a.download = `${year}年${s.name}考研真题.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
 function downloadMockResult() {
   if (!mockState) return;
   const s = EXAM_SUBJECTS.find(x => x.id === mockState.subject);
-  let text = `# ${s?s.name:'考研'} 模拟测试结果\n`;
-  text += `# 日期: ${new Date().toISOString().slice(0,10)}\n`;
-  text += `# 正确: ${mockState.correct}/${mockState.questions.length} (${Math.round(mockState.correct/mockState.questions.length*100)}%)\n\n`;
-  mockState.questions.forEach((q,i) => {
-    const r = mockState.results && mockState.results[i];
-    text += `## 第${i+1}题: ${r&&r.correct?'✅':'❌'}\n`;
-    text += `${q.q}\n`;
-    text += `正确答案: ${String.fromCharCode(65+q.answer)}\n`;
-    text += `${q.explain}\n\n`;
-  });
-  const blob = new Blob([text], {type:'text/markdown;charset=utf-8'});
+  const pct = Math.round(mockState.correct/mockState.questions.length*100);
+  const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>模拟测试成绩 · ${s?s.name:'考研'}</title>
+<style>
+  body{font-family:'PingFang SC','Noto Sans SC',sans-serif;max-width:700px;margin:0 auto;padding:24px;color:#111}
+  h1{text-align:center;font-size:20px}
+  .score{text-align:center;font-size:48px;font-weight:900;color:${pct>=80?'#22c55e':pct>=50?'#eab308':'#ef4444'};margin:12px 0}
+  .meta{text-align:center;color:#666;font-size:13px;margin-bottom:20px}
+  .q-item{padding:10px;margin:8px 0;border-radius:8px}
+  .q-item.correct{background:#f0fff4;border:1px solid #b7ebc9}
+  .q-item.wrong{background:#fff5f5;border:1px solid #ffcacb}
+  .q-text{font-size:14px;font-weight:500}
+  .q-answer{font-size:13px;margin-top:4px}
+  .q-explain{font-size:12px;color:#666;margin-top:4px;padding:8px;background:rgba(0,0,0,0.02);border-radius:4px}
+  @media print{body{padding:10px}}
+</style></head><body>
+<h1>${s?s.name:'考研'} 模拟测试</h1>
+<div class="score">${pct}%</div>
+<div class="meta">正确 ${mockState.correct} / 错误 ${mockState.wrong} / 共 ${mockState.questions.length} 题 · ${new Date().toLocaleString('zh-CN')}</div>
+${mockState.questions.map((q,i) => {
+  const r = mockState.results && mockState.results[i];
+  return `<div class="q-item ${r&&r.correct?'correct':'wrong'}">
+    <div class="q-text">${i+1}. ${q.q}</div>
+    <div class="q-answer">${r&&r.correct?'✅':'❌'} 正确答案: ${String.fromCharCode(65+q.answer)}${r&&!r.correct?'' : ''}</div>
+    <div class="q-explain">${q.explain}</div>
+  </div>`;
+}).join('')}
+<div style="margin-top:20px;text-align:center;font-size:11px;color:#999;">C9考研家长帮 · c9-helper.vercel.app</div>
+</body></html>`;
+
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `模拟测试_${s?s.name:'考研'}_${new Date().toISOString().slice(0,10)}.md`;
-  a.click(); URL.revokeObjectURL(url);
+  a.href = url; a.download = `${s?s.name:'考研'}_模拟测试_${new Date().toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
 // ================================================================
