@@ -879,7 +879,7 @@ function renderDirections() {
       </div>
       <div style="margin-top:6px;font-size:12px;color:var(--text3)">考试: ${d.exam}</div>
       <div class="arrow">查看项目 →</div>
-      <div style="margin-top:6px;font-size:10px;color:var(--text3);border-top:1px solid var(--border);padding-top:6px;">📋 来源: ${d.source}</div>
+      <div style="margin-top:6px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);padding-top:6px;cursor:pointer;" onclick="event.stopPropagation();showSource('${d.id}')" title="点击查看数据来源">🔍 数据溯源: ${d.source}</div>
     </div>`;
   }).join('');
 }
@@ -944,9 +944,9 @@ function renderPrograms() {
         <div class="item">学费: <strong>${p.fee}</strong></div>
       </div>
       <div style="font-size:12px;color:var(--text3);margin-top:6px;">${p.note}</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;">
-        <span>📋 ${p.source||'各校招生简章+历年公示数据'}</span>
-        ${p.unc?'<span>⚠️ '+p.unc+'</span>':''}
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <span style="cursor:pointer;text-decoration:underline;text-underline-offset:2px;" onclick="showSource('${p.id}')" title="点击查看数据溯源">📋 数据溯源</span>
+        ${p.unc?'<span style="font-size:10px;">⚠️ '+p.unc+'</span>':''}
       </div>
       <div class="actions">
         <button class="${compared?'':'primary'}" onclick="toggleCompare('${p.id}')">${compared?'✅ 已对比':'+ 对比'}</button>
@@ -1458,7 +1458,8 @@ function showExamPaper(subjectId, year) {
 
   let html = `<h4 style="font-size:15px;margin-bottom:8px;">${year}年${s.name} · 满分${paper.total}分 · ${paper.time}</h4>
   <div style="margin-bottom:10px;">
-    <button class="filter-btn" onclick="downloadExamPaper('${subjectId}','${year}')" style="font-size:12px;">📥 下载真题</button>
+    <button class="filter-btn" onclick="downloadExamPaper('${subjectId}','${year}')" style="font-size:15px;cursor:pointer;">📥 下载真题</button>
+    <span style="font-size:11px;color:var(--text3);margin-left:8px;">${s.source||'数据来源: 考研帮/王道论坛社区真题回忆版'}</span>
   </div>`;
   paper.questions.forEach(q => {
     html += `<div style="background:var(--bg3);border-radius:8px;padding:14px;margin:8px 0;">
@@ -1624,6 +1625,25 @@ function clearExamHistory() {
   localStorage.setItem('c9ExamHistory', JSON.stringify(history));
   selectExamSubject(currentExamSubject);
   renderExamSubjects();
+}
+
+function showSource(dirOrProgId) {
+  // Look up direction or program
+  let source, title, detail, unc;
+  const dir = DIRECTIONS.find(d => d.id === dirOrProgId);
+  if (dir) {
+    title = dir.name; source = dir.source; detail = `考试科目: ${dir.exam}`;
+    unc = '方向数据基于教育部学科目录+多校招生简章交叉验证';
+  }
+  const prog = PROGRAMS.find(p => p.id === dirOrProgId);
+  if (prog) {
+    title = `${prog.school} ${prog.name}`; source = prog.source||'各校招生简章+历年公示数据'; detail = `报录比: ${prog.ratio} · 分数线: ${prog.scores}`;
+    unc = prog.unc||'数据来源于各校研究生院公示+考研帮社区交叉验证，报录比±15-20%';
+  }
+  if (!title) return;
+  // Simple alert with source info for now
+  const msg = `📋 数据溯源: ${title}\n\n📌 来源: ${source}\n📊 ${detail||''}\n\n⚠️ 不确定性: ${unc||''}\n\n💡 查看方式:\n- 招生简章: 各校研究生院官网 → 招生信息\n- 报录比: 各校历年复试公示\n- 分数线: 研招网(yz.chsi.com.cn)`;
+  alert(msg);
 }
 
 function downloadExamPaper(subjectId, year) {
