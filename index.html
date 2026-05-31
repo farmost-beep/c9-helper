@@ -591,18 +591,23 @@ body {
   </div>
 </div>
 
-<!-- ============================== -->
-<!-- ============================== -->
 <div class="tab-content" id="tab-compare">
   <div class="hero" style="border:none;padding-bottom:0;">
     <h1>📊 对比工具</h1>
-    <p>从下方列表选2-4个项目并排对比</p>
+    <p>从下方项目列表点「+对比」添加2-4个项目</p>
   </div>
   <div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="comparePicks"></div>
     <div id="compareTable" class="compare-empty">
       <div style="font-size:32px;margin-bottom:8px;">👆</div>
-      <div>从「方向雷达」页每个项目卡片点「+对比」添加到这里</div>
+      <div>从下方列表点「+对比」添加项目</div>
+    </div>
+    <div style="margin-top:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="font-size:16px;">全部项目</h3>
+        <div class="filters" id="compareFilters"></div>
+      </div>
+      <div class="program-list" id="compareProgList"></div>
     </div>
   </div>
 </div>
@@ -996,6 +1001,30 @@ function toggleCompare(id) {
 
 function renderCompare() {
   const picks = document.getElementById('comparePicks');
+  // Render project list below comparison area
+  const filterBar = document.getElementById('compareFilters');
+  if (filterBar) {
+    filterBar.innerHTML = `<button class="filter-btn ${currentDirFilter==='all'?'active':''}" onclick="currentDirFilter='all';renderFilters();renderCompare();">全部</button>`
+      + DIRECTIONS.map(d =>
+        `<button class="filter-btn ${currentDirFilter===d.id?'active':''}" onclick="currentDirFilter='${d.id}';renderFilters();renderCompare();">${d.icon} ${d.name}</button>`
+      ).join('');
+  }
+  const progContainer = document.getElementById('compareProgList');
+  if (progContainer) {
+    const filtered = currentDirFilter==='all' ? PROGRAMS : PROGRAMS.filter(p=>p.dir===currentDirFilter);
+    filtered.sort((a,b)=>b.recommend-a.recommend);
+    progContainer.innerHTML = filtered.map(p => {
+      const d = DIRECTIONS.find(dd=>dd.id===p.dir);
+      const compared = compareList.includes(p.id);
+      return `<div class="program-card"><div class="top"><div>
+        <div class="school">${p.school} <span class="c9">${p.isC9?'C9':''}</span> · ${p.dept}</div>
+        <div class="prog-name">${p.name}</div><div class="tags">
+          <span>${d.icon} ${d.name}</span><span>${p.location}</span><span>${p.scores.split('|')[1]||p.scores}</span>
+      </div></div></div>
+      <div class="actions"><button class="${compared?'':'primary'}" onclick="toggleCompare('${p.id}');renderCompare();">${compared?'✅ 已添加':'+ 对比'}</button></div></div>`;
+    }).join('');
+  }
+  // Render comparison table
   if(compareList.length === 0) {
     picks.innerHTML = '';
     document.getElementById('compareTable').innerHTML = `
