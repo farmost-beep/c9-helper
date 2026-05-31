@@ -1639,7 +1639,7 @@ function generateExamHTML(subjectId, year) {
     </div>`;
   }
   const r = generateFullPaper(subjectId, year, s.name);
-  return r.html || r;
+  return r.preview || r;
 }
 
 function showExamPaper(subjectId, year) {
@@ -1876,6 +1876,17 @@ function showSource(dirOrProgId) {
 function downloadFullExam(subjectId, year) {
   const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
   if (!s) return;
+  const pk = s.papers[year];
+  // Handle real PDF papers — directly trigger PDF download
+  if (typeof pk === 'object' && pk.pdf && !pk.external) {
+    const a = document.createElement('a');
+    a.href = pk.pdf; a.download = `${year}_${s.name}真题.pdf`; a.click();
+    if (pk.ans) { const a2 = document.createElement('a'); a2.href = pk.ans; a2.download = `${year}_${s.name}答案.pdf`; setTimeout(()=>a2.click(),500); }
+    return;
+  }
+  if (typeof pk === 'object' && pk.pdf && pk.external) {
+    window.open(pk.pdf, '_blank'); return;
+  }
   const r = generateFullPaper(subjectId, year, s.name);
   if (!r.qb) return;
   const qb = r.qb;
