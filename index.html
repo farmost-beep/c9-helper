@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C9考研 · 家长辅助平台</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1419; --bg2: #1a1f2e; --bg3: #242a3a;
+  --text: #e2e8f0; --text2: #8892a4; --text3: #5a6270;
+  --accent: #3b82f6; --accent2: #60a5fa;
+  --green: #22c55e; --yellow: #eab308; --red: #ef4444;
+  --orange: #f97316; --border: #1e2433;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ===== NAV ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(15,20,25,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border); display: flex;
+  align-items: center; height: 52px; padding: 0 24px;
+}
+.nav .brand { font-size: 16px; font-weight: 700; color: var(--text); }
+.nav .brand span { color: var(--accent); }
+.nav .brand small { font-size: 11px; color: var(--text3); font-weight: 400; margin-left: 8px; }
+.nav .tabs { margin-left: auto; display: flex; gap: 4px; }
+.nav .tabs a {
+  padding: 6px 16px; border-radius: 6px; font-size: 13px;
+  color: var(--text3); text-decoration: none; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.nav .tabs a:hover { color: var(--text); background: var(--bg3); }
+.nav .tabs a.active { color: var(--accent); background: rgba(59,130,246,0.1); }
+
+/* ===== MAIN ===== */
+.main { padding-top: 52px; }
+.tab-content { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
+.tab-content.active { display: block; }
+
+/* ===== HERO ===== */
+.hero {
+  text-align: center; padding: 40px 20px 32px;
+  border-bottom: 1px solid var(--border); margin-bottom: 24px;
+}
+.hero h1 { font-size: 28px; font-weight: 700; }
+.hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero p { color: var(--text2); font-size: 15px; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.hero .badge {
+  display: inline-block; font-size: 12px; padding: 4px 14px;
+  background: rgba(34,197,94,0.1); color: var(--green); border-radius: 20px;
+  margin-bottom: 12px; border: 1px solid rgba(34,197,94,0.2);
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-title .badge { font-size: 11px; background: var(--bg3); color: var(--text2); padding: 2px 10px; border-radius: 10px; font-weight: 400; }
+
+/* ===== DIRECTION CARDS ===== */
+.direction-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 16px; margin-bottom: 32px; }
+.dir-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; cursor: pointer;
+  transition: all 0.2s;
+}
+.dir-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.dir-card .dir-icon { font-size: 28px; margin-bottom: 8px; }
+.dir-card .dir-name { font-size: 16px; font-weight: 600; }
+.dir-card .dir-desc { font-size: 13px; color: var(--text2); margin: 4px 0 10px; }
+.dir-card .dir-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.dir-card .dir-meta span {
+  font-size: 11px; padding: 2px 10px; border-radius: 10px;
+  background: var(--bg3); color: var(--text3);
+}
+.dir-card .dir-stars { margin-top: 10px; font-size: 12px; }
+.dir-card .arrow { color: var(--accent); font-size: 14px; margin-top: 8px; display: inline-block; }
+
+/* ===== PROGRAM LIST ===== */
+.program-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.program-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 20px; transition: all 0.15s;
+}
+.program-card:hover { border-color: var(--accent); }
+.program-card .top {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.program-card .school { font-size: 14px; color: var(--accent); font-weight: 500; }
+.program-card .school .c9 { font-size: 10px; background: rgba(59,130,246,0.1); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+.program-card .prog-name { font-size: 16px; font-weight: 600; }
+.program-card .prog-code { font-size: 12px; color: var(--text3); }
+.program-card .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+.program-card .tags span {
+  font-size: 11px; padding: 2px 8px; border-radius: 6px;
+  background: var(--bg3); color: var(--text2);
+}
+.program-card .tags .math { background: rgba(59,130,246,0.1); color: var(--accent2); }
+.program-card .tags .hot { background: rgba(239,68,68,0.1); color: var(--red); }
+.program-card .tags .rec { background: rgba(34,197,94,0.1); color: var(--green); }
+.program-card .details {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 8px; margin-top: 10px;
+  padding-top: 10px; border-top: 1px solid var(--border);
+}
+.program-card .details .item { font-size: 12px; color: var(--text3); }
+.program-card .details .item strong { color: var(--text); font-weight: 500; }
+.program-card .actions { margin-top: 10px; display: flex; gap: 8px; }
+.program-card .actions button {
+  padding: 4px 14px; border-radius: 6px; border: 1px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 12px; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.program-card .actions button:hover { background: var(--bg3); color: var(--text); border-color: var(--text3); }
+.program-card .actions button.primary { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--accent); }
+.program-card .actions button.primary:hover { background: rgba(59,130,246,0.2); }
+
+/* ===== FILTERS ===== */
+.filters {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 12px;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.filter-btn:hover { border-color: var(--text3); color: var(--text); }
+.filter-btn.active { background: rgba(59,130,246,0.1); border-color: var(--accent); color: var(--accent); }
+
+/* ===== QUIZ ===== */
+.quiz-section { max-width: 600px; margin: 0 auto; }
+.quiz-step { display: none; }
+.quiz-step.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.quiz-step h3 { font-size: 18px; margin-bottom: 4px; }
+.quiz-step .hint { font-size: 13px; color: var(--text3); margin-bottom: 16px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg2); cursor: pointer; transition: all 0.15s; font-size: 14px; font-family: inherit; color: var(--text); text-align: left;
+}
+.quiz-opt:hover { border-color: var(--accent); background: rgba(59,130,246,0.05); }
+.quiz-opt.selected { border-color: var(--accent); background: rgba(59,130,246,0.1); }
+.quiz-nav { display: flex; gap: 10px; margin-top: 20px; }
+.quiz-nav button {
+  padding: 10px 24px; border-radius: 8px; border: none;
+  font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.quiz-nav .prev { background: var(--bg3); color: var(--text2); }
+.quiz-nav .prev:hover { background: var(--border); }
+.quiz-nav .next { background: var(--accent); color: #fff; }
+.quiz-nav .next:hover { opacity: 0.9; }
+.quiz-nav .next:disabled { opacity: 0.4; cursor: default; }
+.quiz-progress { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress .fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+/* ===== RESULT ===== */
+.quiz-result { display: none; }
+.quiz-result.show { display: block; animation: fadeIn 0.5s; }
+.result-header { text-align: center; margin-bottom: 24px; }
+.result-header .score { font-size: 48px; font-weight: 900; color: var(--accent); }
+.result-header .label { color: var(--text2); font-size: 14px; }
+.result-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; margin-bottom: 12px;
+}
+.result-card .tag {
+  display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px;
+  margin-bottom: 6px; font-weight: 500;
+}
+.result-card .tag.reach { background: rgba(239,68,68,0.1); color: var(--red); }
+.result-card .tag.match { background: rgba(59,130,246,0.1); color: var(--accent); }
+.result-card .tag.safety { background: rgba(34,197,94,0.1); color: var(--green); }
+.result-card h4 { font-size: 16px; }
+.result-card .pct { font-size: 24px; font-weight: 700; }
+.result-card .reason { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* ===== COMPARE ===== */
+.compare-grid { display: grid; grid-template-columns: 180px repeat(4,1fr); gap: 1px; background: var(--border); border-radius: 8px; overflow: hidden; }
+.compare-cell { padding: 10px 12px; background: var(--bg2); font-size: 13px; }
+.compare-cell.header { background: var(--bg3); font-weight: 600; color: var(--text2); font-size: 12px; }
+.compare-empty {
+  text-align: center; padding: 40px; color: var(--text3);
+  border: 2px dashed var(--border); border-radius: 12px; font-size: 14px;
+}
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px;
+  width: 2px; background: var(--border);
+}
+.timeline-item { position: relative; margin-bottom: 24px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -25px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bg3); border: 2px solid var(--text3);
+}
+.timeline-item.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px rgba(59,130,246,0.3); }
+.timeline-item .date { font-size: 12px; color: var(--accent); font-weight: 600; }
+.timeline-item .title { font-size: 15px; font-weight: 600; }
+.timeline-item .desc { font-size: 13px; color: var(--text2); }
+.timeline-item .actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.timeline-item .actions span {
+  font-size: 11px; padding: 2px 8px; border-radius: 6px;
+  background: var(--bg3); color: var(--text3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav { padding: 0 12px; }
+  .nav .brand small { display: none; }
+  .nav .tabs a { padding: 6px 10px; font-size: 12px; }
+  .tab-content { padding: 12px; }
+  .direction-grid { grid-template-columns: 1fr; }
+  .program-card .details { grid-template-columns: 1fr 1fr; }
+  .compare-grid { grid-template-columns: 120px repeat(2,1fr); }
+  .hero h1 { font-size: 22px; }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+/* ===== EMPTY / LOADING ===== */
+.empty-state { text-align: center; padding: 40px; color: var(--text3); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="brand">C9考研<span>·家长帮</span><small>上海大学应数 · 大二</small></div>
+  <div class="tabs">
+    <a class="active" onclick="switchTab('radar')">方向雷达</a>
+    <a onclick="switchTab('quiz')">择校测评</a>
+    <a onclick="switchTab('compare')">对比工具</a>
+    <a onclick="switchTab('timeline')">时间线</a>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- ============================== -->
+<!-- TAB 1: 方向雷达 -->
+<!-- ============================== -->
+<div class="tab-content active" id="tab-radar">
+  <div class="hero">
+    <div class="badge">🎯 上海大学 · 应用数学 · 大二</div>
+    <h1>应用数学能考C9的<span>6大方向</span></h1>
+    <p>C9全部9所学校 + 人大金融数学，覆盖数学/统计/金融/AI/管科等方向。每个方向标注跨考难度、数学优势度和推荐优先级。</p>
+  </div>
+
+  <!-- Direction Cards -->
+  <div class="direction-grid" id="dirGrid"></div>
+
+  <!-- Filter -->
+  <div class="section-title">所有C9可报项目 <span class="badge" id="progCount"></span></div>
+  <div class="filters" id="filterBar"></div>
+
+  <!-- Program List -->
+  <div class="program-list" id="progList"></div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 2: 择校测评 -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-quiz">
+  <div class="hero" style="border:none;padding-bottom:0;">
+    <h1>🎯 择校测评</h1>
+    <p>回答几个问题，AI自动推荐最适合你的C9方向+院校组合</p>
+  </div>
+
+  <div class="quiz-section">
+    <div class="quiz-progress"><div class="fill" id="quizProgress" style="width:0%"></div></div>
+
+    <!-- Step 1 -->
+    <div class="quiz-step active" data-step="0">
+      <h3>毕业后的第一目标是什么？</h3>
+      <div class="hint">这决定了你选学术型还是应用型方向</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectQuiz(0,0)">🎓 读博深造，走学术路线</button>
+        <button class="quiz-opt" onclick="selectQuiz(0,1)">💼 进大厂/金融行业，高薪就业</button>
+        <button class="quiz-opt" onclick="selectQuiz(0,2)">🏛️ 考公/事业单位，稳定路线</button>
+        <button class="quiz-opt" onclick="selectQuiz(0,3)">🤷 还没想好，先考研再说</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="quiz-step" data-step="1">
+      <h3>你的数学成绩怎么样？</h3>
+      <div class="hint">数学分析+高等代数+概率论三门核心课的平均水平</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectQuiz(1,0)">🏆 前10%（竞赛获奖/保研边缘）</button>
+        <button class="quiz-opt" onclick="selectQuiz(1,1)">👍 前30%（学得扎实，考试成绩好）</button>
+        <button class="quiz-opt" onclick="selectQuiz(1,2)">👌 中等（能跟上，不是强项）</button>
+        <button class="quiz-opt" onclick="selectQuiz(1,3)">😰 偏弱（花了很多时间，成绩一般）</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="quiz-step" data-step="2">
+      <h3>你的编程水平？</h3>
+      <div class="hint">跨考CS/AI需要强编程，金融/统计需要基础编程</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectQuiz(2,0)">💻 熟练（Python/C++，打过ACM/做过项目）</button>
+        <button class="quiz-opt" onclick="selectQuiz(2,1)">📖 基础课水平（学过C语言/Python课设）</button>
+        <button class="quiz-opt" onclick="selectQuiz(2,2)">🔰 几乎零基础（只有课内一点接触）</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="quiz-step" data-step="3">
+      <h3>你倾向去哪个城市/区域？</h3>
+      <div class="hint">C9院校分布在6个城市，选择会缩小范围</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectQuiz(3,0)">上海（复旦/交大）</button>
+        <button class="quiz-opt" onclick="selectQuiz(3,1)">北京（北大/清华/人大）</button>
+        <button class="quiz-opt" onclick="selectQuiz(3,2)">杭州（浙大）</button>
+        <button class="quiz-opt" onclick="selectQuiz(3,3)">南京（南大）/ 合肥（中科大）</button>
+        <button class="quiz-opt" onclick="selectQuiz(3,4)">哈尔滨/西安（哈工大/西交）</button>
+        <button class="quiz-opt" onclick="selectQuiz(3,5)">没有偏好，哪个学校好去哪</button>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="quiz-step" data-step="4">
+      <h3>家庭能承受的经济预算？</h3>
+      <div class="hint">学费+生活费，会影响建议的院校范围</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="selectQuiz(4,0)">💰 没有预算限制（只要学校好）</button>
+        <button class="quiz-opt" onclick="selectQuiz(4,1)">💵 可接受<5万/年（大部分学硕+部分专硕）</button>
+        <button class="quiz-opt" onclick="selectQuiz(4,2)">🏷️ 希望<2万/年（只考虑学硕/平价专硕）</button>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="quiz-nav" id="quizNav">
+      <button class="prev" onclick="prevQuiz()">← 上一步</button>
+      <button class="next" id="quizNext" onclick="nextQuiz()" disabled>下一步 →</button>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-result" id="quizResult">
+      <div class="result-header">
+        <div class="score" id="resultScore">3</div>
+        <div class="label">个推荐方向</div>
+      </div>
+      <div id="resultCards"></div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="quiz-nav next" onclick="resetQuiz()" style="background:var(--bg3);color:var(--text2);border:1px solid var(--border);">重新测评</button>
+        <button class="quiz-nav next" onclick="document.querySelector('.nav .tabs a').click();switchTab('radar')" style="margin-left:8px;">浏览所有项目 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 3: 对比工具 -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-compare">
+  <div class="hero" style="border:none;padding-bottom:0;">
+    <h1>📊 对比工具</h1>
+    <p>从下方列表选2-4个项目并排对比</p>
+  </div>
+  <div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="comparePicks"></div>
+    <div id="compareTable" class="compare-empty">
+      <div style="font-size:32px;margin-bottom:8px;">👆</div>
+      <div>从「方向雷达」页每个项目卡片点「+对比」添加到这里</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 4: 时间线 -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-timeline">
+  <div class="hero" style="border:none;padding-bottom:0;">
+    <h1>📅 C9考研时间线</h1>
+    <p>从大二暑假到大四考研，每个阶段该做什么</p>
+  </div>
+  <div class="timeline" id="timelineContent"></div>
+</div>
+
+</div>
+
+<script>
+// ================================================================
+// DATA: C9 Programs for Applied Math Students
+// ================================================================
+
+const DIRECTIONS = [
+  { id:'stat', icon:'📊', name:'应用统计', desc:'专业课432统计学与应数高度重合，数学优势最大化的方向',
+    difficulty:'中低', mathAdv:'⭐⭐⭐⭐⭐', recommend:'⭐⭐⭐⭐⭐',
+    exam:'数三+432统计学', programs:[] },
+  { id:'fintech', icon:'💰', name:'金融科技/金融工程', desc:'数二/数三+经济学综合，数学背景在量化方向极大加分',
+    difficulty:'中', mathAdv:'⭐⭐⭐⭐⭐', recommend:'⭐⭐⭐⭐',
+    exam:'数二/数三+经济学综合/431', programs:[] },
+  { id:'cs', icon:'🤖', name:'计算机/AI', desc:'408统考成大趋势，复习资料标准化。数学优势明显但需补编程',
+    difficulty:'极高', mathAdv:'⭐⭐⭐⭐', recommend:'⭐⭐⭐',
+    exam:'数一+408计算机统考', programs:[] },
+  { id:'math', icon:'🏛️', name:'统计学(学硕)', desc:'数分+高代或概率论自命题，与数学本科无缝衔接',
+    difficulty:'中', mathAdv:'⭐⭐⭐⭐⭐', recommend:'⭐⭐⭐⭐',
+    exam:'数一+数分高代/概率论自命题', programs:[] },
+  { id:'mse', icon:'📋', name:'管理科学与工程', desc:'运筹学本质是数学优化分支，管理+数学复合优势',
+    difficulty:'中', mathAdv:'⭐⭐⭐⭐', recommend:'⭐⭐⭐⭐',
+    exam:'数一/数三+运筹学/管理学', programs:[] },
+  { id:'finmath', icon:'🔬', name:'金融数学(交叉)', desc:'全国首个数学与金融交叉专硕(人大首发)，应数最对口选择',
+    difficulty:'中低', mathAdv:'⭐⭐⭐⭐⭐', recommend:'⭐⭐⭐⭐⭐',
+    exam:'数三+线性代数/金融综合', programs:[] }
+];
+
+const PROGRAMS = [
+  // === 应用统计 ===
+  { id:'fd-stat', dir:'stat', school:'复旦大学', isC9:true, dept:'大数据学院', name:'应用统计(专硕)025200',
+    exam:'①政治②英二③数三④432统计学', fee:'10.9万/年', years:2,
+    scores:'2024:390 | 2025:395', ratio:'~15:1', slots:'统考约30人',
+    mathScore:5, diff:4, recommend:4, location:'上海',
+    note:'数学底子好的人占极大优势，专业课432中的概率论部分就是应数内容',
+    prep:'茆诗松《概率论与数理统计》+ 贾俊平《统计学》+ 真题刷3遍' },
+  { id:'hit-stat', dir:'stat', school:'哈尔滨工业大学', isC9:true, dept:'数学学院', name:'应用统计(专硕)025200',
+    exam:'①政治②英一③数三④432统计学', fee:'0.8万/年', years:2.5,
+    scores:'2024:360 | 2025:365', ratio:'~6:1', slots:'统考约20人',
+    mathScore:5, diff:3, recommend:5, location:'哈尔滨',
+    note:'学费极低(8000/年)，报录比友好，性价比之王。缺点是地理位置',
+    prep:'茆诗松 + 贾俊平 + 数三强化' },
+  { id:'ustc-stat', dir:'stat', school:'中国科学技术大学', isC9:true, dept:'管理学院', name:'统计学071400(金融工程方向)',
+    exam:'①政治②英一③数一④812概率论与数理统计', fee:'0.8万/年', years:3,
+    scores:'2024:370 | 2025:375', ratio:'~8:1', slots:'统考约15人',
+    mathScore:5, diff:4, recommend:5, location:'合肥',
+    note:'专业课812概率论，数学专业学生巨大优势。金融工程方向复试考计量经济学',
+    prep:'中科大812真题 + 计量经济学基础' },
+  { id:'zju-stat', dir:'stat', school:'浙江大学', isC9:true, dept:'数学科学学院', name:'应用统计(专硕)025200',
+    exam:'①政治②英一③数三④432统计学', fee:'5万/年', years:2,
+    scores:'2024:385 | 2025:390', ratio:'~12:1', slots:'统考约12人',
+    mathScore:5, diff:5, recommend:3, location:'杭州',
+    note:'浙大应统竞争极其激烈，但出来就业极好。适合数学+编程双强',
+    prep:'432统计 + 数三满分冲刺 + Python数据处理' },
+
+  // === 金融科技/金融工程 ===
+  { id:'pku-fin', dir:'fintech', school:'北京大学', isC9:true, dept:'软件与微电子学院', name:'电子信息(金融科技方向)085400',
+    exam:'①政治②英二③数二④经济学综合', fee:'9万/3年', years:3,
+    scores:'2024:365 | 2025:370', ratio:'~10:1', slots:'统考约82人(含推免40)',
+    mathScore:5, diff:3, recommend:5, location:'北京',
+    note:'🔥 强烈推荐！数二(比数一简单) + 大名额(统考82人) + 北大招牌。数学背景碾压',
+    prep:'经济学综合(微观+宏观) + 数二满分冲刺 + 英二' },
+  { id:'pku-phbs', dir:'fintech', school:'北京大学', isC9:true, dept:'汇丰商学院', name:'金融硕士(数量金融方向)',
+    exam:'①政治②英一③数三④431金融学综合', fee:'13.8万/年', years:3,
+    scores:'2024:380 | 2025:385', ratio:'~15:1', slots:'统考约20人',
+    mathScore:5, diff:5, recommend:4, location:'深圳',
+    note:'明确要求数理背景，应数是最适配的专业。全英文授课',
+    prep:'431金融学综合 + CFA一级 + 英语强化' },
+  { id:'ustc-fintech', dir:'fintech', school:'中国科学技术大学', isC9:true, dept:'管理学院', name:'金融硕士MF(量化金融)',
+    exam:'①政治②英二③数三④431金融学综合', fee:'18.8万/3年', years:3,
+    scores:'2024:360 | 2025:365', ratio:'~8:1', slots:'统考约25人',
+    mathScore:5, diff:3, recommend:5, location:'合肥',
+    note:'复试考概率论与数理统计(150分)——数学背景极大优势。与伯克利有双学位合作',
+    prep:'431金融学综合 + 概率论强化' },
+  { id:'sjtu-saif', dir:'fintech', school:'上海交通大学', isC9:true, dept:'上海高级金融学院SAIF', name:'金融硕士MF',
+    exam:'①政治②英一③数三④431金融学综合', fee:'15.8万/年', years:2,
+    scores:'2024:390 | 2025:395', ratio:'~20:1', slots:'统考约15人',
+    mathScore:5, diff:5, recommend:3, location:'上海',
+    note:'偏好数理背景，但竞争极其激烈。出来年薪50万+',
+    prep:'431 + 数三满分 + 金融实习' },
+
+  // === 计算机/AI ===
+  { id:'thu-ai', dir:'cs', school:'清华大学', isC9:true, dept:'求真书院', name:'数学与人工智能(交叉方向)',
+    exam:'①政治②英一③数一④408计算机统考', fee:'0.8万/年', years:3,
+    scores:'2024:360 | 2025:365(新开方向)', ratio:'~5:1', slots:'统考约10人',
+    mathScore:5, diff:4, recommend:5, location:'北京',
+    note:'🔥 新增交叉方向，专为数理背景设计。名额少但知道的人少，性价比极高',
+    prep:'408四大件(Python/数据结构/算法/计网) + 数一 + 机器学习基础' },
+  { id:'pku-ai', dir:'cs', school:'北京大学', isC9:true, dept:'软件与微电子学院', name:'电子信息(AI方向)085400',
+    exam:'①政治②英一③数一④408计算机统考', fee:'9万/3年', years:3,
+    scores:'2024:390 | 2025:395', ratio:'~20:1', slots:'统考约110人(含推免)',
+    mathScore:4, diff:5, recommend:3, location:'北京',
+    note:'AI方向约4000人报考，竞争白热化。但名额充裕(统考约60-70人)',
+    prep:'408统考 + 数一 + LeetCode刷题' },
+  { id:'zju-cs', dir:'cs', school:'浙江大学', isC9:true, dept:'计算机学院', name:'计算机(AI方向)',
+    exam:'①政治②英一③数一④408计算机统考', fee:'1万/年', years:3,
+    scores:'2024:380 | 2025:385(扩招至20人)', ratio:'~15:1', slots:'统考约20人',
+    mathScore:4, diff:5, recommend:3, location:'杭州',
+    note:'2026扩招，机考PTA甲级。数学好的人在算法题上有优势',
+    prep:'408 + 数一 + PTA甲级刷题' },
+  { id:'nju-ai', dir:'cs', school:'南京大学', isC9:true, dept:'人工智能学院', name:'人工智能',
+    exam:'①政治②英一③数一④408计算机统考', fee:'1万/年', years:3,
+    scores:'2024:370 | 2025:375', ratio:'~12:1', slots:'统考约15人',
+    mathScore:4, diff:4, recommend:4, location:'南京',
+    note:'AI学院单独招生，对数理背景友好。师资强(周志华团队)',
+    prep:'408 + 数一 + 吴恩达ML课程' },
+  { id:'hust-ai', dir:'cs', school:'哈尔滨工业大学', isC9:true, dept:'计算机学部(深圳校区)', name:'计算机技术',
+    exam:'①政治②英一③数一④408计算机统考', fee:'1万/年', years:2.5,
+    scores:'2024:350 | 2025:355', ratio:'~8:1', slots:'统考约40人',
+    mathScore:4, diff:3, recommend:4, location:'深圳',
+    note:'深圳校区分数线比本部低20分，就业资源好。性价比最高的C9 CS选择',
+    prep:'408统考 + 数一强化' },
+
+  // === 统计学(学硕) ===
+  { id:'fd-math', dir:'math', school:'复旦大学', isC9:true, dept:'数学科学学院', name:'统计学071400',
+    exam:'①政治②英一③数一④861概率论与数理统计', fee:'0.8万/年', years:3,
+    scores:'2024:375 | 2025:380', ratio:'~10:1', slots:'统考约8人',
+    mathScore:5, diff:4, recommend:4, location:'上海',
+    note:'专业课就是概率论，数学专业巨大优势。名额少但报考的人也少',
+    prep:'复旦861真题 + 数一 + 概率论高阶' },
+  { id:'sjtu-math', dir:'math', school:'上海交通大学', isC9:true, dept:'数学科学学院', name:'统计学071400',
+    exam:'①政治②英一③数一④817概率论与数理统计', fee:'0.8万/年', years:2.5,
+    scores:'2024:375 | 2025:380', ratio:'~10:1', slots:'统考约10人',
+    mathScore:5, diff:4, recommend:4, location:'上海',
+    note:'数学专业可直接衔接，研究方向含金融统计和机器学习理论',
+    prep:'上交817真题 + 数一' },
+  { id:'nju-math', dir:'math', school:'南京大学', isC9:true, dept:'数学系', name:'统计学071400',
+    exam:'①政治②英一③数一④801数分+高代', fee:'0.8万/年', years:3,
+    scores:'2024:360 | 2025:365', ratio:'~7:1', slots:'统考约10人',
+    mathScore:5, diff:3, recommend:5, location:'南京',
+    note:'专业课考数分+高代，就是数学本科的专业课内容。准备成本最低',
+    prep:'数分+高代强化(陈纪修/丘维声) + 数一' },
+
+  // === 管理科学与工程 ===
+  { id:'ustc-mse', dir:'mse', school:'中国科学技术大学', isC9:true, dept:'管理学院', name:'管理科学与工程087100',
+    exam:'①政治②英一③数一④868运筹学', fee:'0.8万/年', years:3,
+    scores:'2024:355 | 2025:360', ratio:'~6:1', slots:'统考约12人',
+    mathScore:4, diff:3, recommend:5, location:'合肥',
+    note:'运筹学本质是数学优化，应数背景直接对齐。报录比友好',
+    prep:'运筹学(清华版教材) + 数一 + Python基础' },
+  { id:'hust-mse', dir:'mse', school:'哈尔滨工业大学', isC9:true, dept:'经管学院', name:'管理科学与工程120100',
+    exam:'①政治②英一③数三④848应用统计学', fee:'0.8万/年', years:2.5,
+    scores:'2024:355 | 2025:360', ratio:'~5:1', slots:'统考约15人',
+    mathScore:4, diff:3, recommend:5, location:'哈尔滨',
+    note:'专业课848应用统计学与应数高度重合。竞争小，学费低',
+    prep:'应用统计 + 数三' },
+  { id:'xjt-mse', dir:'mse', school:'西安交通大学', isC9:true, dept:'管理学院', name:'管理科学与工程120100',
+    exam:'①政治②英一③数一④817管理学', fee:'0.8万/年', years:3,
+    scores:'2024:350 | 2025:355', ratio:'~5:1', slots:'统考约12人',
+    mathScore:4, diff:3, recommend:4, location:'西安',
+    note:'需补管理学知识，但数一优势明显。报录比在C9中算低的',
+    prep:'管理学(罗宾斯) + 数一' },
+
+  // === 金融数学(交叉) ===
+  { id:'ruc-finmath', dir:'finmath', school:'中国人民大学', isC9:false, dept:'数学学院', name:'金融数学与金融计算(交叉专硕)S0260',
+    exam:'①政治②英二③数三④827线性代数', fee:'5万/年', years:2,
+    scores:'2024:370 | 2025:375', ratio:'~8:1', slots:'统考约30人',
+    mathScore:5, diff:3, recommend:5, location:'北京',
+    note:'🔥 教育部首个数学与金融交叉专硕！课程含ML/区块链/量化/风控。专业课考线代，应数优势最大化',
+    prep:'线性代数强化 + 金融学基础 + Python量化入门' }
+];
+
+// Link programs to directions
+PROGRAMS.forEach(p => {
+  const dir = DIRECTIONS.find(d => d.id === p.dir);
+  if (dir) dir.programs.push(p.id);
+});
+
+// Timeline data
+const TIMELINE = [
+  { date:'大二暑假 (2026.7-8)', title:'明确方向，锁定目标', active:true,
+    desc:'这是最重要的窗口期。浏览C9所有可选方向(6大方向)，圈定2-3个感兴趣的方向。对应数跨考而言，寒暑假是补短板(编程/金融)的最佳时间。',
+    actions:['浏览6大方向','确定2-3个感兴趣的方向','评估当前数学成绩在C9中的竞争力','开始补目标方向的先修课'] },
+  { date:'大三上 (2026.9-2027.1)', title:'深化目标，缩小范围', active:false,
+    desc:'在圈定的方向内，缩小到2-3所目标院校。下载近3年真题做摸底测试，评估差距。英语可以开始背单词了(到考前背完考研词汇即可)',
+    actions:['缩小到2-3所目标院校','下载真题摸底','开始背考研词汇(每天30个)','关注目标院校研招办公众号'] },
+  { date:'大三寒假 (2027.1-2)', title:'集中补短板', active:false,
+    desc:'如果跨考CS→集中补408；如果跨考金融→微观/宏观经济学；如果留数学/统计→强化数分高代。寒假是唯一有大块时间补差距的时候',
+    actions:['跨考CS ⇒ 数据结构+Python','跨考金融 ⇒ 微观经济学','本校统计 ⇒ 数分高代强化','英语词汇背完第一轮'] },
+  { date:'大三下 (2027.3-6)', title:'正式进入备考', active:false,
+    desc:'确定最终目标院校(这个决定暑假前必须做出)。各校招生简章陆续发布(5-6月)，家长要帮盯招生变化。专业课系统复习开始。',
+    actions:['最终确定目标院校','关注各校招生简章发布','专业课系统复习启动','数学一/三基础轮复习'] },
+  { date:'大三暑假 (2027.7-8)', title:'备考黄金期', active:false,
+    desc:'暑假两个月是拉开差距的关键期。每天保证8-10小时有效学习。数学强化轮+专业课刷题+英语阅读+政治第一轮同步推进',
+    actions:['数学强化轮','专业课真题刷3遍以上','英语阅读真题','政治开始第一轮'] },
+  { date:'大四上 (2027.9-12)', title:'冲刺期', active:false,
+    desc:'9月预报名，10月正式报名。招生简章必须再确认一遍(有些学校会变考试科目)。12月初试。最后的冲刺阶段家长要做好后勤+心理支持。',
+    actions:['10月正式报名','11月确认考试科目','12月初试','家长:做好后勤和情绪支持'] },
+  { date:'大四寒假 (2028.1-2)', title:'等待出分', active:false,
+    desc:'2月下旬出初试成绩。如果成绩理想→准备复试；如果边缘→同时准备调剂；如果不理想→决定二战/工作/出国',
+    actions:['2月查分','准备复试/调剂','收集调剂信息'] },
+  { date:'大四下 (2028.3-5)', title:'复试与录取', active:false,
+    desc:'3-4月复试，4-5月出录取结果。C9复试通常含笔试+面试+英语口语。部分学校有机考(CS方向)',
+    actions:['3月复试','4-5月录取','确定导师'] }
+];
+
+// ================================================================
+// APP STATE
+// ================================================================
+let currentTab = 'radar';
+let quizAnswers = [];
+let quizStep = 0;
+let compareList = JSON.parse(localStorage.getItem('c9Compare') || '[]');
+
+// ================================================================
+// TABS
+// ================================================================
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.nav .tabs a').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav .tabs a').forEach(el => {
+    if(el.textContent.includes('方向') && tab==='radar') el.classList.add('active');
+    if(el.textContent.includes('测评') && tab==='quiz') el.classList.add('active');
+    if(el.textContent.includes('对比') && tab==='compare') el.classList.add('active');
+    if(el.textContent.includes('时间') && tab==='timeline') el.classList.add('active');
+  });
+  if(tab==='compare') renderCompare();
+}
+
+// ================================================================
+// DIRECTION RADAR
+// ================================================================
+function renderDirections() {
+  const grid = document.getElementById('dirGrid');
+  grid.innerHTML = DIRECTIONS.map(d => {
+    const cnt = d.programs.length;
+    return `<div class="dir-card" onclick="switchTab('radar');filterDir('${d.id}')">
+      <div class="dir-icon">${d.icon}</div>
+      <div class="dir-name">${d.name}</div>
+      <div class="dir-desc">${d.desc}</div>
+      <div class="dir-meta">
+        <span>跨考${d.difficulty}</span>
+        <span>数学优势 ${d.mathAdv}</span>
+        <span>C9可报 ${cnt} 个项目</span>
+      </div>
+      <div style="margin-top:6px;font-size:12px;color:var(--text3)">考试: ${d.exam}</div>
+      <div class="arrow">查看项目 →</div>
+    </div>`;
+  }).join('');
+}
+
+let currentDirFilter = 'all';
+
+function filterDir(dirId) {
+  currentDirFilter = dirId;
+  renderFilters();
+  renderPrograms();
+  // Scroll to program list
+  document.getElementById('progList').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function renderFilters() {
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = `<button class="filter-btn ${currentDirFilter==='all'?'active':''}" onclick="currentDirFilter='all';renderFilters();renderPrograms();">全部</button>`
+    + DIRECTIONS.map(d =>
+      `<button class="filter-btn ${currentDirFilter===d.id?'active':''}" onclick="currentDirFilter='${d.id}';renderFilters();renderPrograms();">${d.icon} ${d.name}</button>`
+    ).join('');
+}
+
+function renderPrograms() {
+  const list = document.getElementById('progList');
+  const filtered = currentDirFilter === 'all'
+    ? PROGRAMS
+    : PROGRAMS.filter(p => p.dir === currentDirFilter);
+
+  document.getElementById('progCount').textContent = filtered.length + '个项目';
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state">暂无项目</div>';
+    return;
+  }
+
+  // Sort: by recommend score descending
+  filtered.sort((a,b) => b.recommend - a.recommend);
+
+  list.innerHTML = filtered.map(p => {
+    const d = DIRECTIONS.find(dd => dd.id === p.dir);
+    const compared = compareList.includes(p.id);
+    return `<div class="program-card">
+      <div class="top">
+        <div>
+          <div class="school">${p.school} <span class="c9">${p.isC9?'C9':''}</span> · ${p.dept}</div>
+          <div class="prog-name">${p.name}</div>
+          <div class="tags">
+            <span>${d.icon} ${d.name}</span>
+            <span class="${p.mathScore>=5?'math':''}">数学优势 ${'⭐'.repeat(p.mathScore)}</span>
+            ${p.diff>=5?'<span class="hot">竞争激烈</span>':p.diff<=3?'<span class="rec">推荐</span>':''}
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:13px;color:var(--text2)">${p.location}</div>
+          <div style="font-size:12px;color:var(--text3)">${p.scores.split('|')[1]}</div>
+        </div>
+      </div>
+      <div class="details">
+        <div class="item">考试: <strong>${p.exam}</strong></div>
+        <div class="item">名额: <strong>${p.slots}</strong></div>
+        <div class="item">报录比: <strong>${p.ratio}</strong></div>
+        <div class="item">学费: <strong>${p.fee}</strong></div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px;">${p.note}</div>
+      <div class="actions">
+        <button class="${compared?'':'primary'}" onclick="toggleCompare('${p.id}')">${compared?'✅ 已对比':'+ 对比'}</button>
+        <button onclick="showDetail('${p.id}')">详情</button>
+        <button onclick="showPrep('${p.id}')">备考</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ================================================================
+// DETAIL / PREP
+// ================================================================
+function showDetail(id) {
+  const p = PROGRAMS.find(pp => pp.id === id);
+  if(!p) return;
+  const d = DIRECTIONS.find(dd => dd.id === p.dir);
+  const info = [
+    `【${p.school} ${p.dept}】`,
+    `专业: ${p.name}`,
+    `方向: ${d.icon} ${d.name}`,
+    `考试科目: ${p.exam}`,
+    `分数线: ${p.scores}`,
+    `报录比: ${p.ratio}`,
+    `统考名额: ${p.slots}`,
+    `学费: ${p.fee}`,
+    '',
+    `💡 ${p.note}`
+  ].join('\n');
+  alert(info);
+}
+
+function showPrep(id) {
+  const p = PROGRAMS.find(pp => pp.id === id);
+  if(!p) return;
+  alert(`📚 备考建议\n\n【${p.school} ${p.name}】\n\n推荐准备:\n${p.prep}\n\n关键提醒:\n1. 确定目标后立即下载近年真题\n2. 数学是优势科目，尽量冲到接近满分\n3. 专业课至少刷3遍真题\n4. 关注该学院是否变更考试科目`);
+}
+
+// ================================================================
+// COMPARE
+// ================================================================
+function toggleCompare(id) {
+  const idx = compareList.indexOf(id);
+  if(idx >= 0) {
+    compareList.splice(idx, 1);
+  } else {
+    if(compareList.length >= 4) { alert('最多对比4个项目'); return; }
+    compareList.push(id);
+  }
+  localStorage.setItem('c9Compare', JSON.stringify(compareList));
+  renderPrograms();
+  renderCompare();
+}
+
+function renderCompare() {
+  const picks = document.getElementById('comparePicks');
+  if(compareList.length === 0) {
+    picks.innerHTML = '';
+    document.getElementById('compareTable').innerHTML = `
+      <div style="font-size:32px;margin-bottom:8px;">👆</div>
+      <div>从「方向雷达」页每个项目卡片点「+对比」添加到这里</div>`;
+    return;
+  }
+
+  picks.innerHTML = compareList.map(id => {
+    const p = PROGRAMS.find(pp => pp.id === id);
+    if(!p) return '';
+    return `<span style="background:var(--bg2);border:1px solid var(--border);padding:4px 12px;border-radius:6px;font-size:13px;cursor:pointer;" onclick="toggleCompare('${id}')">${p.school} ${p.name.split('(')[0]} ✕</span>`;
+  }).join('');
+
+  const items = compareList.map(id => PROGRAMS.find(pp => pp.id === id)).filter(Boolean);
+  const fields = [
+    { label:'学校', fn:(p)=>p.school },
+    { label:'方向', fn:(p)=>DIRECTIONS.find(d=>d.id===p.dir)?.name||'' },
+    { label:'考试科目', fn:(p)=>p.exam },
+    { label:'数学等级', fn:(p)=>'⭐'.repeat(p.mathScore) },
+    { label:'分数线', fn:(p)=>p.scores },
+    { label:'报录比', fn:(p)=>p.ratio },
+    { label:'名额', fn:(p)=>p.slots },
+    { label:'学费', fn:(p)=>p.fee },
+    { label:'推荐理由', fn:(p)=>p.note }
+  ];
+
+  let html = `<div class="compare-grid" style="grid-template-columns:140px repeat(${items.length},1fr);">`;
+  html += `<div class="compare-cell header"></div>`;
+  items.forEach(p => {
+    html += `<div class="compare-cell header" style="font-weight:600;color:var(--text);font-size:13px;">${p.school}</div>`;
+  });
+  fields.forEach(f => {
+    html += `<div class="compare-cell header">${f.label}</div>`;
+    items.forEach(p => {
+      html += `<div class="compare-cell" style="font-size:12px;">${f.fn(p)}</div>`;
+    });
+  });
+  html += `</div>`;
+
+  document.getElementById('compareTable').innerHTML = html;
+}
+
+// ================================================================
+// QUIZ
+// ================================================================
+function selectQuiz(step, opt) {
+  quizAnswers[step] = opt;
+  document.querySelectorAll(`.quiz-step[data-step="${step}"] .quiz-opt`).forEach((el,i) => {
+    el.classList.toggle('selected', i === opt);
+  });
+  document.getElementById('quizNext').disabled = false;
+}
+
+function nextQuiz() {
+  if(quizStep < 4) {
+    quizStep++;
+    document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
+    document.querySelector(`.quiz-step[data-step="${quizStep}"]`).classList.add('active');
+    document.getElementById('quizProgress').style.width = ((quizStep)/5*100)+'%';
+    document.getElementById('quizNext').disabled = true;
+    // If already answered this step, show selection
+    if(quizAnswers[quizStep] !== undefined) {
+      selectQuiz(quizStep, quizAnswers[quizStep]);
+    }
+  } else {
+    showQuizResult();
+  }
+}
+
+function prevQuiz() {
+  if(quizStep > 0) {
+    quizStep--;
+    document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
+    document.querySelector(`.quiz-step[data-step="${quizStep}"]`).classList.add('active');
+    document.getElementById('quizProgress').style.width = ((quizStep)/5*100)+'%';
+    document.getElementById('quizNext').disabled = false;
+  }
+}
+
+function resetQuiz() {
+  quizAnswers = [];
+  quizStep = 0;
+  document.getElementById('quizResult').classList.remove('show');
+  document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
+  document.querySelector('.quiz-step[data-step="0"]').classList.add('active');
+  document.getElementById('quizProgress').style.width = '0%';
+  document.getElementById('quizNext').disabled = true;
+  document.querySelectorAll('.quiz-opt').forEach(el => el.classList.remove('selected'));
+}
+
+function showQuizResult() {
+  document.getElementById('quizResult').classList.remove('show');
+
+  const [career, mathLevel, coding, location, budget] = quizAnswers;
+
+  // Simple scoring: math level + coding level = direction fit
+  let scores = {};
+  DIRECTIONS.forEach(d => { scores[d.id] = 0; });
+
+  // Math level weights
+  if(mathLevel <= 1) { // strong math
+    scores.stat += 3; scores.math += 3; scores.finmath += 3; scores.fintech += 2;
+  } else if(mathLevel === 2) {
+    scores.stat += 2; scores.math += 2; scores.fintech += 2; scores.mse += 2;
+  } else {
+    scores.fintech += 2; scores.mse += 2; scores.stat += 1;
+  }
+
+  // Coding level
+  if(coding === 0) { // strong coding
+    scores.cs += 3; scores.fintech += 1;
+  } else if(coding === 1) {
+    scores.cs += 1; scores.fintech += 1; scores.stat += 1;
+  } else {
+    scores.cs -= 1; scores.fintech += 1; scores.stat += 2; scores.math += 2;
+  }
+
+  // Career
+  if(career === 0) { // academic
+    scores.math += 2; scores.stat += 2;
+  } else if(career === 1) { // industry
+    scores.cs += 2; scores.fintech += 2; scores.finmath += 2;
+  } else if(career === 2) { // government
+    scores.stat += 1; scores.mse += 2;
+  }
+
+  // Budget
+  if(budget === 2) { // low budget
+    scores.math += 1; scores.mse += 1; scores.stat += 1;
+    scores.fintech -= 1; scores.cs -= 1;
+  }
+
+  // Sort
+  const sorted = Object.entries(scores)
+    .map(([k,v]) => ({id:k, score:v, dir:DIRECTIONS.find(d=>d.id===k)}))
+    .filter(d => d.score > 0)
+    .sort((a,b) => b.score - a.score);
+
+  const top = sorted.slice(0, 3);
+
+  document.getElementById('resultScore').textContent = top.length;
+
+  const cards = document.getElementById('resultCards');
+  cards.innerHTML = top.map((d, i) => {
+    const level = i === 0 ? 'match' : i === 1 ? 'reach' : 'safety';
+    const label = i === 0 ? '强烈推荐' : i === 1 ? '推荐尝试' : '可选备选';
+    const progs = PROGRAMS.filter(p => p.dir === d.id && p.recommend >= 3).slice(0, 3);
+    return `<div class="result-card">
+      <div class="tag ${level}">${label}</div>
+      <h4>${d.dir.icon} ${d.dir.name}</h4>
+      <div style="font-size:13px;color:var(--text2);margin:4px 0;">${d.dir.desc}</div>
+      <div style="font-size:12px;color:var(--text3);">考试: ${d.dir.exam} | 数学优势 ${d.dir.mathAdv}</div>
+      <div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;">
+        ${progs.map(p => `<div style="font-size:13px;margin:4px 0;"><span style="color:var(--accent);font-weight:500;">${p.school}</span> ${p.name.split('(')[0]} <span style="color:var(--text3);font-size:11px;">${p.location}</span></div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('quizResult').classList.add('show');
+  document.getElementById('quizProgress').style.width = '100%';
+}
+
+// ================================================================
+// TIMELINE
+// ================================================================
+function renderTimeline() {
+  const el = document.getElementById('timelineContent');
+  el.innerHTML = TIMELINE.map(t =>
+    `<div class="timeline-item ${t.active?'active':''}">
+      <div class="date">${t.date}</div>
+      <div class="title">${t.title}</div>
+      <div class="desc">${t.desc}</div>
+      <div class="actions">${t.actions.map(a => `<span>${a}</span>`).join('')}</div>
+    </div>`
+  ).join('');
+}
+
+// ================================================================
+// INIT
+// ================================================================
+renderDirections();
+renderFilters();
+renderPrograms();
+renderTimeline();
+</script>
+</body>
+</html>
