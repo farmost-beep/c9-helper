@@ -561,29 +561,25 @@ body {
     <p>按科目浏览历年真题资源 + 在线模拟测试，追踪每次练习的成绩</p>
   </div>
 
-  <!-- 真题下载中心 -->
-  <div style="background:linear-gradient(135deg, var(--bg2), var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;">
+  <!-- 真题下载中心（整合版，取代下方科目卡片） -->
+  <div style="background:linear-gradient(135deg, var(--bg2), var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
       <h2 style="font-size:20px;font-weight:700;">📥 真题下载中心</h2>
-      <span style="font-size:12px;color:var(--text3);">点击科目查看年份 → 直接下载完整试卷</span>
+      <span style="font-size:12px;color:var(--text3);">点击科目 → 选择年份 → 下载真题PDF</span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;" id="downloadCenterGrid"></div>
   </div>
 
-  <!-- Subject Cards -->
-  <div class="exam-header" id="examSubjects"></div>
-
-  <!-- Year selector + resources -->
+  <!-- 已选科目详情 -->
   <div id="examDetail" style="display:none;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
       <h3 id="examSubjTitle" style="font-size:18px;"></h3>
       <div style="display:flex;gap:6px;">
         <button class="filter-btn" onclick="startMock()">🎯 开始模拟测试</button>
-        <button class="filter-btn" onclick="clearExamHistory()" style="color:var(--red);">清除记录</button>
       </div>
     </div>
     <div class="exam-years" id="examYearList"></div>
-    <div class="exam-resources" id="examResources"><div style="text-align:center;padding:20px;color:var(--text3);">选择一个年份查看真题</div></div>
+    <div class="exam-resources" id="examResources"><div style="text-align:center;padding:20px;color:var(--text3);">选择一个科目和年份查看真题</div></div>
     <div id="examHistory" class="history-section"></div>
   </div>
 
@@ -1227,8 +1223,16 @@ function renderTimeline() {
 // ================================================================
 const EXAM_SUBJECTS = [
   { id:'math1', icon:'📐', name:'数学一', short:'数一', target:'计算机/AI/学硕',
-    source:'教育部考试中心 · 考研数学统一命题',
-    papers: { '2024':'24数学一','2023':'23数学一','2022':'22数学一','2021':'21数学一','2020':'20数学一' } },
+    source:'GitHub开源(youngflysky/KaoYanZhenTi-PDF) · 1987-2022真题PDF',
+    papers: {
+      '2022':{pdf:'papers/math1_2022.pdf', label:'2022数学一真题'},
+      '2021':{pdf:'papers/math1_2021.pdf', label:'2021数学一真题'},
+      '2020':{pdf:'papers/math1_2020.pdf', label:'2020数学一真题'},
+      '2019':{pdf:'papers/math1_2019.pdf', label:'2019数学一真题'},
+      '2018':{pdf:'papers/math1_2018.pdf', label:'2018数学一真题'},
+      '2010-2022合集':{pdf:'papers/math1_2010-2022.pdf', label:'2010-2022数学一真题合集'},
+      '1987-2009合集':{pdf:'papers/math1_1987-2009.pdf', label:'1987-2009数学一真题合集'},
+      '1987-2019答案':{pdf:'papers/math1_1987-2019_answers.pdf', label:'1987-2019数一答案速查'} } },
   { id:'math3', icon:'📐', name:'数学三', short:'数三', target:'统计/金融/管科',
     source:'教育部考试中心 · 考研数学统一命题',
     papers: { '2024':'24数学三','2023':'23数学三','2022':'22数学三','2021':'21数学三' } },
@@ -1250,8 +1254,9 @@ const EXAM_SUBJECTS = [
       '审2024':{pdf:'https://gs.nau.edu.cn/_upload/article/files/04/a5/52e339eb41b2ad688f58fb68136e/49914ade-54da-4aa4-8ee5-61c3aad3e4a9.pdf', school:'南京审计大学'},
       '暨2024':{pdf:'https://yz.jnu.edu.cn/_upload/article/files/52/49/8fb64de94a8f888484a2c669ee57/c9ecbeb2-5845-4978-ade3-2b1ca1f2547e.pdf', school:'暨南大学'} } },
   { id:'english2', icon:'📖', name:'英语二', short:'英二', target:'专硕方向',
-    source:'教育部考试中心 · 考研英语统一命题',
-    papers: { '2024':'24英语二','2023':'23英语二','2022':'22英语二' } },
+    source:'GitHub开源 · 2002-2021英语真题PDF',
+    papers: {
+      '英语一合集':{pdf:'https://raw.githubusercontent.com/youngflysky/KaoYanZhenTi-PDF/main/英一历年真题/2002.pdf', label:'英语一2002-2021(注:英语二近年才开始)', external:true} } },
   { id:'politics', icon:'🏛️', name:'政治', short:'政治', target:'所有方向',
     source:'教育部考试中心 · 考研政治统一命题',
     papers: { '2024':'24政治','2023':'23政治','2022':'22政治' } }
@@ -1800,7 +1805,7 @@ function clearExamHistory() {
   delete history[currentExamSubject];
   localStorage.setItem('c9ExamHistory', JSON.stringify(history));
   selectExamSubject(currentExamSubject);
-  renderExamSubjects();
+  renderDownloadCenter();
 }
 
 // Data provenance - curated source URLs for each school/direction
