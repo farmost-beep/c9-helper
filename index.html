@@ -1627,23 +1627,70 @@ function clearExamHistory() {
   renderExamSubjects();
 }
 
+// Data provenance - curated source URLs for each school/direction
+const SOURCE_LINKS = [
+  { label:'研招网首页', url:'https://yz.chsi.com.cn/', desc:'官方报名、调剂、国家线查询', type:'🟢官方' },
+  { label:'研招网硕士专业目录', url:'https://yz.chsi.com.cn/zsml/zyfx_search.jsp', desc:'按专业/地区/学校查招录信息', type:'🟢官方' },
+  { label:'复旦大学研究生院', url:'https://gs.fudan.edu.cn/', desc:'招生简章、专业目录、复试公示', type:'🟢官方' },
+  { label:'上海交通大学研招网', url:'https://yzb.sjtu.edu.cn/', desc:'交大招生简章、报录比公示', type:'🟢官方' },
+  { label:'北京大学研究生院', url:'https://admission.pku.edu.cn/', desc:'北大招生信息、推免名单', type:'🟢官方' },
+  { label:'中科大研究生院', url:'https://yz.ustc.edu.cn/', desc:'中科大招生简章、专业目录', type:'🟢官方' },
+  { label:'浙江大学研究生院', url:'https://grs.zju.edu.cn/', desc:'浙大招生信息', type:'🟢官方' },
+  { label:'南京大学研究生院', url:'https://grawww.nju.edu.cn/', desc:'南大招生简章', type:'🟢官方' },
+  { label:'哈工大研究生院', url:'http://yzb.hit.edu.cn/', desc:'哈工大招生信息', type:'🟢官方' },
+  { label:'西安交大研究生院', url:'http://yz.xjtu.edu.cn/', desc:'西交招生简章', type:'🟢官方' },
+  { label:'人大研究生院', url:'https://pgs.ruc.edu.cn/', desc:'人大招生信息', type:'🟢官方' },
+  { label:'中国教育在线考研频道', url:'https://kaoyan.eol.cn/', desc:'报录比、分数线趋势、国家线', type:'🟡第三方' },
+  { label:'考研帮院校库', url:'https://www.kaoyan.com/', desc:'报录比、经验贴、真题回忆版', type:'🟡社区' },
+  { label:'教育部学科评估结果', url:'https://www.cdgdc.edu.cn/', desc:'第四/五轮学科评估排名', type:'🟢官方' },
+  { label:'王道论坛(CS考研)', url:'https://www.cskaoyan.com/', desc:'408真题、机试经验', type:'🟡社区' },
+  { label:'金程考研(金融方向)', url:'https://www.gfedu.cn/', desc:'431金融学综合备考资料', type:'🟡第三方' }
+];
+
 function showSource(dirOrProgId) {
-  // Look up direction or program
   let source, title, detail, unc;
   const dir = DIRECTIONS.find(d => d.id === dirOrProgId);
   if (dir) {
-    title = dir.name; source = dir.source; detail = `考试科目: ${dir.exam}`;
+    title = `<span style="font-size:18px;">${dir.icon} ${dir.name}</span>`;
+    source = dir.source; detail = `考试科目: ${dir.exam}`;
     unc = '方向数据基于教育部学科目录+多校招生简章交叉验证';
   }
   const prog = PROGRAMS.find(p => p.id === dirOrProgId);
   if (prog) {
-    title = `${prog.school} ${prog.name}`; source = prog.source||'各校招生简章+历年公示数据'; detail = `报录比: ${prog.ratio} · 分数线: ${prog.scores}`;
+    title = `<span style="font-size:18px;color:var(--accent);">${prog.school} ${prog.name}</span>`;
+    source = prog.source||'各校招生简章+历年公示数据';
+    detail = `报录比: ${prog.ratio} · 分数线: ${prog.scores} · ${prog.exam}`;
     unc = prog.unc||'数据来源于各校研究生院公示+考研帮社区交叉验证，报录比±15-20%';
   }
   if (!title) return;
-  // Simple alert with source info for now
-  const msg = `📋 数据溯源: ${title}\n\n📌 来源: ${source}\n📊 ${detail||''}\n\n⚠️ 不确定性: ${unc||''}\n\n💡 查看方式:\n- 招生简章: 各校研究生院官网 → 招生信息\n- 报录比: 各校历年复试公示\n- 分数线: 研招网(yz.chsi.com.cn)`;
-  alert(msg);
+
+  const linksHtml = SOURCE_LINKS.map(l =>
+    `<div class="source-link-item" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="flex:1;min-width:0;">
+        <span style="font-size:12px;padding:1px 6px;border-radius:4px;background:var(--bg3);">${l.type}</span>
+        <span style="font-weight:500;margin-left:6px;">${l.label}</span>
+        <div style="font-size:12px;color:var(--text3);">${l.desc}</div>
+      </div>
+      <a href="${l.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--accent);font-size:13px;text-decoration:none;white-space:nowrap;padding:4px 10px;border:1px solid var(--accent);border-radius:6px;flex-shrink:0;margin-left:8px;">打开 →</a>
+    </div>`
+  ).join('');
+
+  const html = `
+    <div style="margin-bottom:12px;">${title}</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">
+      <span style="background:var(--bg3);padding:2px 8px;border-radius:6px;">📌 ${source}</span>
+    </div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:4px;">${detail}</div>
+    <div style="font-size:12px;color:var(--red);margin-bottom:16px;">⚠️ 不确定性: ${unc}</div>
+    <h4 style="font-size:14px;margin-bottom:8px;">🔗 原始数据来源（点击打开）</h4>
+    <div style="max-height:300px;overflow-y:auto;">${linksHtml}</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:10px;">💡 以上链接指向原始数据源。报录比/分数线以各校当年公示为准，本平台数据经多源交叉验证。</div>
+  `;
+
+  document.getElementById('overlayTitle').innerHTML = '📋 数据溯源';
+  document.getElementById('overlayMeta').innerHTML = '';
+  document.getElementById('overlayContent').innerHTML = html;
+  document.getElementById('overlay').classList.add('show');
 }
 
 function downloadExamPaper(subjectId, year) {
