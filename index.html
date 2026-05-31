@@ -561,6 +561,15 @@ body {
     <p>按科目浏览历年真题资源 + 在线模拟测试，追踪每次练习的成绩</p>
   </div>
 
+  <!-- 真题下载中心 -->
+  <div style="background:linear-gradient(135deg, var(--bg2), var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+      <h2 style="font-size:20px;font-weight:700;">📥 真题下载中心</h2>
+      <span style="font-size:12px;color:var(--text3);">点击科目查看年份 → 直接下载完整试卷</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;" id="downloadCenterGrid"></div>
+  </div>
+
   <!-- Subject Cards -->
   <div class="exam-header" id="examSubjects"></div>
 
@@ -1312,6 +1321,26 @@ const MOCK_QUESTIONS = {
 let currentExamSubject = null;
 let mockState = null;
 
+function renderDownloadCenter() {
+  const grid = document.getElementById('downloadCenterGrid');
+  if (!grid) return;
+  grid.innerHTML = EXAM_SUBJECTS.map(s => {
+    const years = Object.keys(s.papers);
+    const totalLinks = years.length;
+    return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:all 0.15s;" onclick="selectExamSubject('${s.id}')" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:22px;">${s.icon}</span>
+        <div><div style="font-weight:600;font-size:14px;">${s.name}</div>
+        <div style="font-size:11px;color:var(--text3);">${totalLinks}个年份 · 点击查看</div></div>
+      </div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        ${years.slice(0,4).map(y => `<span style="font-size:10px;padding:1px 6px;border-radius:4px;background:var(--bg3);color:var(--text3);">${y}</span>`).join('')}
+        ${years.length>4?`<span style="font-size:10px;color:var(--text3);">+${years.length-4}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function renderExamSubjects() {
   const container = document.getElementById('examSubjects');
   const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
@@ -1947,6 +1976,7 @@ renderDirections();
 renderFilters();
 renderPrograms();
 renderExamSubjects();
+renderDownloadCenter();
 renderTimeline();
 </script>
 </body>
