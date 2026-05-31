@@ -437,25 +437,25 @@ body {
           <label>本科学校</label>
           <div class="profile-btn-group">
             <button class="quiz-opt profile-btn active" onclick="setProfile('school',0,this)">上海大学</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">其他211</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">985/双一流</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('school',1,this)">其他211</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('school',2,this)">985/双一流</button>
           </div>
         </div>
         <div class="profile-field">
           <label>本科专业</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn active" onclick=\"setProfile('\1',\2,this)\">应用数学</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">数学/统计类</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">理工科</button>
+            <button class="quiz-opt profile-btn active" onclick="setProfile('major',0,this)">应用数学</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('major',1,this)">数学/统计类</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('major',2,this)">理工科</button>
           </div>
         </div>
         <div class="profile-field">
           <label>绩点排名</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">前10% (竞赛/保研边缘)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">前30%</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">前50%</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">50%以后</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('gpa',0,this)">前10% (竞赛/保研边缘)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('gpa',1,this)">前30%</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('gpa',2,this)">前50%</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('gpa',3,this)">50%以后</button>
           </div>
         </div>
       </div>
@@ -469,34 +469,34 @@ body {
         <div class="profile-field">
           <label>数学核心课成绩 (数分/高代/概率论)</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">🏆 强项 (均分90+/前10%)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">👍 扎实 (均分80-89)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">👌 中等 (均分70-79)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">😰 偏弱 (70以下)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('math',0,this)">🏆 强项 (均分90+/前10%)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('math',1,this)">👍 扎实 (均分80-89)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('math',2,this)">👌 中等 (均分70-79)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('math',3,this)">😰 偏弱 (70以下)</button>
           </div>
         </div>
         <div class="profile-field">
           <label>英语水平</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">六级550+/雅思6.5+</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">六级通过 (425+)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">四级通过</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('english',0,this)">六级550+/雅思6.5+</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('english',1,this)">六级通过 (425+)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('english',2,this)">四级通过</button>
           </div>
         </div>
         <div class="profile-field">
           <label>编程能力</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">💻 熟练 (Python/C++,做过项目)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">📖 课内基础 (C/Python课设)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">🔰 几乎零基础</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('coding',0,this)">💻 熟练 (Python/C++,做过项目)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('coding',1,this)">📖 课内基础 (C/Python课设)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('coding',2,this)">🔰 几乎零基础</button>
           </div>
         </div>
         <div class="profile-field">
           <label>竞赛/科研经历</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">数学建模/ACM/美赛获奖</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">参加过但未获奖</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">无</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('comp',0,this)">数学建模/ACM/美赛获奖</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('comp',1,this)">参加过但未获奖</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('comp',2,this)">无</button>
           </div>
         </div>
       </div>
@@ -510,26 +510,26 @@ body {
         <div class="profile-field">
           <label>毕业后第一目标</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">🎓 读博深造 (学术路线)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">💼 大厂/金融 (高薪就业)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">🏛️ 考公/事业编 (稳定)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('career',0,this)">🎓 读博深造 (学术路线)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('career',1,this)">💼 大厂/金融 (高薪就业)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('career',2,this)">🏛️ 考公/事业编 (稳定)</button>
           </div>
         </div>
         <div class="profile-field">
           <label>倾向地区</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">上海/杭州 (江浙沪)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">北京</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">合肥/南京</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">不限，以学校优先</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('loc',0,this)">上海/杭州 (江浙沪)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('loc',1,this)">北京</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('loc',2,this)">合肥/南京</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('loc',3,this)">不限，以学校优先</button>
           </div>
         </div>
         <div class="profile-field">
           <label>经济预算 (学费+生活费/年)</label>
           <div class="profile-btn-group">
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">💰 不限 (10万+/年可接受)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">💵 适中 (<5万/年)</button>
-            <button class="quiz-opt profile-btn" onclick=\"setProfile('\1',\2,this)\">🏷️ 节省 (<2万/年)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('budget',0,this)">💰 不限 (10万+/年可接受)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('budget',1,this)">💵 适中 (<5万/年)</button>
+            <button class="quiz-opt profile-btn" onclick="setProfile('budget',2,this)">🏷️ 节省 (<2万/年)</button>
           </div>
         </div>
       </div>
