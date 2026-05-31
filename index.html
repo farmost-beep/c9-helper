@@ -1491,6 +1491,7 @@ function startMock() {
   };
   document.getElementById('mockArea').style.display = 'block';
   document.getElementById('mockTitle').textContent = `🎯 ${s.name} 模拟测试`;
+  setTimeout(() => { document.getElementById('mockArea').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
   document.getElementById('mockSummary').classList.remove('show');
   renderMockQuestion();
 }
