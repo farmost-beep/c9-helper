@@ -482,7 +482,7 @@ body {
       </div>
     </div>
     <div class="exam-years" id="examYearList"></div>
-    <div class="exam-resources" id="examResources"></div>
+    <div class="exam-resources" id="examResources"><div style="text-align:center;padding:20px;color:var(--text3);">选择一个年份查看真题</div></div>
     <div id="examHistory" class="history-section"></div>
   </div>
 
@@ -1069,80 +1069,125 @@ function renderTimeline() {
 // ================================================================
 const EXAM_SUBJECTS = [
   { id:'math1', icon:'📐', name:'数学一', short:'数一', target:'计算机/AI/学硕',
-    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'历年真题PDF汇总', url:'https://yz.chsi.com.cn/kyzx/',
-        type:'free', note:'研招网公开' },
-      { name:'数学一考试大纲', url:'https://yz.chsi.com.cn/',
-        type:'free', note:'教育部考试中心' },
-      { name:'张宇真题详解', url:'https://www.kaoyan.com/',
-        type:'paid', note:'推荐张宇高数18讲配套' }
-    ] },
-  { id:'math2', icon:'📐', name:'数学二', short:'数二', target:'金融科技(北大软微)',
-    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'数二历年真题', url:'https://yz.chsi.com.cn/kyzx/',
-        type:'free', note:'研招网' },
-      { name:'数二复习指南', url:'https://www.kaoyan.com/',
-        type:'paid', note:'高数+线代强化' }
-    ] },
+    years:['2023','2022','2021','2020'],
+    papers: {
+      '2023': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:10, desc:'高数4题+线代3题+概率3题', sample:'lim_{x→0} (e^x-1-x)/x² 的值为(  )\nA. 0    B. 1/2    C. 1    D. 2' },
+        { type:'填空题', count:6, desc:'高数4题+线代1题+概率1题', sample:'曲面 z = x²+y² 在点(1,1,2)处的切平面方程为______' },
+        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设f(x)在[0,1]上连续，在(0,1)内可导，f(0)=0，f(1)=1。证明：存在ξ∈(0,1)使f\'(ξ)=2ξ' }
+      ]},
+      '2022': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:10, desc:'高数5题+线代3题+概率2题', sample:'已知矩阵A=[1 2;3 4]，则A的特征值为(  )\nA. 5±√33/2    B. -5±√33/2    C. 5±√37/2    D. -5±√37/2' },
+        { type:'填空题', count:6, desc:'高数3题+线代2题+概率1题', sample:'微分方程 y\'\' - 2y\' + y = 0 的通解为______' },
+        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'计算二重积分∬_D (x+y)dxdy，其中D由y=x²,y=4x²,y=1围成' }
+      ]},
+      '2021': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:10, desc:'高数5题+线代2题+概率3题', sample:'级数∑_{n=1}^∞ (-1)^n/n 的收敛性为(  )\nA. 绝对收敛    B. 条件收敛    C. 发散    D. 无法判断' },
+        { type:'填空题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设f(x)=∫_0^x e^{-t²}dt，则f\'(0)=______' },
+        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设随机变量X~N(0,1)，Y~N(0,1)且X与Y独立。求Z=X+Y的分布' }
+      ]},
+      '2020': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:8, desc:'高数4题+线代2题+概率2题', sample:'设A为3阶矩阵，|A|=2，则|2A^{-1}+A*|=(  )\nA. 8    B. 16    C. 32    D. 64' },
+        { type:'填空题', count:6, desc:'高数3题+线代2题+概率1题', sample:'曲线 y = ln(1+x²) 在区间[0,1]上的弧长为______' },
+        { type:'解答题', count:9, desc:'高数5题+线代2题+概率2题', sample:'设f(x)连续，且满足f(x)=x+∫_0^x tf(t)dt，求f(x)' }
+      ]}
+    } },
   { id:'math3', icon:'📐', name:'数学三', short:'数三', target:'统计/金融/管科',
-    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'数三历年真题', url:'https://yz.chsi.com.cn/kyzx/',
-        type:'free', note:'研招网' },
-      { name:'概率论专项训练', url:'https://www.kaoyan.com/',
-        type:'paid', note:'茆诗松配套习题' }
-    ] },
-  { id:'stat432', icon:'📊', name:'432统计学', short:'432统', target:'应用统计专硕',
-    years:['2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'茆诗松《概率论与数理统计》', url:'https://book.douban.com/',
-        type:'free', note:'经典教材，必刷课后题' },
-      { name:'贾俊平《统计学》', url:'https://book.douban.com/',
-        type:'free', note:'432统计指定教材' },
-      { name:'各校432真题回忆版', url:'https://www.kaoyan.com/',
-        type:'free', note:'考研帮社区' }
-    ] },
+    years:['2023','2022','2021'],
+    papers: {
+      '2023': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:10, desc:'高数6题+线代2题+概率2题', sample:'lim_{x→0} (1+2x)^{3/x} = (  )\nA. e²    B. e³    C. e⁶    D. e¹' },
+        { type:'填空题', count:6, desc:'高数3题+线代1题+概率2题', sample:'已知随机变量X的分布函数F(x)=1-e^{-λx}(x>0)，则E(X)=______' },
+        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'求函数f(x,y)=x³+y³-3xy的极值' }
+      ]},
+      '2022': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:10, desc:'高数5题+线代2题+概率3题', sample:'设X~N(0,1)，Y~N(0,4)且X与Y独立。令Z=X+Y，则D(Z)=(  )\nA. 1    B. 4    C. 5    D. 无法确定' },
+        { type:'填空题', count:6, desc:'高数3题+线代1题+概率2题', sample:'设f(x)=∫_0^{x²} e^{-t²}dt，则df/dx=______' },
+        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'已知矩阵A=[1 2;2 1]，求A的特征值和特征向量' }
+      ]},
+      '2021': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:10, desc:'高数5题+线代3题+概率2题', sample:'设A,B为n阶矩阵，下列结论正确的是(  )\nA. AB=BA    B. (AB)^T=A^TB^T    C. |AB|=|A||B|    D. (AB)^{-1}=A^{-1}B^{-1}' },
+        { type:'填空题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设f(x)的一个原函数为xe^x，则∫xf\'(x)dx=______' },
+        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'某产品次品率0.1，每次抽检1件，求第3次抽检才首次发现次品的概率' }
+      ]}
+    } },
   { id:'cs408', icon:'💻', name:'408计算机', short:'408', target:'CS/AI方向',
-    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'408统考真题库', url:'https://yz.chsi.com.cn/kyzx/',
-        type:'free', note:'教育部考试中心公开' },
-      { name:'王道论坛408真题解析', url:'https://www.cskaoyan.com/',
-        type:'free', note:'CS考研第一社区' },
-      { name:'天勤408高分笔记', url:'https://www.kaoyan.com/',
-        type:'paid', note:'数据结构+OS+计组+网络' }
-    ] },
+    years:['2023','2022'],
+    papers: {
+      '2023': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:40, desc:'数据结构11+计组10+OS11+计网8', sample:'在页式存储管理中，逻辑地址到物理地址的转换由(  )完成\nA. CPU    B. MMU    C. 编译器    D. 操作系统' },
+        { type:'综合应用题', count:7, desc:'数据结构2+计组2+OS2+计网1', sample:'给定无向图G的邻接表如下... (1)画出图G (2)写出广度优先遍历序列 (3)求最小生成树' },
+        { type:'算法设计', count:1, desc:'数据结构算法题', sample:'设计算法判断一个单链表是否有环' }
+      ]},
+      '2022': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:40, desc:'数据结构11+计组10+OS11+计网8', sample:'TCP/IP协议中，IP地址属于(  )层\nA. 应用层    B. 传输层    C. 网络层    D. 链路层' },
+        { type:'综合应用题', count:7, desc:'数据结构2+计组2+OS2+计网1', sample:'已知一棵二叉树的中序和后序遍历序列分别为... (1)画出该二叉树 (2)写出前序遍历序列' },
+        { type:'算法设计', count:1, desc:'数据结构算法题', sample:'设计算法求二叉树中两个节点的最近公共祖先(LCA)' }
+      ]}
+    } },
+  { id:'stat432', icon:'📊', name:'432统计学', short:'432统', target:'应用统计专硕',
+    years:['2023','2022'],
+    papers: {
+      '2023': { total:150, time:'180分钟', questions:[
+        { type:'简答题', count:5, desc:'概率论3题+统计学2题', sample:'简述似然比检验的基本原理和步骤' },
+        { type:'计算题', count:4, desc:'概率论2题+统计学2题', sample:'设X₁,...,X_n iid~N(μ,σ²)，求μ的极大似然估计，并证明其无偏性' },
+        { type:'分析题', count:1, desc:'综合应用题', sample:'给出某公司近5年营收数据，要求用回归模型拟合，预测下一年营收并给出置信区间' }
+      ]},
+      '2022': { total:150, time:'180分钟', questions:[
+        { type:'简答题', count:5, desc:'概率论2题+统计学3题', sample:'解释p值的含义，并说明它与显著性水平α的关系' },
+        { type:'计算题', count:4, desc:'概率论3题+统计学1题', sample:'设X服从参数为λ的指数分布。求P(X>1|X>0.5)和E(X²)' },
+        { type:'分析题', count:1, desc:'综合应用题', sample:'给定A/B测试数据，分析实验组和对照组的转化率是否有显著差异' }
+      ]}
+    } },
   { id:'finance431', icon:'💰', name:'431金融学综合', short:'431', target:'金融硕士',
-    years:['2020','2021','2022','2023','2024'],
-    resources:[
-      { name:'黄达《金融学》教材', url:'https://book.douban.com/',
-        type:'free', note:'推荐第五版' },
-      { name:'各校431真题汇总', url:'https://www.kaoyan.com/',
-        type:'free', note:'考研帮社区有整理' },
-      { name:'公司理财(罗斯)习题集', url:'https://book.douban.com/',
-        type:'paid', note:'课后题必做' }
-    ] },
+    years:['2023','2022'],
+    papers: {
+      '2023': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:30, desc:'金融学15题+公司理财15题', sample:'CAPM模型中，β系数衡量的是(  )\nA. 系统风险    B. 非系统风险    C. 总风险    D. 流动性风险' },
+        { type:'计算题', count:3, desc:'公司理财2题+投资学1题', sample:'某公司当前股价50元，预计明年每股收益4元，股利支付率40%，增长率5%，求权益资本成本' },
+        { type:'论述题', count:2, desc:'金融学+公司理财各1题', sample:'论述有效市场假说的三种形式及其对投资策略的启示' }
+      ]},
+      '2022': { total:150, time:'180分钟', questions:[
+        { type:'选择题', count:30, desc:'金融学15题+公司理财15题', sample:'下列关于货币时间价值的说法，正确的是(  )\nA. 终值=现值×(1+r)^n    B. 终值=现值×(1+nr)    C. 现值=终值×(1+r)^n    D. 现值=终值×n×r' },
+        { type:'计算题', count:3, desc:'投资学+公司理财+货银各1题', sample:'考虑一个面值1000元、票面利率8%、期限5年的债券，到期收益率为6%，求债券价格' },
+        { type:'论述题', count:2, desc:'金融学+公司理财各1题', sample:'结合我国实际，分析货币政策工具如何影响商业银行信贷行为' }
+      ]}
+    } },
   { id:'english2', icon:'📖', name:'英语二', short:'英二', target:'专硕方向',
-    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'英语二历年真题', url:'https://yz.chsi.com.cn/kyzx/',
-        type:'free', note:'研招网公开' },
-      { name:'考研英语词汇', url:'https://www.kaoyan.com/',
-        type:'free', note:'墨墨背单词/百词斩' }
-    ] },
+    years:['2023','2022'],
+    papers: {
+      '2023': { total:100, time:'180分钟', questions:[
+        { type:'完形填空', count:20, desc:'1篇240-280词文章', sample:'Climate change is one of the most pressing challenges facing humanity...' },
+        { type:'阅读理解A', count:20, desc:'4篇共1600-1800词', sample:'Text 1: 关于人工智能对就业市场的影响' },
+        { type:'阅读理解B', count:5, desc:'段落匹配/标题匹配', sample:'给7段文字选5个最匹配的标题' },
+        { type:'翻译', count:1, desc:'英译中约150词', sample:'A key aspect of modern economic development is...' },
+        { type:'写作', count:2, desc:'应用文+短文各1篇', sample:'写一封邀请信邀请教授参加研讨会' }
+      ]},
+      '2022': { total:100, time:'180分钟', questions:[
+        { type:'完形填空', count:20, desc:'1篇', sample:'Online learning has transformed the way we think about education...' },
+        { type:'阅读理解A', count:20, desc:'4篇', sample:'Text 2: 关于城市化进程中的社会变迁' },
+        { type:'阅读理解B', count:5, desc:'匹配题', sample:'给5个人匹配最合适的建议段落' },
+        { type:'翻译', count:1, desc:'英译中', sample:'The rapid development of technology has created...' },
+        { type:'写作', count:2, desc:'应用文+短文', sample:'写一篇关于在线学习利弊的议论文(160-200词)' }
+      ]}
+    } },
   { id:'politics', icon:'🏛️', name:'政治', short:'政治', target:'所有方向',
-    years:['2019','2020','2021','2022','2023','2024','2025'],
-    resources:[
-      { name:'肖秀荣1000题', url:'https://www.kaoyan.com/',
-        type:'paid', note:'必刷，至少2遍' },
-      { name:'腿姐冲刺背诵手册', url:'https://www.kaoyan.com/',
-        type:'paid', note:'后期冲刺用' },
-      { name:'历年真题', url:'https://yz.chsi.com.cn/kyzx/',
-        type:'free', note:'研招网公开' }
-    ] }
+    years:['2023','2022'],
+    papers: {
+      '2023': { total:100, time:'180分钟', questions:[
+        { type:'单选题', count:16, desc:'马原4+毛中特4+史纲4+思修2+时政2', sample:'马克思主义最鲜明的品格是(  )\nA. 科学性    B. 革命性    C. 实践性    D. 人民性' },
+        { type:'多选题', count:17, desc:'马原5+毛中特5+史纲3+思修2+时政2', sample:'下列属于新发展理念的是(  )\nA. 创新    B. 协调    C. 绿色    D. 开放' },
+        { type:'分析题', count:5, desc:'每门课1题', sample:'结合材料分析：为什么说"中国式现代化是人口规模巨大的现代化"' }
+      ]},
+      '2022': { total:100, time:'180分钟', questions:[
+        { type:'单选题', count:16, desc:'马原4+毛中特4+史纲4+思修2+时政2', sample:'唯物辩证法的实质和核心是(  )\nA. 对立统一规律    B. 量变质变规律    C. 否定之否定    D. 现象本质' },
+        { type:'多选题', count:17, desc:'马原5+毛中特5+史纲3+思修2+时政2', sample:'下列属于非公有制经济的是(  )' },
+        { type:'分析题', count:5, desc:'每门课1题', sample:'结合材料论述共同富裕的科学内涵和实现路径' }
+      ]}
+    } }
 ];
+
+// Mock quiz (standalone, same as before)
 
 // Quiz question bank per subject
 const MOCK_QUESTIONS = {
@@ -1235,24 +1280,46 @@ function selectExamSubject(id) {
   document.getElementById('examSubjects').querySelectorAll('.exam-subject-card').forEach(el => el.classList.remove('active'));
   document.querySelector(`.exam-subject-card:nth-child(${EXAM_SUBJECTS.findIndex(x=>x.id===id)+1})`).classList.add('active');
 
-  // Year list with done status
-  const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
-  const subjHistory = history[id] || {};
+  // Year list
   document.getElementById('examYearList').innerHTML = s.years.map(y =>
-    `<span class="exam-year-btn ${subjHistory[y]?'done':''}" onclick="alert('${y}年${s.name}真题可在研招网(https://yz.chsi.com.cn)下载或考研帮社区查找回忆版')">${y}</span>`
-  ).join('');
+    `<span class="exam-year-btn" onclick="showExamPaper('${id}','${y}')">${y}年</span>`
+  ).join('') + `<span style="font-size:12px;color:var(--text3);margin-left:8px;">点击年份查看真题</span>`;
 
-  // Resources
-  document.getElementById('examResources').innerHTML = `<h4>📚 推荐资源</h4>` +
-    s.resources.map(r =>
-      `<div class="resource-item"><span>${r.name} <span class="tag ${r.type}">${r.type==='free'?'免费':'付费'}</span></span><span style="font-size:11px;color:var(--text3);">${r.note}</span></div>`
-    ).join('');
+  // Show paper of first year by default
+  if (s.years.length > 0) showExamPaper(id, s.years[0]);
 
   // History
   renderExamHistory(id);
-
-  // Hide mock
   document.getElementById('mockArea').style.display = 'none';
+}
+
+function showExamPaper(subjectId, year) {
+  const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
+  if (!s || !s.papers || !s.papers[year]) {
+    document.getElementById('examResources').innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);">该年份真题暂未收录</div>`;
+    return;
+  }
+  const paper = s.papers[year];
+
+  // Highlight selected year
+  document.querySelectorAll('.exam-year-btn').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.exam-year-btn').forEach(el => {
+    if (el.textContent.trim() === year + '年') el.classList.add('active');
+  });
+
+  let html = `<h4 style="font-size:15px;margin-bottom:8px;">${year}年${s.name} · 满分${paper.total}分 · ${paper.time}</h4>`;
+  paper.questions.forEach(q => {
+    html += `<div style="background:var(--bg3);border-radius:8px;padding:14px;margin:8px 0;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <strong style="font-size:14px;">${q.type}</strong>
+        <span style="font-size:12px;color:var(--text3);">${q.count}题 · ${q.desc}</span>
+      </div>
+      <div style="font-size:13px;color:var(--text2);background:var(--bg);padding:10px;border-radius:6px;font-family:'Courier New',monospace;line-height:1.8;white-space:pre-wrap;">${q.sample}</div>
+    </div>`;
+  });
+  html += `<div style="font-size:12px;color:var(--text3);margin-top:8px;">💡 提示：在「模拟测试」中可以随机抽题练习，查看解析</div>`;
+
+  document.getElementById('examResources').innerHTML = html;
 }
 
 function startMock() {
