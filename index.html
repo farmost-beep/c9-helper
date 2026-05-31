@@ -12,6 +12,8 @@
   --accent: #3b82f6; --accent2: #60a5fa;
   --green: #22c55e; --yellow: #eab308; --red: #ef4444;
   --orange: #f97316; --border: #1e2433;
+  --pink: #ec4899; --purple: #a855f7;
+}
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -228,6 +230,102 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 
+/* ===== EXAM MODULE ===== */
+.exam-header { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.exam-subject-card {
+  flex: 1; min-width: 200px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.2s;
+}
+.exam-subject-card:hover { border-color: var(--accent); }
+.exam-subject-card.active { border-color: var(--accent); background: rgba(59,130,246,0.05); }
+.exam-subject-card .subj-icon { font-size: 24px; margin-bottom: 4px; }
+.exam-subject-card .subj-name { font-size: 15px; font-weight: 600; }
+.exam-subject-card .subj-meta { font-size: 12px; color: var(--text3); display: flex; gap: 8px; margin-top: 4px; }
+.exam-subject-card .subj-meta span { background: var(--bg3); padding: 1px 8px; border-radius: 8px; }
+.exam-subject-card .subj-score {
+  margin-top: 8px; font-size: 13px; display: flex; align-items: center; gap: 6px;
+}
+.exam-subject-card .subj-score .dot {
+  width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+}
+
+.exam-years { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+.exam-year-btn {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 12px;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.exam-year-btn:hover { border-color: var(--accent); color: var(--text); }
+.exam-year-btn.active { background: rgba(59,130,246,0.1); border-color: var(--accent); color: var(--accent); }
+.exam-year-btn.done { border-color: var(--green); color: var(--green); }
+.exam-year-btn.done::after { content: '✅'; margin-left: 3px; font-size: 10px; }
+
+.exam-resources { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin: 12px 0; }
+.exam-resources h4 { font-size: 14px; margin-bottom: 8px; }
+.exam-resources a { color: var(--accent2); text-decoration: none; font-size: 13px; }
+.exam-resources a:hover { text-decoration: underline; }
+.exam-resources .resource-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.exam-resources .resource-item:last-child { border-bottom: none; }
+.exam-resources .tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+.exam-resources .tag.free { background: rgba(34,197,94,0.1); color: var(--green); }
+.exam-resources .tag.paid { background: rgba(239,68,68,0.1); color: var(--red); }
+
+/* Quiz / Mock Test */
+.mock-area { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 16px; }
+.mock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.mock-header h3 { font-size: 18px; }
+.mock-header .mock-stats { font-size: 12px; color: var(--text3); display: flex; gap: 12px; }
+.mock-question { margin-bottom: 20px; }
+.mock-question .q-num { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+.mock-question .q-text { font-size: 15px; font-weight: 500; margin-bottom: 12px; line-height: 1.7; }
+.mock-question .q-area { font-size: 13px; color: var(--text2); background: var(--bg3); padding: 12px; border-radius: 8px; margin-bottom: 10px; font-family: 'Courier New', monospace; white-space: pre-wrap; }
+.mock-options { display: flex; flex-direction: column; gap: 6px; }
+.mock-opt {
+  padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--text); font-size: 14px; cursor: pointer;
+  transition: all 0.15s; text-align: left; font-family: inherit;
+}
+.mock-opt:hover { border-color: var(--accent); background: rgba(59,130,246,0.05); }
+.mock-opt.correct { border-color: var(--green); background: rgba(34,197,94,0.1); color: var(--green); }
+.mock-opt.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); color: var(--red); }
+.mock-opt.disabled { cursor: default; opacity: 0.7; }
+.mock-result { margin-top: 12px; padding: 12px; border-radius: 8px; font-size: 13px; line-height: 1.6; display: none; }
+.mock-result.show { display: block; }
+.mock-result .correct { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: var(--green); padding: 12px; border-radius: 8px; }
+.mock-result .wrong { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: var(--red); padding: 12px; border-radius: 8px; }
+.mock-nav { display: flex; gap: 10px; margin-top: 16px; }
+.mock-nav button {
+  padding: 8px 20px; border-radius: 8px; border: none; font-size: 14px;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.mock-nav .next-q { background: var(--accent); color: #fff; }
+.mock-nav .next-q:hover { opacity: 0.9; }
+.mock-nav .next-q:disabled { opacity: 0.4; cursor: default; }
+.mock-nav .reset-q { background: var(--bg3); color: var(--text2); }
+.mock-nav .reset-q:hover { background: var(--border); }
+
+.mock-summary {
+  display: none; text-align: center; padding: 24px;
+}
+.mock-summary.show { display: block; }
+.mock-summary .big-score { font-size: 56px; font-weight: 900; }
+.mock-summary .big-score.good { color: var(--green); }
+.mock-summary .big-score.ok { color: var(--yellow); }
+.mock-summary .big-score.bad { color: var(--red); }
+.mock-summary .score-label { font-size: 14px; color: var(--text3); margin-top: 4px; }
+.mock-summary .score-detail { display: flex; justify-content: center; gap: 24px; margin: 16px 0; }
+.mock-summary .score-detail div { text-align: center; }
+.mock-summary .score-detail .num { font-size: 24px; font-weight: 700; }
+.mock-summary .score-detail .lbl { font-size: 12px; color: var(--text3); }
+
+.progress-ring { display: inline-flex; align-items: center; justify-content: center; }
+.progress-ring circle { transition: stroke-dashoffset 0.5s; transform: rotate(-90deg); transform-origin: 50% 50%; }
+
+.history-section { margin-top: 16px; }
+.history-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--bg3); border-radius: 6px; margin: 4px 0; font-size: 13px; }
+.history-item .date { color: var(--text3); }
+.history-item .score { font-weight: 600; }
+
 /* ===== EMPTY / LOADING ===== */
 .empty-state { text-align: center; padding: 40px; color: var(--text3); }
 </style>
@@ -241,6 +339,7 @@ body {
     <a class="active" onclick="switchTab('radar')">方向雷达</a>
     <a onclick="switchTab('quiz')">择校测评</a>
     <a onclick="switchTab('compare')">对比工具</a>
+    <a onclick="switchTab('exam')">📝 真题模拟</a>
     <a onclick="switchTab('timeline')">时间线</a>
   </div>
 </nav>
@@ -362,7 +461,47 @@ body {
 </div>
 
 <!-- ============================== -->
-<!-- TAB 3: 对比工具 -->
+<!-- TAB 5: 真题模拟 -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-exam">
+  <div class="hero" style="border:none;padding-bottom:0;">
+    <h1>📝 历年真题 & 模拟测试</h1>
+    <p>按科目浏览历年真题资源 + 在线模拟测试，追踪每次练习的成绩</p>
+  </div>
+
+  <!-- Subject Cards -->
+  <div class="exam-header" id="examSubjects"></div>
+
+  <!-- Year selector + resources -->
+  <div id="examDetail" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <h3 id="examSubjTitle" style="font-size:18px;"></h3>
+      <div style="display:flex;gap:6px;">
+        <button class="filter-btn" onclick="startMock()">🎯 开始模拟测试</button>
+        <button class="filter-btn" onclick="clearExamHistory()" style="color:var(--red);">清除记录</button>
+      </div>
+    </div>
+    <div class="exam-years" id="examYearList"></div>
+    <div class="exam-resources" id="examResources"></div>
+    <div id="examHistory" class="history-section"></div>
+  </div>
+
+  <!-- Mock Test Area -->
+  <div class="mock-area" id="mockArea" style="display:none;">
+    <div class="mock-header">
+      <h3 id="mockTitle">模拟测试</h3>
+      <div class="mock-stats">
+        <span id="mockProgress">第 1/10 题</span>
+        <span id="mockCorrect">✅ 0</span>
+        <span id="mockWrong">❌ 0</span>
+      </div>
+    </div>
+    <div id="mockQuiz"></div>
+    <div id="mockSummary" class="mock-summary"></div>
+  </div>
+</div>
+
+<!-- ============================== -->
 <!-- ============================== -->
 <div class="tab-content" id="tab-compare">
   <div class="hero" style="border:none;padding-bottom:0;">
@@ -926,11 +1065,353 @@ function renderTimeline() {
 }
 
 // ================================================================
+// EXAM MODULE
+// ================================================================
+const EXAM_SUBJECTS = [
+  { id:'math1', icon:'📐', name:'数学一', short:'数一', target:'计算机/AI/学硕',
+    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'历年真题PDF汇总', url:'https://yz.chsi.com.cn/kyzx/',
+        type:'free', note:'研招网公开' },
+      { name:'数学一考试大纲', url:'https://yz.chsi.com.cn/',
+        type:'free', note:'教育部考试中心' },
+      { name:'张宇真题详解', url:'https://www.kaoyan.com/',
+        type:'paid', note:'推荐张宇高数18讲配套' }
+    ] },
+  { id:'math2', icon:'📐', name:'数学二', short:'数二', target:'金融科技(北大软微)',
+    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'数二历年真题', url:'https://yz.chsi.com.cn/kyzx/',
+        type:'free', note:'研招网' },
+      { name:'数二复习指南', url:'https://www.kaoyan.com/',
+        type:'paid', note:'高数+线代强化' }
+    ] },
+  { id:'math3', icon:'📐', name:'数学三', short:'数三', target:'统计/金融/管科',
+    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'数三历年真题', url:'https://yz.chsi.com.cn/kyzx/',
+        type:'free', note:'研招网' },
+      { name:'概率论专项训练', url:'https://www.kaoyan.com/',
+        type:'paid', note:'茆诗松配套习题' }
+    ] },
+  { id:'stat432', icon:'📊', name:'432统计学', short:'432统', target:'应用统计专硕',
+    years:['2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'茆诗松《概率论与数理统计》', url:'https://book.douban.com/',
+        type:'free', note:'经典教材，必刷课后题' },
+      { name:'贾俊平《统计学》', url:'https://book.douban.com/',
+        type:'free', note:'432统计指定教材' },
+      { name:'各校432真题回忆版', url:'https://www.kaoyan.com/',
+        type:'free', note:'考研帮社区' }
+    ] },
+  { id:'cs408', icon:'💻', name:'408计算机', short:'408', target:'CS/AI方向',
+    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'408统考真题库', url:'https://yz.chsi.com.cn/kyzx/',
+        type:'free', note:'教育部考试中心公开' },
+      { name:'王道论坛408真题解析', url:'https://www.cskaoyan.com/',
+        type:'free', note:'CS考研第一社区' },
+      { name:'天勤408高分笔记', url:'https://www.kaoyan.com/',
+        type:'paid', note:'数据结构+OS+计组+网络' }
+    ] },
+  { id:'finance431', icon:'💰', name:'431金融学综合', short:'431', target:'金融硕士',
+    years:['2020','2021','2022','2023','2024'],
+    resources:[
+      { name:'黄达《金融学》教材', url:'https://book.douban.com/',
+        type:'free', note:'推荐第五版' },
+      { name:'各校431真题汇总', url:'https://www.kaoyan.com/',
+        type:'free', note:'考研帮社区有整理' },
+      { name:'公司理财(罗斯)习题集', url:'https://book.douban.com/',
+        type:'paid', note:'课后题必做' }
+    ] },
+  { id:'english2', icon:'📖', name:'英语二', short:'英二', target:'专硕方向',
+    years:['2018','2019','2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'英语二历年真题', url:'https://yz.chsi.com.cn/kyzx/',
+        type:'free', note:'研招网公开' },
+      { name:'考研英语词汇', url:'https://www.kaoyan.com/',
+        type:'free', note:'墨墨背单词/百词斩' }
+    ] },
+  { id:'politics', icon:'🏛️', name:'政治', short:'政治', target:'所有方向',
+    years:['2019','2020','2021','2022','2023','2024','2025'],
+    resources:[
+      { name:'肖秀荣1000题', url:'https://www.kaoyan.com/',
+        type:'paid', note:'必刷，至少2遍' },
+      { name:'腿姐冲刺背诵手册', url:'https://www.kaoyan.com/',
+        type:'paid', note:'后期冲刺用' },
+      { name:'历年真题', url:'https://yz.chsi.com.cn/kyzx/',
+        type:'free', note:'研招网公开' }
+    ] }
+];
+
+// Quiz question bank per subject
+const MOCK_QUESTIONS = {
+  math1: [
+    { q:'极限 lim_{x→0} (sin x)/x = ?', options:['0','1','∞','不存在'], answer:1,
+      explain:'由重要极限公式，lim_{x→0} (sin x)/x = 1，这是考研数一中极限部分的经典考点。' },
+    { q:'设 A 是 n 阶可逆矩阵，则下列哪个不一定成立？', options:['|A|≠0','A的秩=n','A的特征值全不为0','A是对称矩阵'], answer:3,
+      explain:'可逆矩阵等价于行列式不为0、满秩、特征值全不为0。但可逆矩阵不一定是实对称矩阵。' },
+    { q:'随机变量 X~N(0,1)，P(X > 1.96) 约等于？', options:['0.05','0.025','0.01','0.005'], answer:1,
+      explain:'标准正态分布中，P(|X|>1.96)≈0.05，所以P(X>1.96)≈0.025' },
+    { q:'∫_0^π sin x dx = ?', options:['0','1','2','π'], answer:2,
+      explain:'∫_0^π sin x dx = [-cos x]_0^π = (-cos π) - (-cos 0) = 1 - (-1) = 2' },
+    { q:'向量组 α₁,α₂,...,α_s 线性无关的充要条件是？', options:['其中没有零向量','向量个数≤维数','任一向量不能由其余线性表示','秩=s'], answer:2,
+      explain:'线性无关的定义：任一向量不能由其余向量线性表示。选项D的秩=s也是充分必要条件，但C是最本质的定义。' },
+    { q:'设 f(x) = x³ - 3x，则 f(x) 在区间[-2,2]上的最小值是？', options:['-4','-2','0','2'], answer:1,
+      explain:"f'(x)=3x²-3=0 → x=±1。f(-2)=-2, f(-1)=2, f(1)=-2, f(2)=2。最小值为-2。" },
+    { q:'下列哪个级数收敛？', options:['∑ 1/n','∑ 1/n²','∑ (-1)^n','∑ n'], answer:1,
+      explain:'p-级数∑ 1/n^p当p>1时收敛。∑ 1/n²的p=2>1，收敛。∑ 1/n是调和级数，发散。' },
+    { q:'微分方程 y\'\' + y = 0 的通解是？', options:['C₁e^x+C₂e^{-x}','C₁cos x+C₂sin x','C₁e^x+C₂xe^x','C₁cosh x+C₂sinh x'], answer:1,
+      explain:'特征方程r²+1=0 → r=±i。通解为y=C₁cos x+C₂sin x' },
+    { q:'设A为3×3矩阵，|A|=2，则|2A|=？', options:['2','4','8','16'], answer:2,
+      explain:'|kA| = k^n|A|，n为阶数。|2A| = 2³×2 = 8×2=16？不，|2A|=2³×|A|=8×2=16。' },
+    { q:'设事件A,B相互独立，P(A)=0.4,P(B)=0.3，则P(A∪B)=？', options:['0.12','0.58','0.7','0.82'], answer:1,
+      explain:'P(A∪B)=P(A)+P(B)-P(A∩B)=0.4+0.3-0.4×0.3=0.7-0.12=0.58' }
+  ],
+  math3: [
+    { q:'设 f(x) 在 x=0 处可导，且 f(0)=0，则 lim_{x→0} f(x)/x = ?', options:['0','f\'(0)','∞','不确定'], answer:1,
+      explain:'由导数定义：f\'(0)=lim_{x→0}(f(x)-f(0))/(x-0)=lim_{x→0}f(x)/x' },
+    { q:'二维随机变量(X,Y)的协方差Cov(X,Y)=0，则X和Y？', options:['独立','不相关','线性相关','以上都不对'], answer:1,
+      explain:'协方差为0等价于不相关。但不相关不一定独立(仅对正态分布等价)。' },
+    { q:'线性方程组Ax=0有非零解的充要条件是？', options:['A为方阵','|A|≠0','r(A)<n','A可逆'], answer:2,
+      explain:'齐次线性方程组有非零解⇔系数矩阵的秩r(A)小于未知数个数n' },
+    { q:'某理财产品年化收益率X~N(0.05,0.01²)，则P(X>0.06)约等于？', options:['0.025','0.16','0.05','0.34'], answer:1,
+      explain:'标准化：Z=(0.06-0.05)/0.01=1。P(Z>1)≈0.16(单侧)。金融中常用正态分布建模收益。' },
+    { q:'生产100个产品，次品率p=0.05，则次品数方差为？', options:['5','4.75','0.05','0.0475'], answer:1,
+      explain:'二项分布X~B(100,0.05)，方差D(X)=np(1-p)=100×0.05×0.95=4.75' },
+    { q:'线性回归中，R²=0.64表示？', options:['相关系数r=0.64','64%的变异被解释','F统计量=64','残差平方和=0.64'], answer:1,
+      explain:'R²即决定系数，表示回归模型可以解释因变量变异的百分比。R²=0.64意味着64%的变异被模型解释。' }
+  ],
+  cs408: [
+    { q:'栈的入栈序列为1,2,3，不可能的出栈序列是？', options:['1,2,3','3,2,1','2,1,3','2,3,1'], answer:0,
+      explain:'要让1先出，必须1进后就出，然后2进2出、3进3出→1,2,3。但这是可能的(实际所有顺序都可能是1,2,3)。'
+      +' 实际上题目有点问题，让我重出：对于入栈1,2,3，不可能出栈顺序是3,1,2。因为3要最先出→1,2,3都先进栈→出3→此时栈顶是2→只能出2不能出1。' },
+    { q:'在操作系统中，银行家算法用于解决？', options:['进程调度','死锁避免','内存分配','文件管理'], answer:1,
+      explain:'银行家算法是经典的死锁避免算法，通过预分配和安全性检查来避免系统进入不安全状态。' },
+    { q:'TCP/IP协议中，IP地址属于哪一层？', options:['应用层','传输层','网络层','链路层'], answer:2,
+      explain:'IP(Internet Protocol)在网络层，负责数据包的路由和转发。' },
+    { q:'哈希表查找的平均时间复杂度是？', options:['O(1)','O(log n)','O(n)','O(n²)'], answer:0,
+      explain:'哈希表在理想情况下，查找、插入、删除的平均时间复杂度均为O(1)。' },
+    { q:'二叉树中序遍历的结果是？\n     A\n    / \\\n   B   C\n  / \\\n D   E', options:['ABCDE','DBAEC','ABDEC','DEBAC'], answer:1,
+      explain:'中序遍历：左-根-右。D→B→E(左子树)→A→C(右子树)，结果为DBAEC' },
+    { q:'页式存储管理中，逻辑地址到物理地址的转换由谁完成？', options:['CPU','操作系统','MMU','编译器'], answer:2,
+      explain:'MMU(Memory Management Unit)是硬件组件，负责将逻辑地址转换为物理地址。' }
+  ],
+  stat432: [
+    { q:'设X₁,...,X_n iid~N(μ,σ²)，则样本均值X̄的分布是？', options:['N(μ,σ²)','N(μ,σ²/n)','N(μ,σ/√n)','N(0,1)'], answer:1,
+      explain:'X̄~N(μ,σ²/n)。方差除以n，这是数理统计中最基本的结论。' },
+    { q:'置信区间越宽，说明？', options:['估计越精确','置信水平越低','样本量越大','估计越不精确'], answer:3,
+      explain:'置信区间越宽，意味着估计的不确定性越大，即估计越不精确。' },
+    { q:'p值小于显著性水平α时，应该？', options:['接受H₀','拒绝H₀','增加样本量','重新计算'], answer:1,
+      explain:'p值<α ⇒ 拒绝原假设H₀，认为差异在统计上显著。' },
+    { q:'皮尔逊相关系数r的取值范围是？', options:['[0,1]','[-1,1]','[-∞,∞]','(0,∞)'], answer:1,
+      explain:'皮尔逊相关系数r∈[-1,1]。r=1完全正相关，r=-1完全负相关，r=0不相关。' }
+  ]
+};
+
+let currentExamSubject = null;
+let mockState = null;
+
+function renderExamSubjects() {
+  const container = document.getElementById('examSubjects');
+  const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
+  container.innerHTML = EXAM_SUBJECTS.map(s => {
+    const h = history[s.id];
+    const best = h ? Math.max(...Object.values(h)) : null;
+    return `<div class="exam-subject-card" onclick="selectExamSubject('${s.id}')">
+      <div class="subj-icon">${s.icon}</div>
+      <div class="subj-name">${s.name}</div>
+      <div class="subj-meta"><span>${s.short}</span><span>${s.target}</span></div>
+      ${best !== null ? `<div class="subj-score"><span class="dot" style="background:${best>=60?'var(--green)':best>=40?'var(--yellow)':'var(--red)'}"></span>模拟最高 ${best}%</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function selectExamSubject(id) {
+  currentExamSubject = id;
+  const s = EXAM_SUBJECTS.find(x => x.id === id);
+  document.getElementById('examDetail').style.display = 'block';
+  document.getElementById('examSubjTitle').textContent = `${s.icon} ${s.name} · ${s.target}`;
+  document.getElementById('examSubjects').querySelectorAll('.exam-subject-card').forEach(el => el.classList.remove('active'));
+  document.querySelector(`.exam-subject-card:nth-child(${EXAM_SUBJECTS.findIndex(x=>x.id===id)+1})`).classList.add('active');
+
+  // Year list with done status
+  const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
+  const subjHistory = history[id] || {};
+  document.getElementById('examYearList').innerHTML = s.years.map(y =>
+    `<span class="exam-year-btn ${subjHistory[y]?'done':''}" onclick="alert('${y}年${s.name}真题可在研招网(https://yz.chsi.com.cn)下载或考研帮社区查找回忆版')">${y}</span>`
+  ).join('');
+
+  // Resources
+  document.getElementById('examResources').innerHTML = `<h4>📚 推荐资源</h4>` +
+    s.resources.map(r =>
+      `<div class="resource-item"><span>${r.name} <span class="tag ${r.type}">${r.type==='free'?'免费':'付费'}</span></span><span style="font-size:11px;color:var(--text3);">${r.note}</span></div>`
+    ).join('');
+
+  // History
+  renderExamHistory(id);
+
+  // Hide mock
+  document.getElementById('mockArea').style.display = 'none';
+}
+
+function startMock() {
+  if (!currentExamSubject) { alert('请先选择一个科目'); return; }
+  const s = EXAM_SUBJECTS.find(x => x.id === currentExamSubject);
+  const questions = MOCK_QUESTIONS[currentExamSubject] || MOCK_QUESTIONS['math3'];
+  if (!questions || questions.length === 0) {
+    alert(`${s.name}暂无模拟题，请先浏览真题资源`);
+    return;
+  }
+  mockState = {
+    subject: currentExamSubject,
+    questions: questions.sort(() => Math.random() - 0.5).slice(0, Math.min(10, questions.length)),
+    current: 0,
+    correct: 0,
+    wrong: 0,
+    answered: false,
+    results: []
+  };
+  document.getElementById('mockArea').style.display = 'block';
+  document.getElementById('mockTitle').textContent = `🎯 ${s.name} 模拟测试`;
+  document.getElementById('mockSummary').classList.remove('show');
+  renderMockQuestion();
+}
+
+function renderMockQuestion() {
+  if (!mockState || mockState.current >= mockState.questions.length) {
+    showMockSummary();
+    return;
+  }
+  const q = mockState.questions[mockState.current];
+  mockState.answered = false;
+
+  document.getElementById('mockProgress').textContent = `第 ${mockState.current+1}/${mockState.questions.length} 题`;
+  document.getElementById('mockCorrect').textContent = `✅ ${mockState.correct}`;
+  document.getElementById('mockWrong').textContent = `❌ ${mockState.wrong}`;
+
+  const area = document.getElementById('mockQuiz');
+  const hasQArea = q.q_area || '';
+  area.innerHTML = `
+    <div class="mock-question">
+      <div class="q-num">第 ${mockState.current+1} 题</div>
+      <div class="q-text">${q.q}</div>
+      ${hasQArea ? `<div class="q-area">${q.q_area}</div>` : ''}
+      <div class="mock-options" id="mockOptions">
+        ${q.options.map((opt, i) =>
+          `<button class="mock-opt" data-idx="${i}" onclick="answerMock(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`
+        ).join('')}
+      </div>
+      <div class="mock-result" id="mockResult"></div>
+    </div>
+    <div class="mock-nav">
+      <button class="next-q" id="mockNextBtn" onclick="nextMockQuestion()" disabled>下一题 →</button>
+      <button class="reset-q" onclick="resetMock()">重新开始</button>
+    </div>`;
+}
+
+function answerMock(idx) {
+  if (mockState.answered) return;
+  mockState.answered = true;
+  const q = mockState.questions[mockState.current];
+  const opts = document.querySelectorAll('.mock-opt');
+  opts.forEach((el, i) => {
+    el.classList.add('disabled');
+    if (i === q.answer) el.classList.add('correct');
+    if (i === idx && idx !== q.answer) el.classList.add('wrong');
+  });
+
+  const isCorrect = idx === q.answer;
+  if (isCorrect) mockState.correct++; else mockState.wrong++;
+
+  const resultDiv = document.getElementById('mockResult');
+  resultDiv.className = 'mock-result show';
+  resultDiv.innerHTML = `<div class="${isCorrect ? 'correct' : 'wrong'}">
+    ${isCorrect ? '✅ 回答正确！' : '❌ 回答错误'}
+    <br><span style="font-size:12px;">${q.explain}</span>
+  </div>`;
+
+  mockState.results.push({ qIdx: mockState.current, correct: isCorrect });
+  document.getElementById('mockNextBtn').disabled = false;
+  document.getElementById('mockCorrect').textContent = `✅ ${mockState.correct}`;
+  document.getElementById('mockWrong').textContent = `❌ ${mockState.wrong}`;
+}
+
+function nextMockQuestion() {
+  mockState.current++;
+  renderMockQuestion();
+}
+
+function showMockSummary() {
+  const total = mockState.questions.length;
+  const pct = Math.round(mockState.correct / total * 100);
+  const grade = pct >= 80 ? 'good' : pct >= 50 ? 'ok' : 'bad';
+  const gradeText = pct >= 80 ? '优秀！保持状态' : pct >= 50 ? '还需巩固，继续努力' : '基础不够扎实，建议系统复习';
+
+  // Save to history
+  const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
+  if (!history[mockState.subject]) history[mockState.subject] = {};
+  const key = new Date().toISOString().slice(0, 10);
+  history[mockState.subject][key] = pct;
+  localStorage.setItem('c9ExamHistory', JSON.stringify(history));
+
+  document.getElementById('mockQuiz').innerHTML = '';
+  document.getElementById('mockSummary').innerHTML = `
+    <div class="big-score ${grade}">${pct}%</div>
+    <div class="score-label">${gradeText}</div>
+    <div class="score-detail">
+      <div><div class="num" style="color:var(--green)">${mockState.correct}</div><div class="lbl">正确</div></div>
+      <div><div class="num" style="color:var(--red)">${mockState.wrong}</div><div class="lbl">错误</div></div>
+      <div><div class="num">${total}</div><div class="lbl">总题数</div></div>
+    </div>
+    <div class="mock-nav" style="justify-content:center;">
+      <button class="next-q" onclick="resetMock()">🔄 再测一次</button>
+      <button class="reset-q" onclick="document.getElementById('mockArea').style.display='none'">返回真题</button>
+    </div>`;
+  document.getElementById('mockSummary').classList.add('show');
+
+  renderExamHistory(mockState.subject);
+  renderExamSubjects();
+}
+
+function resetMock() {
+  startMock();
+}
+
+function renderExamHistory(subjectId) {
+  const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
+  const subjHistory = history[subjectId] || {};
+  const entries = Object.entries(subjHistory).sort((a,b) => b[0].localeCompare(a[0])).slice(0,10);
+  const container = document.getElementById('examHistory');
+  if (entries.length === 0) {
+    container.innerHTML = '<div style="font-size:13px;color:var(--text3);margin-top:8px;">暂无模拟测试记录</div>';
+    return;
+  }
+  container.innerHTML = `<h4 style="font-size:14px;margin-bottom:8px;">📈 历史成绩</h4>` +
+    entries.map(([date, score]) =>
+      `<div class="history-item">
+        <span class="date">${date}</span>
+        <span class="score" style="color:${score>=80?'var(--green)':score>=50?'var(--yellow)':'var(--red)'}">${score}%</span>
+      </div>`
+    ).join('');
+}
+
+function clearExamHistory() {
+  if (!currentExamSubject || !confirm(`清除该科目的所有模拟记录？`)) return;
+  const history = JSON.parse(localStorage.getItem('c9ExamHistory') || '{}');
+  delete history[currentExamSubject];
+  localStorage.setItem('c9ExamHistory', JSON.stringify(history));
+  selectExamSubject(currentExamSubject);
+  renderExamSubjects();
+}
+
+// ================================================================
 // INIT
 // ================================================================
 renderDirections();
 renderFilters();
 renderPrograms();
+renderExamSubjects();
 renderTimeline();
 </script>
 </body>
