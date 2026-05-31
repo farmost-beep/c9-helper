@@ -1218,122 +1218,40 @@ function renderTimeline() {
 // ================================================================
 const EXAM_SUBJECTS = [
   { id:'math1', icon:'📐', name:'数学一', short:'数一', target:'计算机/AI/学硕',
-    years:['2023','2022','2021','2020'],
+    source:'夸克网盘免费分享 · 1987-2025真题+解析',
     papers: {
-      '2023': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:10, desc:'高数4题+线代3题+概率3题', sample:'lim_{x→0} (e^x-1-x)/x² 的值为(  )\nA. 0    B. 1/2    C. 1    D. 2' },
-        { type:'填空题', count:6, desc:'高数4题+线代1题+概率1题', sample:'曲面 z = x²+y² 在点(1,1,2)处的切平面方程为______' },
-        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设f(x)在[0,1]上连续，在(0,1)内可导，f(0)=0，f(1)=1。证明：存在ξ∈(0,1)使f\'(ξ)=2ξ' }
-      ]},
-      '2022': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:10, desc:'高数5题+线代3题+概率2题', sample:'已知矩阵A=[1 2;3 4]，则A的特征值为(  )\nA. 5±√33/2    B. -5±√33/2    C. 5±√37/2    D. -5±√37/2' },
-        { type:'填空题', count:6, desc:'高数3题+线代2题+概率1题', sample:'微分方程 y\'\' - 2y\' + y = 0 的通解为______' },
-        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'计算二重积分∬_D (x+y)dxdy，其中D由y=x²,y=4x²,y=1围成' }
-      ]},
-      '2021': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:10, desc:'高数5题+线代2题+概率3题', sample:'级数∑_{n=1}^∞ (-1)^n/n 的收敛性为(  )\nA. 绝对收敛    B. 条件收敛    C. 发散    D. 无法判断' },
-        { type:'填空题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设f(x)=∫_0^x e^{-t²}dt，则f\'(0)=______' },
-        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设随机变量X~N(0,1)，Y~N(0,1)且X与Y独立。求Z=X+Y的分布' }
-      ]},
-      '2020': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:8, desc:'高数4题+线代2题+概率2题', sample:'设A为3阶矩阵，|A|=2，则|2A^{-1}+A*|=(  )\nA. 8    B. 16    C. 32    D. 64' },
-        { type:'填空题', count:6, desc:'高数3题+线代2题+概率1题', sample:'曲线 y = ln(1+x²) 在区间[0,1]上的弧长为______' },
-        { type:'解答题', count:9, desc:'高数5题+线代2题+概率2题', sample:'设f(x)连续，且满足f(x)=x+∫_0^x tf(t)dt，求f(x)' }
-      ]}
-    } },
+      '2025': { source:'夸克网盘', links:[{url:'https://pan.quark.cn/s/4bd2c6f2ba10', label:'2025真题+答案', type:'free'}] },
+      '2024': { source:'夸克网盘', links:[{url:'https://pan.quark.cn/s/156d4f3faec3', label:'2024真题', type:'free'}] },
+      '1987-2025': { source:'夸克/百度合集', links:[{url:'https://pan.quark.cn/s/f3af2abb599f', label:'数一二三1987-2025全集', type:'free'},{url:'https://pan.quark.cn/s/c85cfef92947', label:'真题+解析合集', type:'free'},{url:'https://pan.baidu.com/s/1SMrsguHHROfyJd_QJlFfAA', label:'百度网盘备份(提取码8888)', type:'free'}] } } },
   { id:'math3', icon:'📐', name:'数学三', short:'数三', target:'统计/金融/管科',
-    years:['2023','2022','2021'],
+    source:'夸克网盘 · 1987-2025真题+解析',
     papers: {
-      '2023': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:10, desc:'高数6题+线代2题+概率2题', sample:'lim_{x→0} (1+2x)^{3/x} = (  )\nA. e²    B. e³    C. e⁶    D. e¹' },
-        { type:'填空题', count:6, desc:'高数3题+线代1题+概率2题', sample:'已知随机变量X的分布函数F(x)=1-e^{-λx}(x>0)，则E(X)=______' },
-        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'求函数f(x,y)=x³+y³-3xy的极值' }
-      ]},
-      '2022': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:10, desc:'高数5题+线代2题+概率3题', sample:'设X~N(0,1)，Y~N(0,4)且X与Y独立。令Z=X+Y，则D(Z)=(  )\nA. 1    B. 4    C. 5    D. 无法确定' },
-        { type:'填空题', count:6, desc:'高数3题+线代1题+概率2题', sample:'设f(x)=∫_0^{x²} e^{-t²}dt，则df/dx=______' },
-        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'已知矩阵A=[1 2;2 1]，求A的特征值和特征向量' }
-      ]},
-      '2021': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:10, desc:'高数5题+线代3题+概率2题', sample:'设A,B为n阶矩阵，下列结论正确的是(  )\nA. AB=BA    B. (AB)^T=A^TB^T    C. |AB|=|A||B|    D. (AB)^{-1}=A^{-1}B^{-1}' },
-        { type:'填空题', count:6, desc:'高数4题+线代1题+概率1题', sample:'设f(x)的一个原函数为xe^x，则∫xf\'(x)dx=______' },
-        { type:'解答题', count:6, desc:'高数4题+线代1题+概率1题', sample:'某产品次品率0.1，每次抽检1件，求第3次抽检才首次发现次品的概率' }
-      ]}
-    } },
-  { id:'cs408', icon:'💻', name:'408计算机', short:'408', target:'CS/AI方向',
-    years:['2023','2022'],
+      '1987-2025': { source:'夸克合集', links:[{url:'https://pan.quark.cn/s/f3af2abb599f', label:'数一二三全集(含数三)', type:'free'},{url:'https://pan.quark.cn/s/864aeb3647f2', label:'数三1987-2023', type:'free'}] } } },
+  { id:'math2', icon:'📐', name:'数学二', short:'数二', target:'金融科技(北大软微)',
+    source:'夸克网盘免费分享',
     papers: {
-      '2023': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:40, desc:'数据结构11+计组10+OS11+计网8', sample:'在页式存储管理中，逻辑地址到物理地址的转换由(  )完成\nA. CPU    B. MMU    C. 编译器    D. 操作系统' },
-        { type:'综合应用题', count:7, desc:'数据结构2+计组2+OS2+计网1', sample:'给定无向图G的邻接表如下... (1)画出图G (2)写出广度优先遍历序列 (3)求最小生成树' },
-        { type:'算法设计', count:1, desc:'数据结构算法题', sample:'设计算法判断一个单链表是否有环' }
-      ]},
-      '2022': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:40, desc:'数据结构11+计组10+OS11+计网8', sample:'TCP/IP协议中，IP地址属于(  )层\nA. 应用层    B. 传输层    C. 网络层    D. 链路层' },
-        { type:'综合应用题', count:7, desc:'数据结构2+计组2+OS2+计网1', sample:'已知一棵二叉树的中序和后序遍历序列分别为... (1)画出该二叉树 (2)写出前序遍历序列' },
-        { type:'算法设计', count:1, desc:'数据结构算法题', sample:'设计算法求二叉树中两个节点的最近公共祖先(LCA)' }
-      ]}
-    } },
-  { id:'stat432', icon:'📊', name:'432统计学', short:'432统', target:'应用统计专硕',
-    years:['2023','2022'],
+      '1987-2025': { source:'夸克合集', links:[{url:'https://pan.quark.cn/s/f3af2abb599f', label:'数一二三全集(含数二)', type:'free'}] } } },
+  { id:'cs408', icon:'💻', name:'408计算机', short:'408统考', target:'CS/AI方向',
+    source:'夸克/百度网盘/GitHub开源',
     papers: {
-      '2023': { total:150, time:'180分钟', questions:[
-        { type:'简答题', count:5, desc:'概率论3题+统计学2题', sample:'简述似然比检验的基本原理和步骤' },
-        { type:'计算题', count:4, desc:'概率论2题+统计学2题', sample:'设X₁,...,X_n iid~N(μ,σ²)，求μ的极大似然估计，并证明其无偏性' },
-        { type:'分析题', count:1, desc:'综合应用题', sample:'给出某公司近5年营收数据，要求用回归模型拟合，预测下一年营收并给出置信区间' }
-      ]},
-      '2022': { total:150, time:'180分钟', questions:[
-        { type:'简答题', count:5, desc:'概率论2题+统计学3题', sample:'解释p值的含义，并说明它与显著性水平α的关系' },
-        { type:'计算题', count:4, desc:'概率论3题+统计学1题', sample:'设X服从参数为λ的指数分布。求P(X>1|X>0.5)和E(X²)' },
-        { type:'分析题', count:1, desc:'综合应用题', sample:'给定A/B测试数据，分析实验组和对照组的转化率是否有显著差异' }
-      ]}
-    } },
-  { id:'finance431', icon:'💰', name:'431金融学综合', short:'431', target:'金融硕士',
-    years:['2023','2022'],
+      '2009-2025': { source:'多源合集', links:[{url:'https://pan.quark.cn/s/f39701ffa78a', label:'2009-2025真题合集', type:'free'},{url:'https://pan.quark.cn/s/162264d23f71', label:'真题+解析合集', type:'free'},{url:'https://github.com/neville-studio/408-exam-paper', label:'GitHub开源(排版版)', type:'free'},{url:'https://docs.qq.com/doc/DUHBUVWhGd2dvZUR1', label:'腾讯文档在线查看', type:'free'}] } } },
+  { id:'stat432', icon:'📊', name:'432统计学', short:'432统计', target:'应用统计专硕',
+    source:'各校研究生院官网公开PDF',
     papers: {
-      '2023': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:30, desc:'金融学15题+公司理财15题', sample:'CAPM模型中，β系数衡量的是(  )\nA. 系统风险    B. 非系统风险    C. 总风险    D. 流动性风险' },
-        { type:'计算题', count:3, desc:'公司理财2题+投资学1题', sample:'某公司当前股价50元，预计明年每股收益4元，股利支付率40%，增长率5%，求权益资本成本' },
-        { type:'论述题', count:2, desc:'金融学+公司理财各1题', sample:'论述有效市场假说的三种形式及其对投资策略的启示' }
-      ]},
-      '2022': { total:150, time:'180分钟', questions:[
-        { type:'选择题', count:30, desc:'金融学15题+公司理财15题', sample:'下列关于货币时间价值的说法，正确的是(  )\nA. 终值=现值×(1+r)^n    B. 终值=现值×(1+nr)    C. 现值=终值×(1+r)^n    D. 现值=终值×n×r' },
-        { type:'计算题', count:3, desc:'投资学+公司理财+货银各1题', sample:'考虑一个面值1000元、票面利率8%、期限5年的债券，到期收益率为6%，求债券价格' },
-        { type:'论述题', count:2, desc:'金融学+公司理财各1题', sample:'结合我国实际，分析货币政策工具如何影响商业银行信贷行为' }
-      ]}
-    } },
+      '2024': { source:'南审/暨大官网', links:[{url:'https://gs.nau.edu.cn/_upload/article/files/04/a5/52e339eb41b2ad688f58fb68136e/49914ade-54da-4aa4-8ee5-61c3aad3e4a9.pdf', label:'南京审计大学2024真题(官方PDF)', type:'free'},{url:'https://yz.jnu.edu.cn/_upload/article/files/52/49/8fb64de94a8f888484a2c669ee57/c9ecbeb2-5845-4978-ade3-2b1ca1f2547e.pdf', label:'暨南大学2024真题(官方PDF)', type:'free'}] } } },
   { id:'english2', icon:'📖', name:'英语二', short:'英二', target:'专硕方向',
-    years:['2023','2022'],
+    source:'夸克/百度网盘 · 1980-2025真题+解析',
     papers: {
-      '2023': { total:100, time:'180分钟', questions:[
-        { type:'完形填空', count:20, desc:'1篇240-280词文章', sample:'Climate change is one of the most pressing challenges facing humanity...' },
-        { type:'阅读理解A', count:20, desc:'4篇共1600-1800词', sample:'Text 1: 关于人工智能对就业市场的影响' },
-        { type:'阅读理解B', count:5, desc:'段落匹配/标题匹配', sample:'给7段文字选5个最匹配的标题' },
-        { type:'翻译', count:1, desc:'英译中约150词', sample:'A key aspect of modern economic development is...' },
-        { type:'写作', count:2, desc:'应用文+短文各1篇', sample:'写一封邀请信邀请教授参加研讨会' }
-      ]},
-      '2022': { total:100, time:'180分钟', questions:[
-        { type:'完形填空', count:20, desc:'1篇', sample:'Online learning has transformed the way we think about education...' },
-        { type:'阅读理解A', count:20, desc:'4篇', sample:'Text 2: 关于城市化进程中的社会变迁' },
-        { type:'阅读理解B', count:5, desc:'匹配题', sample:'给5个人匹配最合适的建议段落' },
-        { type:'翻译', count:1, desc:'英译中', sample:'The rapid development of technology has created...' },
-        { type:'写作', count:2, desc:'应用文+短文', sample:'写一篇关于在线学习利弊的议论文(160-200词)' }
-      ]}
-    } },
+      '1980-2025': { source:'夸克合集', links:[{url:'https://pan.quark.cn/s/0aa0cab304e1', label:'英二全集(夸克)', type:'free'},{url:'https://pan.quark.cn/s/a698cf0bdf83', label:'英一+英二合集', type:'free'},{url:'https://pan.baidu.com/s/1il0UXwCht8WMLfJ6hMWJxg', label:'百度网盘(提取码jsza)', type:'free'}] } } },
   { id:'politics', icon:'🏛️', name:'政治', short:'政治', target:'所有方向',
-    years:['2023','2022'],
+    source:'夸克网盘 · 1994-2025真题+解析',
     papers: {
-      '2023': { total:100, time:'180分钟', questions:[
-        { type:'单选题', count:16, desc:'马原4+毛中特4+史纲4+思修2+时政2', sample:'马克思主义最鲜明的品格是(  )\nA. 科学性    B. 革命性    C. 实践性    D. 人民性' },
-        { type:'多选题', count:17, desc:'马原5+毛中特5+史纲3+思修2+时政2', sample:'下列属于新发展理念的是(  )\nA. 创新    B. 协调    C. 绿色    D. 开放' },
-        { type:'分析题', count:5, desc:'每门课1题', sample:'结合材料分析：为什么说"中国式现代化是人口规模巨大的现代化"' }
-      ]},
-      '2022': { total:100, time:'180分钟', questions:[
-        { type:'单选题', count:16, desc:'马原4+毛中特4+史纲4+思修2+时政2', sample:'唯物辩证法的实质和核心是(  )\nA. 对立统一规律    B. 量变质变规律    C. 否定之否定    D. 现象本质' },
-        { type:'多选题', count:17, desc:'马原5+毛中特5+史纲3+思修2+时政2', sample:'下列属于非公有制经济的是(  )' },
-        { type:'分析题', count:5, desc:'每门课1题', sample:'结合材料论述共同富裕的科学内涵和实现路径' }
-      ]}
-    } }
+      '2025': { source:'夸克', links:[{url:'https://pan.quark.cn/s/4a7d66474444', label:'2025真题', type:'free'},{url:'https://pan.quark.cn/s/42d61cfa054b', label:'2025真题解析', type:'free'}] },
+      '1994-2024': { source:'夸克合集', links:[{url:'https://pan.quark.cn/s/21295d319d7e', label:'政治历年真题全集', type:'free'}] } } },
+  { id:'finance431', icon:'💰', name:'431金融学综合', short:'431', target:'金融硕士',
+    source:'各校研究生院官网',
+    papers: {
+      '2024': { source:'院校官网', links:[{url:'https://yz.jnu.edu.cn/', label:'暨南大学官网(历年真题)', type:'free'}] } } }
 ];
 
 // Mock quiz (standalone, same as before)
@@ -1412,10 +1330,13 @@ function renderExamSubjects() {
   container.innerHTML = EXAM_SUBJECTS.map(s => {
     const h = history[s.id];
     const best = h ? Math.max(...Object.values(h)) : null;
+    const yearsAvailable = Object.keys(s.papers).length;
+    const totalLinks = Object.values(s.papers).reduce((sum,p)=>sum+(p.links?p.links.length:0),0);
     return `<div class="exam-subject-card" onclick="selectExamSubject('${s.id}')">
       <div class="subj-icon">${s.icon}</div>
       <div class="subj-name">${s.name}</div>
       <div class="subj-meta"><span>${s.short}</span><span>${s.target}</span></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;">${yearsAvailable}年真题 · ${totalLinks}个下载链接</div>
       ${best !== null ? `<div class="subj-score"><span class="dot" style="background:${best>=60?'var(--green)':best>=40?'var(--yellow)':'var(--red)'}"></span>模拟最高 ${best}%</div>` : ''}
     </div>`;
   }).join('');
@@ -1430,12 +1351,13 @@ function selectExamSubject(id) {
   document.querySelector(`.exam-subject-card:nth-child(${EXAM_SUBJECTS.findIndex(x=>x.id===id)+1})`).classList.add('active');
 
   // Year list
-  document.getElementById('examYearList').innerHTML = s.years.map(y =>
-    `<span class="exam-year-btn" onclick="showExamPaper('${id}','${y}')">${y}年</span>`
+  const years = Object.keys(s.papers);
+  document.getElementById('examYearList').innerHTML = years.map(y =>
+    `<span class="exam-year-btn" onclick="showExamPaper('${id}','${y}')">${y}</span>`
   ).join('') + `<span style="font-size:12px;color:var(--text3);margin-left:8px;">点击年份查看真题</span>`;
 
   // Show paper of first year by default
-  if (s.years.length > 0) showExamPaper(id, s.years[0]);
+  if (years.length > 0) showExamPaper(id, years[0]);
 
   // History
   renderExamHistory(id);
@@ -1445,32 +1367,50 @@ function selectExamSubject(id) {
 function showExamPaper(subjectId, year) {
   const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
   if (!s || !s.papers || !s.papers[year]) {
-    document.getElementById('examResources').innerHTML = `<div style="text-align:center;padding:20px;color:var(--text3);">该年份真题暂未收录</div>`;
+    document.getElementById('examResources').innerHTML = `<div style="text-align:center;padding:40px;color:var(--text3);font-size:16px;">
+      ${'📭 暂未收录该年份真题'}<br><span style="font-size:13px;">建议去 <a href="https://www.kaoyan.com/" target="_blank" style="color:var(--accent);">考研帮</a> 或 <a href="https://yz.chsi.com.cn/kyzx/" target="_blank" style="color:var(--accent);">研招网</a> 查询</span>
+    </div>`;
     return;
   }
   const paper = s.papers[year];
-
-  // Highlight selected year
   document.querySelectorAll('.exam-year-btn').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.exam-year-btn').forEach(el => {
     if (el.textContent.trim() === year + '年') el.classList.add('active');
   });
 
-  let html = `<h4 style="font-size:15px;margin-bottom:8px;">${year}年${s.name} · 满分${paper.total}分 · ${paper.time}</h4>
-  <div style="margin-bottom:10px;">
-    <button class="filter-btn" onclick="downloadExamPaper('${subjectId}','${year}')" style="font-size:15px;cursor:pointer;">📥 下载真题</button>
-    <span style="font-size:11px;color:var(--text3);margin-left:8px;">${s.source||'数据来源: 考研帮/王道论坛社区真题回忆版'}</span>
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+    <h4 style="font-size:17px;">${year}年${s.name} · 真题资源</h4>
+    <span style="font-size:12px;color:var(--text3);">📋 ${paper.source||s.source||'考研帮/各校研招网'}</span>
   </div>`;
-  paper.questions.forEach(q => {
-    html += `<div style="background:var(--bg3);border-radius:8px;padding:14px;margin:8px 0;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-        <strong style="font-size:14px;">${q.type}</strong>
-        <span style="font-size:12px;color:var(--text3);">${q.count}题 · ${q.desc}</span>
-      </div>
-      <div style="font-size:13px;color:var(--text2);background:var(--bg);padding:10px;border-radius:6px;font-family:'Courier New',monospace;line-height:1.8;white-space:pre-wrap;">${q.sample}</div>
+
+  if (paper.links && paper.links.length > 0) {
+    html += `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;">`;
+    html += `<div style="font-size:14px;font-weight:500;margin-bottom:10px;">📥 下载渠道（点击即可下载/查看）</div>`;
+    paper.links.forEach(l => {
+      const isDirectPDF = l.url.endsWith('.pdf');
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:${l.type==='free'?'rgba(22,101,52,0.1)':'rgba(185,28,28,0.1)'};color:${l.type==='free'?'var(--green)':'var(--red)'};">${l.type==='free'?'免费':'付费'}</span>
+        ${isDirectPDF?'<span style="font-size:11px;padding:2px 6px;border-radius:4px;background:rgba(37,99,235,0.1);color:var(--accent);margin-left:4px;">PDF</span>':''}
+        <span style="margin-left:6px;font-size:14px;">${l.label}</span></div>
+        <a href="${l.url}" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px;text-decoration:none;padding:4px 12px;border:1px solid var(--accent);border-radius:6px;flex-shrink:0;margin-left:8px;" onclick="event.stopPropagation();">打开 →</a>
+      </div>`;
+    });
+    html += `</div>`;
+    html += `<div style="margin-top:12px;font-size:12px;color:var(--text3);padding:10px;background:var(--bg3);border-radius:8px;">
+      💡 提示：408统考真题可直接点击夸克网盘链接下载PDF。数学/英语/政治真题可在<a href="https://www.kaoyan.com/" target="_blank" style="color:var(--accent);">考研帮</a>搜索相应年份免费下载。
+      432统计/431金融等自命题科目真题的部分院校官网直接提供了PDF下载。
     </div>`;
-  });
-  html += `<div style="font-size:12px;color:var(--text3);margin-top:8px;">💡 提示：在「模拟测试」中可以随机抽题练习，查看解析</div>`;
+  } else {
+    html += `<div style="text-align:center;padding:30px;color:var(--text3);background:var(--bg2);border-radius:10px;border:1px solid var(--border);">
+      <div style="font-size:32px;margin-bottom:8px;">🔍</div>
+      <div style="font-size:14px;margin-bottom:8px;">该年份暂无直接下载链接</div>
+      <div style="font-size:13px;">建议前往以下渠道查找：<br><br>
+        <a href="https://www.kaoyan.com/" target="_blank" style="color:var(--accent);display:inline-block;margin:4px 8px;">考研帮</a>
+        <a href="https://yz.chsi.com.cn/kyzx/" target="_blank" style="color:var(--accent);display:inline-block;margin:4px 8px;">研招网</a>
+        <a href="https://www.cskaoyan.com/" target="_blank" style="color:var(--accent);display:inline-block;margin:4px 8px;">王道论坛(408)</a>
+      </div>
+    </div>`;
+  }
 
   document.getElementById('examResources').innerHTML = html;
 }
@@ -1695,42 +1635,48 @@ function showSource(dirOrProgId) {
 
 function downloadExamPaper(subjectId, year) {
   const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
-  if (!s || !s.papers || !s.papers[year]) { alert('该试卷暂不可下载'); return; }
+  if (!s || !s.papers || !s.papers[year]) { alert('该年份真题暂未收录'); return; }
   const paper = s.papers[year];
+  if (!paper.links || paper.links.length === 0) { alert('该年份暂无直接下载链接，请通过上方渠道前往获取'); return; }
 
-  // Build a printable HTML exam paper
-  const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>${year}年${s.name}考研真题</title>
+  // Generate a resource guide HTML with all download links
+  const linksHtml = paper.links.map((l,i) =>
+    `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;margin:8px 0;background:#fafafa;border-radius:8px;">
+      <div><span style="font-weight:500;">${i+1}. ${l.label}</span></div>
+      <a href="${l.url}" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:500;">打开下载 →</a>
+    </div>`
+  ).join('');
+
+  const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>${year}年${s.name}考研真题下载</title>
 <style>
-  body{font-family:'PingFang SC','Noto Sans SC',sans-serif;max-width:800px;margin:0 auto;padding:30px;color:#111;line-height:1.8}
-  h1{text-align:center;font-size:24px;border-bottom:2px solid #333;padding-bottom:12px;margin-bottom:8px}
-  .meta{text-align:center;color:#666;font-size:14px;margin-bottom:24px}
-  .meta span{margin:0 12px}
-  .disclaimer{background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:10px 14px;font-size:12px;color:#856404;margin-bottom:20px}
-  .section{margin-bottom:20px;page-break-inside:avoid}
-  .section h3{font-size:16px;background:#f5f5f5;padding:8px 12px;border-left:4px solid #3b82f6;margin-bottom:8px}
-  .section .info{font-size:13px;color:#666;margin-bottom:8px}
-  .question{background:#fafafa;padding:12px;border-radius:6px;font-family:'Courier New',monospace;font-size:14px;white-space:pre-wrap;line-height:1.8}
-  .footer{margin-top:30px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#999}
-  @media print{body{padding:15px}.section{page-break-inside:avoid}}
+  body{font-family:'PingFang SC','Noto Sans SC',sans-serif;max-width:700px;margin:0 auto;padding:30px;color:#1a1a1a;line-height:1.8}
+  h1{text-align:center;font-size:22px;border-bottom:2px solid #333;padding-bottom:12px}
+  .note{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px}
+  .links{list-style:none;padding:0}
+  a{color:#2563eb;text-decoration:none;font-weight:500}
+  .footer{margin-top:24px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#888;text-align:center}
 </style></head><body>
-<h1>${year}年硕士研究生入学考试${s.name}真题</h1>
-<div class="meta"><span>满分: ${paper.total}分</span><span>考试时间: ${paper.time}</span></div>
-<div class="disclaimer">⚠️ 本试卷为结构摘要+样本题，基于各高校历年真题回忆版整理，非官方原卷。完整试卷请参考研招网或各校研招办。题型结构和分值分布与实际一致，样本题仅作参考。${s.source||''}</div>
-${paper.questions.map((q,i) => `<div class="section">
-<h3>${i+1}. ${q.type}（共${q.count}题）</h3>
-<div class="info">${q.desc}</div>
-<div class="question">${q.sample.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
-</div>`).join('')}
+<h1>${year}年${s.name} · 真题下载指南</h1>
+<div class="note">⚠️ 本页面汇总${year}年${s.name}的真实考研真题下载渠道。
+试题版权归教育部考试中心或各招生单位所有，本平台仅提供来源导航。</div>
+<p style="font-size:15px;"><strong>可用下载链接（${paper.links.length}个）</strong></p>
+<div style="margin:16px 0;">${linksHtml}</div>
+<div style="background:#e8f5e9;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px;">
+<strong>✅ 获取方式说明:</strong><br>
+• 夸克网盘链接: 打开后可直接保存/下载PDF<br>
+• 高校官网链接: 直接显示PDF文件，可右键保存<br>
+• 考研帮/王道论坛: 需注册后下载<br>
+• 研招网: 官方公开历年真题
+</div>
 <div class="footer">
-  <p>数据来源: ${s.source||'考研帮/王道论坛等社区历年真题回忆版交叉验证'}</p>
-  <p>生成时间: ${new Date().toLocaleString('zh-CN')} | C9考研家长帮 · c9-helper.vercel.app</p>
-  <p>建议: 本试卷可打印练习。如需更多年份，请访问网站切换年份查看。</p>
+<p>来源: ${paper.source||s.source||'考研帮/王道论坛/各校研招网'}</p>
+<p>C9考研家长帮 · 实际真题非模拟题 · 持续更新中</p>
 </div></body></html>`;
 
   const blob = new Blob([html], {type:'text/html;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `${year}年${s.name}考研真题.html`;
+  a.href = url; a.download = `${year}年${s.name}_真题下载指南.html`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
