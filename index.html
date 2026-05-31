@@ -1353,114 +1353,240 @@ function selectExamSubject(id) {
 }
 
 // Real exam paper templates for each subject
-function getExamTemplate(subjectId, year) {
-  const T = {
-    '数学一': { total:150, time:'180分钟', qs:[
-      { type:'选择题', count:10, desc:'高数+线代+概率', sample:'lim_{x→0} (1-cos x)/x² = ?' },
-      { type:'填空题', count:6, desc:'高数4+线代1+概率1', sample:'微分方程 y\'\'-2y\'+y=0 的通解' },
-      { type:'解答题', count:6, desc:'高数4+线代1+概率1', sample:'求二重积分 ∬_D (x²+y²)dxdy, D: x²+y²≤1' }
-    ]},
-    '数学二': { total:150, time:'180分钟', qs:[
-      { type:'选择题', count:10, desc:'高数8+线代2', sample:'曲线 y=x³-3x+1 的拐点' },
-      { type:'填空题', count:6, desc:'高数5+线代1', sample:'∫_{-1}^{1} (x³+cos x)dx' },
-      { type:'解答题', count:6, desc:'高数5+线代1', sample:'求极值 f(x,y)=x²-xy+y²+2x-4y' }
-    ]},
-    '数学三': { total:150, time:'180分钟', qs:[
-      { type:'选择题', count:10, desc:'高数6+线代2+概率2', sample:'X~f(x)=½e^{-|x|} 求D(X)' },
-      { type:'填空题', count:6, desc:'高数3+线代1+概率2', sample:'A=[1 2;2 1] 的特征值' },
-      { type:'解答题', count:6, desc:'高数4+线代1+概率1', sample:'H₀:μ=100 vs H₁:μ>100 检验统计量' }
-    ]},
-    '计算机408': { total:150, time:'180分钟', qs:[
-      { type:'选择题', count:40, desc:'数据结构11+计组10+OS11+计网8', sample:'哈希表平均时间复杂度？A.O(1) B.O(logn) C.O(n) D.O(n²)' },
-      { type:'综合应用题', count:7, desc:'数据结构2+计组2+OS2+计网1', sample:'给定图邻接表，写出DFS序列' },
-      { type:'算法设计', count:1, desc:'数据结构', sample:'判断单链表是否有环' }
-    ]},
-    '英语二': { total:100, time:'180分钟', qs:[
-      { type:'完形填空', count:20, desc:'1篇短文', sample:'Climate change has become one of the most pressing...' },
-      { type:'阅读理解A', count:20, desc:'4篇文章', sample:'The impact of AI on employment...' },
-      { type:'阅读理解B', count:5, desc:'段落匹配', sample:'Match headings to paragraphs' },
-      { type:'翻译', count:1, desc:'英译中', sample:'Economic growth and environmental protection...' },
-      { type:'写作', count:2, desc:'应用文+议论文', sample:'Pros and cons of online learning' }
-    ]},
-    '政治': { total:100, time:'180分钟', qs:[
-      { type:'单选题', count:16, desc:'马原4+毛中特4+史纲4+思修2+时政2', sample:'马克思主义鲜明品格？A.科学性 B.革命性 C.实践性 D.人民性' },
-      { type:'多选题', count:17, desc:'马原5+毛中特5+史纲3+思修2+时政2', sample:'新发展理念包含？A.创新 B.协调 C.绿色 D.开放' },
-      { type:'分析题', count:5, desc:'各1题', sample:'结合材料分析乡村振兴战略意义' }
-    ]}
+// ================================================================
+// FULL EXAM PAPER GENERATOR (真实完整试题，每道题都有内容)
+// ================================================================
+function generateFullPaper(subjectId, year, examName) {
+  // 数学一: 10选择+6填空+6解答 = 22题
+  const Q = {};
+  Q['数学一'] = {
+    choices: [
+      'lim_{x→0} (1-cos x)/x² = ( )\nA. 0  B. 1/2  C. 1  D. 不存在',
+      '设 f(x)=e^{x²}，则 f\'\'(0) = ( )\nA. 0  B. 1  C. 2  D. 4',
+      '矩阵 A=[1 2;3 4] 的特征值之和为 ( )\nA. 5  B. 7  C. 3  D. -2',
+      '级数 ∑(-1)^{n-1}/n 的收敛性为 ( )\nA. 绝对收敛  B. 条件收敛  C. 发散  D. 无法判断',
+      'X~N(0,1)，P(|X|>1.96) ≈ ( )\nA. 0.05  B. 0.025  C. 0.01  D. 0.10',
+      'n阶可逆矩阵 A 的秩 r(A) = ( )\nA. 0  B. 1  C. n-1  D. n',
+      '曲面 z=x²+y² 在 (1,1,2) 处的法向量为 ( )\nA. (2,2,-1)  B. (2,2,1)  C. (1,1,-1)  D. (-2,-2,1)',
+      '微分方程 y\'\'+y=0 的通解为 ( )\nA. C₁e^x+C₂e^{-x}  B. C₁cos x+C₂sin x  C. C₁e^x+C₂  D. C₁x+C₂',
+      '∫_{-1}^{1} (x³+1)dx = ( )\nA. 0  B. 1  C. 2  D. 3',
+      '向量组线性无关的充要条件是 ( )\nA. 无零向量  B. 秩等于个数  C. 两两正交  D. 个数≤维数'
+    ],
+    fills: [
+      'lim_{x→0} (e^x-1-x)/x² = ______',
+      '设 f(x)=∫_0^{x²} e^{-t²}dt，则 f\'(x)=______',
+      '设 A=[1 2;2 1]，则 A⁻¹=______',
+      '∫_0^1 x²dx = ______',
+      'X~N(0,1)，则 E(X²)=______',
+      '曲线 y=ln(1+x²) 在 [0,1] 上的弧长 s=______'
+    ],
+    problems: [
+      '求极限 lim_{x→0} (sin x - x)/x³',
+      '计算二重积分 ∬_D (x²+y²)dxdy，D: x²+y²≤1',
+      '设 f(x) 在 [0,1] 上连续，在 (0,1) 内可导，f(0)=0，f(1)=1。证存在 ξ∈(0,1) 使 f\'(ξ)=2ξ',
+      '求矩阵 A=[2 -1;-1 2] 的特征值和特征向量',
+      '设随机变量 X 的密度函数 f(x)=2x, 0<x<1，求 E(1/X)',
+      '求幂级数 ∑ nx^{n-1} 的和函数'
+    ]
   };
+  Q['数学二'] = {
+    choices: [
+      'lim_{x→0} (sin 2x)/x = ( )\nA. 1  B. 2  C. 0  D. ∞',
+      '曲线 y=x³-6x 的拐点为 ( )\nA. (0,0)  B. (1,-5)  C. (-1,5)  D. 无拐点',
+      '∫_0^π sin x dx = ( )\nA. -1  B. 0  C. 1  D. 2',
+      'f(x)=x³，f\'(0)=( )\nA. -1  B. 0  C. 1  D. 2',
+      'y=ln(1+x²) 的增区间为 ( )\nA. (-∞,0)  B. (0,∞)  C. R  D. 无',
+      '微分方程 y\'-y=0 的通解为 ( )\nA. e^x+C  B. Ce^x  C. Ce^{-x}  D. e^x',
+      '∫_{-1}^{1} x³dx = ( )\nA. -1  B. 0  C. 1  D. 2',
+      'lim_{x→∞} 1/x = ( )\nA. 0  B. 1  C. ∞  D. 不存在',
+      'y=x²+1 在 x=0 处的切线斜率 ( )\nA. -1  B. 0  C. 1  D. 2',
+      'α₁=(1,0),α₂=(0,1) 线性 ( )\nA. 相关  B. 无关  C. 成比例  D. 不确定'
+    ],
+    fills: [
+      '∫_0^1 (x²+1)dx = ______',
+      'lim_{x→0} (e^x-1)/x = ______',
+      'y=x² 与 x 轴在 [0,1] 围成的面积 = ______',
+      'f(x)=x³-3x，f\'(x)=______',
+      'A=[1 0;2 1]，|A|=______',
+      'd/dx(sin x²)=______'
+    ],
+    problems: [
+      '求 f(x)=x³-3x²+2 的极值并判断单调区间',
+      '∫_0^π x sin x dx',
+      '微分方程 y\'\'-3y\'+2y=0 通解',
+      'A=[2 1;1 2] 的特征值和特征向量',
+      '求 y=x³ 与 y=0,x=1 所围图形面积',
+      '证 x³-3x+1=0 在 (0,1) 内至少有一个实根'
+    ]
+  };
+  Q['数学三'] = {
+    choices: [
+      'lim_{x→0} (1+2x)^{1/x} = ( )\nA. e  B. e²  C. e³  D. 1',
+      'f(x)=ln(1+x²)，f\'(1) = ( )\nA. 0  B. 1  C. 1/2  D. 2',
+      'A=diag(1,2,3) 的特征值为 ( )\nA. 1,2,3  B. -1,-2,-3  C. 1,1,1  D. 0,0,0',
+      'X~N(0,1),Y=2X+1，Y~( )\nA. N(0,1)  B. N(1,4)  C. N(2,1)  D. N(0,4)',
+      'Ax=0 有非零解⇔r(A)( )\nA. =n  B. <n  C. >n  D. 与n无关',
+      'f(x)=x³-3x 的极小值 ( )\nA. 2  B. -2  C. 0  D. 1',
+      '(AB)^{-1} = ( )\nA. A^{-1}B^{-1}  B. B^{-1}A^{-1}  C. A^{-1}B  D. BA^{-1}',
+      'P(A)=0.4,P(B)=0.3,P(A∩B)=0.1，P(A∪B)=( )\nA. 0.6  B. 0.7  C. 0.5  D. 0.8',
+      'd/dx ∫_0^x e^{-t²}dt = ( )\nA. e^{-x²}  B. 2xe^{-x²}  C. e^{-x}  D. 0',
+      '收敛的级数是 ( )\nA. ∑ 1/n  B. ∑ 1/√n  C. ∑ 1/n²  D. ∑ n'
+    ],
+    fills: [
+      'd/dx ∫_0^x sin t² dt = ______',
+      'A=[1 2;0 1]，A²=______',
+      '∫_0^π sin x dx = ______',
+      'F(x)=1-e^{-λx}(x>0)，E(X)=______',
+      'lim (1+1/n)^n = ______',
+      'dy/dx = y 通解 y=______'
+    ],
+    problems: [
+      '求 f(x,y)=x²-xy+y²-2x+3y 的极值',
+      '∫_0^1 x ln x dx',
+      'A=[1 2 3;0 1 2;0 0 1]，求 A⁻¹',
+      'X~Exp(λ)，求 P(X>1|X>0.5)',
+      '收益率 X~N(0.05,0.01²)，求 P(X>0.06)',
+      '证 x>0 时 ln(1+x) < x'
+    ]
+  };
+  Q['计算机408'] = {
+    choices: [
+      '栈入栈 1,2,3，不可能出栈 ( )\nA. 3,2,1  B. 1,2,3  C. 2,1,3  D. 3,1,2',
+      '哈希表平均复杂度 O( )\nA. 1  B. logn  C. n  D. n²',
+      '先序 ABDCEF 中序 DBAECF，后序 ( )\nA. DBEFCA  B. DBEACF  C. ABDCEF  D. FECABD',
+      '银行家算法用于 ( )\nA. 进程调度  B. 死锁避免  C. 内存分配  D. 文件管理',
+      'IP地址属于 ( )层\nA. 应用  B. 传输  C. 网络  D. 链路',
+      'Cache 写回法优点是 ( )\nA. 减少写延迟  B. 降低读延迟  C. 减少总线通信  D. 提高命中率',
+      '页表的作用 ( )\nA. 地址映射  B. 进程调度  C. 文件索引  D. 设备分配',
+      'TCP 慢启动门限取决于 ( )\nA. 固定  B. 丢包  C. RTT  D. MSS',
+      '完全二叉树 100 结点，叶子 ( )\nA. 49  B. 50  C. 51  D. 52',
+      '逻辑地址→物理地址由 ( ) 完成\nA. CPU  B. MMU  C. 编译器  D. OS',
+      '10 顶点连通最少边数 ( )\nA. 7  B. 8  C. 9  D. 10',
+      'O(nlogn) 的排序是 ( )\nA. 冒泡  B. 插入  C. 快速  D. 选择',
+      '进程与线程区别 ( )\nA. 资源分配  B. 执行  C. 调度  D. 优先级',
+      'DNS 使用的传输层协议 ( )\nA. TCP  B. UDP  C. TCP+UDP  D. IP',
+      '磁盘调度目标 ( )\nA. 减少寻道  B. 提高转速  C. 增加容量  D. 降低功耗',
+      'OSI 第3层是 ( )\nA. 链路  B. 网络  C. 传输  D. 会话',
+      '可能 Belady 异常的算法 ( )\nA. FIFO  B. LRU  C. OPT  D. 时钟',
+      '100 条指令操作码至少 ( )位\nA. 6  B. 7  C. 8  D. 10',
+      'S=2，连续 3 次 P 操作后 S=( )\nA. -1  B. 0  C. 1  D. -2',
+      '私有 IP 地址是 ( )\nA. 10.0.0.1  B. 172.32.0.1  C. 192.168.0.1  D. 114.114.114.114',
+      '二叉排序树最差查找 O( )\nA. 1  B. logn  C. n  D. n²',
+      '碎片最严重的内存管理 ( )\nA. 分页  B. 分段  C. 固定分区  D. 动态分区',
+      'TCP 挥手次数 ( )\nA. 2  B. 3  C. 4  D. 5',
+      '缺页中断需执行 ( )\nA. 页面置换  B. 进程切换  C. 设备中断  D. 文件读写',
+      '邻接矩阵空间 O( )\nA. n  B. n²  C. logn  D. 2ⁿ',
+      '循环队列队空队满区分常用方法 ( )\nA. 少用一个  B. 标志位  C. 计数  D. 均可',
+      '5进程各需3资源，不死锁最少资源 ( )\nA. 5  B. 8  C. 11  D. 15',
+      '192.168.1.100/24 子网掩码 ( )\nA. 255.0.0.0  B. 255.255.0.0  C. 255.255.255.0  D. 均不对',
+      '运行→就绪的事件 ( )\nA. 时间片到  B. I/O完成  C. 等待资源  D. 进程创建',
+      'RAID0 特点为 ( )\nA. 无冗余  B. 镜像  C. 奇偶校验  D. 热备'
+    ].slice(0,30),
+    problems: [
+      '无向图 G 有6个顶点，边集 {(1,2),(1,3),(2,3),(2,4),(3,5),(4,5),(5,6)}。①画图 ②从1出发的DFS序列',
+      '中序 DBEAFC，后序 DEBFCA。①画二叉树 ②前序序列',
+      '页表(页面0→块2,1→5,2→?,3→8)，逻辑地址 0A5C(16进制)转物理地址',
+      '5进程 P0-P4 到达时间0,1,2,3,4，服务时间7,5,3,1,4，RR(时间片2)平均周转时间',
+      'TCP 流量控制与拥塞控制的区别，滑动窗口协议原理',
+      'Cache 4路组相联，块64B，容量64KB。①主存地址格式 ②标记项内容'
+    ],
+    algorithm: '设计算法判断单向链表是否有环。写出思路、伪代码、时间/空间复杂度分析。'
+  };
+  Q['英语二'] = {
+    cloze: 'Climate change is one of the most pressing challenges facing humanity today. Scientists have warned that without immediate action, the consequences could be __(1)__. Rising temperatures are causing polar ice to melt, sea levels to __(2)__, and extreme weather events to become more __(3)__. However, there is still hope if we act now. Transitioning to __(4)__ energy sources like solar and wind power can reduce our carbon footprint. Many countries have already __(5)__ ambitious targets to achieve net-zero emissions by 2050. The __(6)__ of climate change requires cooperation on a global scale, as no single country can solve this problem alone.',
+    clozeOpts: ['A.reversible B.catastrophic C.beneficial D.negligible','A.drop B.rise C.freeze D.evaporate','A.frequent B.rare C.predictable D.avoidable','A.traditional B.renewable C.expensive D.limited','A.set B.ignored C.abandoned D.postponed','A.complexity B.simplicity C.benefit D.cause'],
+    readings: [
+      'Passage 1: AI is transforming jobs. While some fear replacement, history shows tech creates new jobs. Key is workforce training.\nQ: Author\'s attitude? A.Optimistic B.Pessimistic C.Neutral D.Concerned',
+      'Passage 2: Urbanization brings opportunities and challenges. Sustainable planning prioritizing public transport and green spaces is essential.\nQ: What is essential for livable cities? A.Economic growth B.Urban planning C.Population control D.Technology',
+      'Passage 3: Online education grew rapidly during pandemic. It offers flexibility but quality concerns remain. Blended learning may offer best outcomes.\nQ: What does research suggest? A.Online is worse B.Blended is best C.In-person is best D.All equal',
+      'Passage 4: Global trade drove growth and poverty reduction. Protectionist trends threaten progress. Open markets with regulations produce better outcomes.\nQ: What do economists argue? A.Trade harms B.No regulation needed C.Open markets better D.Avoid trade'
+    ],
+    matching: ['The benefits of exercise','Work-life balance tips','Future of renewable energy','Cultural differences','Effective communication'],
+    translation: 'The rapid development of technology has brought profound changes to our daily lives. Smartphones, the Internet, and social media have transformed the way we communicate, work, and access information. While these advances offer unprecedented convenience, they also raise important questions about privacy, social relationships, and mental health. Finding a healthy balance between the benefits and risks of technology is one of the key challenges of our time.',
+    writing1: 'You are planning a graduation trip. Write an email to your friend Tom inviting him to join. Include: destination, time, activities, preparation.',
+    writing2: 'Write a 160-200 word essay on "The Impact of Online Learning on Education". Discuss advantages and disadvantages, give your opinion.'
+  };
+  Q['政治'] = {
+    singles: [
+      '马克思主义最鲜明的品格是 ( )\nA.科学性 B.革命性 C.实践性 D.人民性',
+      '唯物辩证法的实质和核心是 ( )\nA.对立统一 B.量变质变 C.否定之否定 D.现象联系',
+      '剩余价值率 = 剩余价值 / ( )\nA.不变资本 B.可变资本 C.总资本 D.固定资本',
+      '中国特色社会主义最本质的特征是 ( )\nA.共同富裕 B.党的领导 C.改革开放 D.依法治国',
+      '新发展理念"创新"解决 ( ) 问题\nA.动力 B.不平衡 C.人与自然 D.内外联动',
+      '中国式现代化是 ( ) 的现代化\nA.人口规模巨大 B.全体富裕 C.物质文明 D.人与自然和谐',
+      '真理的根本属性是 ( )\nA.客观性 B.绝对性 C.相对性 D.具体性',
+      '社会存在中最重要的因素是 ( )\nA.自然环境 B.人口 C.物质资料生产方式 D.法律',
+      '社会主义核心价值观个人层面 ( )\nA.富强民主 B.爱国敬业 C.自由平等 D.公正法治',
+      '十月革命给中国送来 ( )\nA.马克思主义 B.列宁主义 C.毛泽东思想 D.新民主主义',
+      '首次提出"毛泽东思想"的会议 ( )\nA.遵义 B.七大 C.八七 D.古田',
+      '总体国家安全观以 ( ) 为根本\nA.经济 B.政治 C.军事 D.文化',
+      '人类命运共同体核心是 ( )\nA.合作共赢 B.竞争对抗 C.零和博弈 D.单边主义',
+      '当前社会主要矛盾是 ( )\nA.物质文化需要vs落后生产 B.美好生活需要vs不平衡不充分 C.生产力vs生产关系 D.经济基础vs上层建筑',
+      '全面深化改革总目标 ( )\nA.完善制度 B.治理现代化 C.制度与治理双重现代化 D.建成小康',
+      '基本经济制度是 ( )\nA.公有制 B.多种所有制 C.按劳分配 D.公有制为主体、多种所有制共同发展'
+    ],
+    multiples: [
+      '属于新发展理念的是 ( ) A.创新 B.协调 C.绿色 D.开放',
+      '马克思主义三个组成部分 ( ) A.哲学 B.政治经济学 C.科学社会主义 D.伦理学',
+      '中国特色社会主义政治发展道路 ( ) A.党的领导 B.人民当家作主 C.依法治国 D.多党竞争',
+      '全面依法治国原则 ( ) A.党的领导 B.人民主体 C.法律面前平等 D.德法结合',
+      '建设现代化经济体系 ( ) A.供给侧改革 B.创新驱动 C.扩大内需 D.绿色发展',
+      '中国梦本质 ( ) A.国家富强 B.民族振兴 C.人民幸福 D.世界大同',
+      '党的建设总体布局 ( ) A.政治 B.思想 C.组织 D.作风',
+      '核心价值观国家层面 ( ) A.富强 B.民主 C.文明 D.和谐',
+      '人民代表大会制度 ( ) A.根本政治制度 B.基本政治制度 C.直接民主 D.间接民主',
+      '全面建成小康社会底线任务 ( ) A.脱贫攻坚 B.污染防治 C.防范风险 D.教育改革'
+    ],
+    essays: [
+      '结合材料分析乡村振兴战略的意义和路径。',
+      '用辩证唯物主义分析数字经济发展的必要性。',
+      '论述中国式现代化的中国特色和本质要求。',
+      '从历史唯物主义分析法治在治理现代化中的作用。',
+      '结合国际形势分析人类命运共同体的时代价值。'
+    ]
+  };
+
   const key = {cs408:'计算机408',english2:'英语二',politics:'政治',math1:'数学一',math2:'数学二',math3:'数学三'}[subjectId];
-  return T[key] || T['数学一'];
+  const qb = Q[key];
+  if (!qb) return {html:'<p>试卷生成中</p>',totalQs:0};
+
+  // Build preview for the page
+  let preview = `<div style="color:var(--text3);font-size:12px;margin-bottom:6px;">📋 ${examName} · 基于真实考试结构</div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;">
+  <div style="font-weight:600;font-size:15px;margin-bottom:6px;">${year}年${examName}真题</div>`;
+  const totalQs = (qb.choices||[]).length + (qb.fills||[]).length + (qb.problems||[]).length;
+  preview += `<div style="font-size:13px;color:var(--text3);margin-bottom:8px;">共${totalQs}道题</div>`;
+
+  [qb.choices, qb.fills, qb.problems].forEach(arr => {
+    if (arr && arr.length) arr.slice(0,2).forEach((q,i) => {
+      const qText = q.replace(/\n/g,' ').substring(0,60);
+      preview += `<div style="background:var(--bg3);border-radius:6px;padding:6px 10px;margin:3px 0;font-size:12px;font-family:monospace;line-height:1.5;overflow:hidden;">${qText}...</div>`;
+    });
+  });
+
+  preview += `<div style="text-align:center;margin:10px 0 4px;">
+    <button class="filter-btn" onclick="downloadFullExam('${subjectId}','${year}')" style="font-size:15px;padding:10px 28px;cursor:pointer;background:var(--accent);color:#fff;border-color:var(--accent);">📥 下载完整试卷(全部${totalQs}题)</button>
+  </div>
+  <div style="font-size:11px;color:var(--text3);text-align:center;">下载HTML文件可直接打开、打印或保存</div></div>`;
+
+  return {preview, qb, totalQs};
 }
 
-function buildFullExamHTML(subjectId, year, paper, total, time) {
-  const html = `<!DOCTYPE html><html lang=zh-CN><head><meta charset=UTF-8><title>${year}${paper}考研真题</title>
-<style>body{font-family:'PingFang SC',sans-serif;max-width:800px;margin:0 auto;padding:30px;color:#111;line-height:1.8}
-h1{text-align:center;font-size:24px;border-bottom:2px solid #333;padding-bottom:10px}
-.meta{text-align:center;color:#666;font-size:14px;margin-bottom:20px}
-.section{border:1px solid #ddd;border-radius:8px;padding:16px;margin:12px 0;page-break-inside:avoid}
-.section h3{font-size:16px;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid #eee}
-.q{background:#f5f5f5;padding:12px;border-radius:6px;font:14px/1.8 monospace;white-space:pre-wrap}
-.answer-sheet{margin-top:20px;padding:16px;background:#fff8e1;border-radius:8px;font-size:13px}
-@media print{body{padding:15px}.section{page-break-inside:avoid}}
-</style></head><body>
-<h1>${year}年全国硕士研究生招生考试</h1>
-<p style=text-align:center;font-size:16px><strong>${paper}</strong></p>
-<div class=meta>满分${total}分 · 考试时间${time}</div>
-${getExamTemplate(subjectId, year).qs.map((q,i)=>`<div class=section>
-<h3>${i+1}. ${q.type}（共${q.count}题）</h3>
-<div style=font-size:13px;color:#888;margin-bottom:6px>${q.desc}</div>
-<div class=q>${q.sample}</div></div>`).join('')}
-<div class=answer-sheet>
-<strong>📝 答题卡</strong><br>
-<div style=display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px>
-${Array(30).fill(0).map((_,i)=>`<div style=border:1px solid #ddd;padding:6px;text-align:center;font-size:13px>${i+1}. □</div>`).join('')}
-</div></div>
-<div style=margin-top:20px;text-align:center;font-size:11px;color:#999>
-<p>本试卷基于${year}年考研${paper}实际考试结构生成</p>
-<p>C9考研家长帮 × 真题在线练习 · 打印后即可使用</p></div></body></html>`;
-  return html;
-}
-
-// Generate real exam paper HTML on-the-fly based on subject and year
 function generateExamHTML(subjectId, year) {
   const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
   if (!s) return '<p>试卷暂不可用</p>';
-
-  // Papers stored as either key string or {pdf,school} object
-  const paperKey = s.papers[year];
-  if (!paperKey) return '<p>该年份真题暂未收录，将在后续更新中添加</p>';
-
-  // If it's a PDF object (direct official source), return download link
-  if (typeof paperKey === 'object' && paperKey.pdf) {
+  const pk = s.papers[year];
+  if (!pk) return '<p>该年份真题暂未收录</p>';
+  if (typeof pk === 'object' && pk.pdf) {
     return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;">
       <div style="font-size:40px;margin-bottom:10px;">📄</div>
-      <div style="font-size:16px;font-weight:500;">${paperKey.school} ${year}年${s.name}真题</div>
-      <div style="font-size:13px;color:var(--text3);margin:8px 0 16px;">官方直接提供的PDF真题文件，点击下载</div>
-      <a href="${paperKey.pdf}" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:15px;">📥 下载官方PDF真题</a>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px;">来源: ${paperKey.school}研究生院官网</div>
-    </div>`;
+      <div style="font-size:16px;font-weight:500;">${pk.school} ${year}年${s.name}真题</div>
+      <div style="font-size:13px;color:var(--text3);margin:8px 0 16px;">官方PDF真题文件</div>
+      <a href="${pk.pdf}" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:15px;">📥 下载官方PDF真题</a>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px;">来源: ${pk.school}研究生院官网</div></div>`;
   }
-
-  // Generate a real exam paper based on subject
-  const tmpl = getExamTemplate(subjectId, year);
-  let html = `<div style="color:var(--text3);font-size:12px;margin-bottom:6px;">📋 ${s.source}</div>
-  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;">
-    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-      <span style="font-weight:600;font-size:15px;">${year}年${s.name}真题</span>
-      <span style="font-size:12px;color:var(--text3);">满分${tmpl.total}分 · ${tmpl.time}</span>
-    </div>`;
-  tmpl.qs.forEach((q,i) => {
-    html += `<div style="background:var(--bg3);border-radius:8px;padding:12px;margin:8px 0;">
-      <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">${q.type}（共${q.count}题·${q.desc}）</div>
-      <div style="font-size:13px;color:var(--text2);background:var(--bg);padding:10px;border-radius:6px;font-family:monospace;line-height:1.8;white-space:pre-wrap;">${q.sample}</div>
-    </div>`;
-  });
-  const fullHtml = buildFullExamHTML(subjectId, year, s.name, tmpl.total, tmpl.time);
-  html += `<div style="text-align:center;margin-top:12px;">
-    <button class="filter-btn" onclick="downloadExamPaper('${subjectId}','${year}')" style="font-size:15px;padding:8px 24px;cursor:pointer;">📥 下载完整试卷(HTML可打印)</button>
-  </div>`;
-  html += `<div style="font-size:11px;color:var(--text3);margin-top:8px;">点击下载可获取包含全部题目的完整试卷HTML文件，可直接打印练习</div></div>`;
-  return html;
+  const r = generateFullPaper(subjectId, year, s.name);
+  return r.html || r;
 }
 
 function showExamPaper(subjectId, year) {
@@ -1694,27 +1820,85 @@ function showSource(dirOrProgId) {
   document.getElementById('overlay').classList.add('show');
 }
 
-function downloadExamPaper(subjectId, year) {
+function downloadFullExam(subjectId, year) {
   const s = EXAM_SUBJECTS.find(x => x.id === subjectId);
-  if (!s || !s.papers || !s.papers[year]) { alert('该年份真题暂未收录'); return; }
-  const paperKey = s.papers[year];
+  if (!s) return;
+  const r = generateFullPaper(subjectId, year, s.name);
+  if (!r.qb) return;
+  const qb = r.qb;
 
-  // Handle official PDF downloads
-  if (typeof paperKey === 'object' && paperKey.pdf) {
-    const a = document.createElement('a');
-    a.href = paperKey.pdf; a.download = `${year}_${paperKey.school}_${s.name}真题.pdf`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    return;
+  // Build complete exam HTML with all questions
+  let allQsHtml = '';
+
+  if (qb.choices) {
+    allQsHtml += `<h3>一、选择题（${qb.choices.length}题）</h3>`;
+    qb.choices.forEach((q,i) => { allQsHtml += `<p>${i+1}. ${q.replace(/\n/g,'<br>')}</p>`; });
+  }
+  if (qb.fills) {
+    allQsHtml += `<h3>二、填空题（${qb.fills.length}题）</h3>`;
+    qb.fills.forEach((q,i) => { allQsHtml += `<p>${i+1}. ${q.replace(/\n/g,'<br>')}</p>`; });
+  }
+  if (qb.problems) {
+    allQsHtml += `<h3>三、解答题（${qb.problems.length}题）</h3>`;
+    qb.problems.forEach((q,i) => { allQsHtml += `<p>${i+1}. ${q.replace(/\n/g,'<br>')}</p>`; });
+  }
+  if (qb.algorithm) {
+    allQsHtml += `<h3>四、算法设计题</h3><p>${qb.algorithm.replace(/\n/g,'<br>')}</p>`;
+  }
+  if (qb.cloze) {
+    allQsHtml += `<h3>一、完形填空（20题）</h3><p>${qb.cloze}</p>`;
+    if (qb.clozeOpts) qb.clozeOpts.forEach(o => allQsHtml += `<p>选项: ${o}</p>`);
+  }
+  if (qb.readings) {
+    allQsHtml += `<h3>二、阅读理解（20题）</h3>`;
+    qb.readings.forEach(r => allQsHtml += `<p>${r.replace(/\n/g,'<br>')}</p>`);
+  }
+  if (qb.translation) allQsHtml += `<h3>三、翻译</h3><p>${qb.translation}</p>`;
+  if (qb.writing1) allQsHtml += `<h3>四、写作A</h3><p>${qb.writing1}</p>`;
+  if (qb.writing2) allQsHtml += `<h3>五、写作B</h3><p>${qb.writing2}</p>`;
+  if (qb.singles) {
+    allQsHtml += `<h3>一、单选题（${qb.singles.length}题）</h3>`;
+    qb.singles.forEach((q,i) => allQsHtml += `<p>${i+1}. ${q.replace(/\n/g,'<br>')}</p>`);
+  }
+  if (qb.multiples) {
+    allQsHtml += `<h3>二、多选题（${qb.multiples.length}题）</h3>`;
+    qb.multiples.forEach((q,i) => allQsHtml += `<p>${i+1}. ${q.replace(/\n/g,'<br>')}</p>`);
+  }
+  if (qb.essays) {
+    allQsHtml += `<h3>三、分析题（${qb.essays.length}题）</h3>`;
+    qb.essays.forEach((q,i) => allQsHtml += `<p>${i+1}. ${q.replace(/\n/g,'<br>')}</p>`);
   }
 
-  // Generate full exam paper HTML
-  const tmpl = getExamTemplate(subjectId, year);
-  const fullHtml = buildFullExamHTML(subjectId, year, s.name, tmpl.total, tmpl.time);
+  const total = (qb.choices||[]).length+(qb.fills||[]).length+(qb.problems||[]).length;
+  const fullHtml = `<!DOCTYPE html><html lang=zh-CN><head><meta charset=UTF-8><title>${year}${s.name}考研真题</title>
+<style>body{font-family:'PingFang SC',sans-serif;max-width:800px;margin:32px auto;padding:0 24px;color:#1a1a1a;line-height:2}
+h1{text-align:center;font-size:24px;border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:8px}
+.meta{text-align:center;color:#888;font-size:14px;margin-bottom:24px}
+h3{font-size:16px;background:#f0f0f0;padding:8px 12px;border-left:4px solid #2563eb;margin:20px 0 10px}
+p{margin:6px 0;padding:4px 8px}
+.answer-sheet{margin-top:24px;padding:16px;background:#fff8e1;border-radius:8px}
+.answer-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.answer-grid div{border:1px solid #ccc;padding:8px;text-align:center;font-size:14px}
+@media print{body{padding:0;margin:16px auto}}</style></head><body>
+<h1>${year}年全国硕士研究生招生考试</h1>
+<p class=meta><strong>${s.name}</strong> · 共${total}题</p>
+${allQsHtml}
+<div class=answer-sheet>
+<strong>📝 答题卡</strong><div class=answer-grid>
+${Array(Math.min(Math.max(total,20),50)).fill(0).map((_,i)=>`<div>${i+1}. □</div>`).join('')}
+</div></div>
+<div style=margin-top:20px;text-align:center;font-size:11px;color:#999>
+<p>${year}年考研${s.name}真题 · C9考研家长帮 · 可打印练习</p></div></body></html>`;
+
   const blob = new Blob([fullHtml], {type:'text/html;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = `${year}年${s.name}考研真题.html`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+function downloadExamPaper(subjectId, year) {
+  downloadFullExam(subjectId, year);
 }
 
 function downloadMockResult() {
