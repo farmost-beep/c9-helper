@@ -1236,8 +1236,14 @@ const EXAM_SUBJECTS = [
     source:'教育部考试中心 · 考研数学统一命题',
     papers: { '2024':'24数学二','2023':'23数学二','2022':'22数学二' } },
   { id:'cs408', icon:'💻', name:'408计算机', short:'408', target:'CS/AI方向',
-    source:'教育部考试中心 · 408统考统一命题',
-    papers: { '2024':'24计算机408','2023':'23计算机408','2022':'22计算机408','2021':'21计算机408' } },
+    source:'GitHub开源(neville-studio/408-exam-paper) · 2009-2025全部PDF可用',
+    papers: {
+      '2024':{pdf:'papers/408_2024.pdf', label:'2024年408真题PDF'},
+      '2023':{pdf:'papers/408_2023.pdf', label:'2023年408真题PDF'},
+      '2022':{pdf:'papers/408_2022.pdf', label:'2022年408真题PDF'},
+      '2021':{pdf:'papers/408_2021.pdf', label:'2021年408真题PDF'},
+      '2020':{pdf:'papers/408_2020.pdf', label:'2020年408真题PDF'},
+      '2009-2025合集':{pdf:'https://github.com/neville-studio/408-exam-paper', label:'全套2009-2025+答案(GitHub)', external:true} } },
   { id:'stat432', icon:'📊', name:'432统计学', short:'432', target:'应用统计专硕',
     source:'各校自命题(南审/暨大官网直接提供PDF)',
     papers: {
@@ -1607,12 +1613,22 @@ function generateExamHTML(subjectId, year) {
   const pk = s.papers[year];
   if (!pk) return '<p>该年份真题暂未收录</p>';
   if (typeof pk === 'object' && pk.pdf) {
+    const isExternal = pk.external;
+    const pdfUrl = pk.pdf.startsWith('http') ? pk.pdf : pk.pdf;
+    const btnLabel = isExternal ? '🔗 打开GitHub查看' : '📥 下载PDF真题';
+    const srcNote = pk.school || (pk.pdf.startsWith('papers/') ? 'GitHub开源真题仓库' : '');
+    const extraHtml = isExternal ? '' : `<div style="margin-top:10px;"><embed src="${pdfUrl}" type="application/pdf" width="100%" height="500px" style="border-radius:8px;border:1px solid var(--border);"></embed></div>`;
     return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;">
       <div style="font-size:40px;margin-bottom:10px;">📄</div>
-      <div style="font-size:16px;font-weight:500;">${pk.school} ${year}年${s.name}真题</div>
-      <div style="font-size:13px;color:var(--text3);margin:8px 0 16px;">官方PDF真题文件</div>
-      <a href="${pk.pdf}" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:15px;">📥 下载官方PDF真题</a>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px;">来源: ${pk.school}研究生院官网</div></div>`;
+      <div style="font-size:16px;font-weight:500;">${year}年${s.name}真题</div>
+      <div style="font-size:13px;color:var(--text3);margin:8px 0 16px;">${pk.label||'真实PDF真题文件，可直接下载查看'}</div>
+      ${isExternal
+        ? `<a href="${pdfUrl}" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:15px;">${btnLabel}</a>`
+        : `<a href="${pdfUrl}" download style="display:inline-block;padding:10px 28px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:15px;">${btnLabel}</a>`
+      }
+      <div style="font-size:11px;color:var(--text3);margin-top:10px;">来源: ${srcNote}</div>
+      ${extraHtml}
+    </div>`;
   }
   const r = generateFullPaper(subjectId, year, s.name);
   return r.html || r;
