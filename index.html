@@ -46,7 +46,7 @@ body {
 /* ===== MAIN ===== */
 .main { padding-top: 52px; }
 .tab-content { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
-.tab-content.active { display: block; }
+.tab-content.active { display: block !important; }
 
 /* ===== HERO ===== */
 .hero {
@@ -732,7 +732,9 @@ body {
     <h1>📅 C9考研时间线</h1>
     <p>从大二暑假到大四考研，每个阶段该做什么</p>
   </div>
-  <div class="timeline" id="timelineContent"></div>
+  <div class="timeline" id="timelineContent">
+    <div style="padding:20px;text-align:center;color:var(--text3);font-size:14px;">⏳ 时间线加载中...</div>
+  </div>
 </div>
 
 </div>
@@ -2279,9 +2281,12 @@ function togglePhase(idx) {
 // INIT
 // ================================================================
 // 逐个渲染，每个包try-catch防止单点崩溃
-['renderDirections','renderFilters','renderPrograms','renderDownloadCenter','renderPlan','renderTimeline'].forEach(fn => {
-  try { window[fn](); } catch(e) { console.error('Render error: ' + fn, e); }
-});
+try{renderDirections()}catch(e){console.error(e)}
+try{renderFilters()}catch(e){console.error(e)}
+try{renderPrograms()}catch(e){console.error(e)}
+try{renderDownloadCenter()}catch(e){console.error(e)}
+try{renderPlan()}catch(e){console.error(e)}
+try{renderTimeline()}catch(e){console.error(e)}
 </script>
 
   </details>
