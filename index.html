@@ -1374,8 +1374,6 @@ function selectExamSubject(id) {
   const s = EXAM_SUBJECTS.find(x => x.id === id);
   document.getElementById('examDetail').style.display = 'block';
   document.getElementById('examSubjTitle').textContent = `${s.icon} ${s.name} · ${s.target}`;
-  document.getElementById('examSubjects').querySelectorAll('.exam-subject-card').forEach(el => el.classList.remove('active'));
-  document.querySelector(`.exam-subject-card:nth-child(${EXAM_SUBJECTS.findIndex(x=>x.id===id)+1})`).classList.add('active');
 
   // Year list
   const years = Object.keys(s.papers);
