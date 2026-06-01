@@ -967,6 +967,8 @@ function switchTab(tab) {
     if(el.textContent.includes('时间') && tab==='timeline') el.classList.add('active');
   });
   if(tab==='compare') renderCompare();
+  if(tab==='exam') { renderDownloadCenter(); renderExamSubjects(); }
+  if(tab==='timeline') renderTimeline();
 }
 
 // ================================================================
