@@ -663,6 +663,8 @@ body {
     <p>按科目浏览历年真题资源 + 在线模拟测试，追踪每次练习的成绩</p>
   </div>
 
+  <!-- 科目列表(供renderExamSubjects写入) -->
+  <div id="examSubjects" style="display:none;"></div>
   <!-- 真题下载中心（整合版，取代下方科目卡片） -->
   <div style="background:linear-gradient(135deg, var(--bg2), var(--bg3));border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
@@ -2275,12 +2277,10 @@ function togglePhase(idx) {
 // ================================================================
 // INIT
 // ================================================================
-renderDirections();
-renderFilters();
-renderPrograms();
-renderDownloadCenter();
-renderPlan();
-renderTimeline();
+// 逐个渲染，每个包try-catch防止单点崩溃
+['renderDirections','renderFilters','renderPrograms','renderDownloadCenter','renderPlan','renderTimeline'].forEach(fn => {
+  try { window[fn](); } catch(e) { console.error('Render error: ' + fn, e); }
+});
 </script>
 
   </details>
