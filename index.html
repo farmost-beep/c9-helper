@@ -375,6 +375,7 @@ body {
     <a onclick="switchTab('quiz')">个人定制</a>
     <a onclick="switchTab('compare')">对比工具</a>
     <a onclick="switchTab('exam')">📝 真题模拟</a>
+    <a onclick="switchTab('plan')">🎯 执行</a>
     <a onclick="switchTab('timeline')">时间线</a>
   </div>
 </nav>
@@ -550,6 +551,32 @@ body {
       </div>
     </div>
   </div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 6: 陈于东·个人执行规划 -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-plan">
+  <div class="hero" style="border:none;padding-bottom:0;">
+    <h1>🎯 陈于东 · 考研执行监督</h1>
+    <p>基于《上海大学应数大二考研择校指导手册》的专属执行方案</p>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;flex:1;min-width:160px;">
+      <div style="font-size:12px;color:var(--text3);">当前阶段</div>
+      <div style="font-size:17px;font-weight:700;color:var(--accent);" id="planPhase">大二暑假准备期</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;flex:1;min-width:120px;">
+      <div style="font-size:12px;color:var(--text3);">任务完成</div>
+      <div style="font-size:22px;font-weight:700;" id="planProgressPct">0%</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;flex:1;min-width:140px;">
+      <div style="font-size:12px;color:var(--text3);">推荐路径</div>
+      <div style="font-size:14px;font-weight:600;color:var(--green);">方案B · 北大软微</div>
+    </div>
+  </div>
+  <div id="planSteps"></div>
+  <div id="planNextStep" style="margin-top:16px;background:linear-gradient(135deg,var(--accent),#2563eb);border-radius:10px;padding:16px;color:#fff;display:none;"></div>
 </div>
 
 <!-- ============================== -->
@@ -861,6 +888,7 @@ function switchTab(tab) {
     if(el.textContent.includes('定制') && tab==='quiz') el.classList.add('active');
     if(el.textContent.includes('对比') && tab==='compare') el.classList.add('active');
     if(el.textContent.includes('真题') && tab==='exam') el.classList.add('active');
+    if(el.textContent.includes('执行') && tab==='plan') el.classList.add('active');
     if(el.textContent.includes('时间') && tab==='timeline') el.classList.add('active');
   });
   if(tab==='compare') renderCompare();
@@ -2003,12 +2031,158 @@ ${mockState.questions.map((q,i) => {
 }
 
 // ================================================================
+// PERSONAL EXECUTION PLAN (陈于东专用)
+// ================================================================
+const PLAN = {
+  phases: [
+    { name:'大二暑假准备期', period:'2026.7-8', pct:5,
+      tasks:[
+        { id:'p1_1', label:'选择方向: 数学/统计、金融工程、应统、CS中选1-2个', done:false, deadline:'7月第2周' },
+        { id:'p1_2', label:'确定方案B: 北大软微金融科技(数二)为主攻方向', done:false, deadline:'7月第2周' },
+        { id:'p1_3', label:'圈定3-5所候选院校, 建Excel对比表', done:false, deadline:'7月第3周' },
+        { id:'p1_4', label:'下载目标院校近3年真题', done:false, deadline:'7月第4周' },
+        { id:'p1_5', label:'开始补微观经济学(曼昆)+Python基础', done:false, deadline:'8月底' },
+        { id:'p1_6', label:'背考研词汇第一轮(每天30词)', done:false, deadline:'8月底' }
+      ]},
+    { name:'大三上·基础期', period:'2026.9-2027.1', pct:15,
+      tasks:[
+        { id:'p2_1', label:'做一套目标院校真题摸底, 评估差距', done:false, deadline:'9月' },
+        { id:'p2_2', label:'最终确定方向, 缩小到3所目标院校', done:false, deadline:'10月(不可逆)' },
+        { id:'p2_3', label:'数学(数二)基础轮复习开始', done:false, deadline:'11月前' },
+        { id:'p2_4', label:'英语词汇第二轮+阅读真题', done:false, deadline:'12月' },
+        { id:'p2_5', label:'经济学教材通读第一遍', done:false, deadline:'1月' },
+        { id:'p2_6', label:'关注各校招生简章, 家长帮盯官网', done:false, deadline:'9月起每月' }
+      ]},
+    { name:'大三寒假·锁定期', period:'2027.1-2', pct:25,
+      tasks:[
+        { id:'p3_1', label:'★最终确定1所报考院校', done:false, deadline:'开学前' },
+        { id:'p3_2', label:'专业课系统复习(经济学/432)', done:false, deadline:'2月底' },
+        { id:'p3_3', label:'数学强化轮开始+大量刷题', done:false, deadline:'2月底' },
+        { id:'p3_4', label:'确认复试规则: 是否保护一志愿/歧视双非', done:false, deadline:'2月' }
+      ]},
+    { name:'大三下·强化期', period:'2027.3-6', pct:45,
+      tasks:[
+        { id:'p4_1', label:'数学(数二)冲刺140+目标, 每天3h', done:false, deadline:'持续' },
+        { id:'p4_2', label:'专业课刷题+真题3遍以上', done:false, deadline:'6月' },
+        { id:'p4_3', label:'英语阅读+作文系统训练', done:false, deadline:'6月' },
+        { id:'p4_4', label:'家长盯各校招生简章发布(可能有科目变动)', done:false, deadline:'5-6月' }
+      ]},
+    { name:'大三暑假·黄金期', period:'2027.7-8', pct:65,
+      tasks:[
+        { id:'p5_1', label:'每天8-10h: 数学3h+专业课3h+英语1.5h+政治1.5h', done:false, deadline:'每天' },
+        { id:'p5_2', label:'数学强化轮: 真题刷3遍+错题本整理', done:false, deadline:'8月底' },
+        { id:'p5_3', label:'政治第一轮: 肖秀荣1000题', done:false, deadline:'8月底' },
+        { id:'p5_4', label:'专业课真题: 至少刷完近5年', done:false, deadline:'8月底' }
+      ]},
+    { name:'大四上·冲刺期', period:'2027.9-12', pct:85,
+      tasks:[
+        { id:'p6_1', label:'9月: ★重新核实考试科目(可能有变动)', done:false, deadline:'9月前' },
+        { id:'p6_2', label:'10月: 研招网正式报名', done:false, deadline:'10月底' },
+        { id:'p6_3', label:'11月: 网上确认', done:false, deadline:'11月' },
+        { id:'p6_4', label:'12月: 初试(倒数第二个周末)', done:false, deadline:'12月' }
+      ]},
+    { name:'大四寒假·复试', period:'2028.1-4', pct:100,
+      tasks:[
+        { id:'p7_1', label:'2月: 查分', done:false, deadline:'2月底' },
+        { id:'p7_2', label:'3月: 复试准备(口语/专业课/简历)', done:false, deadline:'3月' },
+        { id:'p7_3', label:'4月: 录取/调剂', done:false, deadline:'4月' }
+      ]}
+  ],
+  student: '陈于东',
+  school: '上海大学',
+  major: '应用数学',
+  grade: '2025级(大二)',
+  target: 'C9/上海高校',
+  strategy: '方案B · 北大软微金融科技(数二)',
+  mathTarget: 140,
+  keyAdvantage: '数学优势最大化(数二比数一简单)'
+};
+
+function renderPlan() {
+  // Load saved progress
+  const saved = JSON.parse(localStorage.getItem('c9Plan') || '{}');
+  PLAN.phases.forEach(p => p.tasks.forEach(t => { if (saved[t.id] !== undefined) t.done = saved[t.id]; }));
+
+  // Calculate overall progress
+  const allTasks = PLAN.phases.flatMap(p => p.tasks);
+  const doneCount = allTasks.filter(t => t.done).length;
+  const totalPct = allTasks.length > 0 ? Math.round(doneCount / allTasks.length * 100) : 0;
+  document.getElementById('planProgressPct').textContent = totalPct + '%';
+
+  // Find current phase
+  const now = new Date();
+  let currentPhaseIdx = 0;
+  // Simple phase detection based on month
+  const m = now.getMonth();
+  if (m >= 0 && m <= 1) { const y = now.getFullYear(); currentPhaseIdx = (y >= 2028) ? 6 : 3; }
+  else if (m >= 2 && m <= 5) currentPhaseIdx = 3;
+  else if (m >= 6 && m <= 7) currentPhaseIdx = (now.getFullYear() >= 2027) ? 4 : 0;
+  else if (m >= 8 && m <= 11) currentPhaseIdx = (now.getFullYear() >= 2027) ? 5 : 1;
+  // Override for demo - show phase 0 during development
+  currentPhaseIdx = 0;
+
+  document.getElementById('planPhase').textContent = PLAN.phases[currentPhaseIdx].name;
+
+  // Render phases
+  const container = document.getElementById('planSteps');
+  container.innerHTML = PLAN.phases.map((phase, pi) => {
+    const phaseTasks = phase.tasks.map(t => {
+      const isCurrent = pi === currentPhaseIdx;
+      return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);">
+        <input type="checkbox" ${t.done?'checked':''} onchange="togglePlanTask('${t.id}',this.checked)" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;">
+        <div style="flex:1;font-size:14px;${t.done?'text-decoration:line-through;color:var(--text3);':''}">${t.label}</div>
+        <span style="font-size:11px;color:var(--text3);flex-shrink:0;">${t.deadline}</span>
+      </div>`;
+    }).join('');
+
+    const phasePct = phase.tasks.length > 0 ? Math.round(phase.tasks.filter(t=>t.done).length/phase.tasks.length*100) : 0;
+    return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;${pi===currentPhaseIdx?'border-left:3px solid var(--accent);':''}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;cursor:pointer;" onclick="togglePhase(${pi})">
+        <div><span style="font-weight:600;font-size:15px;">${pi===currentPhaseIdx?'📍 ':'📌 '}${phase.name}</span>
+        <span style="font-size:12px;color:var(--text3);margin-left:8px;">${phase.period}</span></div>
+        <div style="font-size:13px;color:${phasePct===100?'var(--green)':phasePct>0?'var(--accent2)':'var(--text3)'};">${phasePct}%</div>
+      </div>
+      <div id="phase_${pi}" style="display:${pi===currentPhaseIdx?'block':'none'};">
+        ${phaseTasks}
+        <div style="font-size:12px;color:var(--text3);margin-top:6px;">完成 ${phase.tasks.filter(t=>t.done).length}/${phase.tasks.length}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Render next step guidance
+  const nextActions = PLAN.phases[currentPhaseIdx].tasks.filter(t => !t.done);
+  if (nextActions.length > 0) {
+    document.getElementById('planNextStep').style.display = 'block';
+    document.getElementById('planNextStep').innerHTML = `
+      <div style="font-weight:600;font-size:15px;margin-bottom:6px;">✅ 当前最需要做的</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${nextActions.slice(0,3).map(t => `<span style="background:rgba(255,255,255,0.15);padding:4px 12px;border-radius:6px;font-size:13px;">${t.label}</span>`).join('')}
+      </div>`;
+  } else {
+    document.getElementById('planNextStep').style.display = 'none';
+  }
+}
+
+function togglePlanTask(id, done) {
+  const saved = JSON.parse(localStorage.getItem('c9Plan') || '{}');
+  saved[id] = done;
+  localStorage.setItem('c9Plan', JSON.stringify(saved));
+  renderPlan();
+}
+
+function togglePhase(idx) {
+  const el = document.getElementById('phase_' + idx);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ================================================================
 // INIT
 // ================================================================
 renderDirections();
 renderFilters();
 renderPrograms();
 renderDownloadCenter();
+renderPlan();
 renderTimeline();
 </script>
 </body>
