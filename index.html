@@ -46,7 +46,7 @@ body {
 /* ===== MAIN ===== */
 .main { padding-top: 52px; }
 .tab-content { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
-.tab-content.active { display: block !important; }
+.tab-content.active { display: block; }
 
 /* ===== HERO ===== */
 .hero {
@@ -724,6 +724,8 @@ body {
     </div>
   </div>
 
+</div>
+
 <!-- ============================== -->
 <!-- TAB 4: 时间线 -->
 <!-- ============================== -->
@@ -1007,9 +1009,9 @@ let compareList = JSON.parse(localStorage.getItem('c9Compare') || '[]');
 // ================================================================
 function switchTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   const target = document.getElementById('tab-' + tab);
-  if (target) target.style.display = 'block';
+  if (target) target.classList.add('active');
   document.querySelectorAll('.nav .tabs a').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.nav .tabs a').forEach(el => {
     if(el.textContent.includes('方向') && tab==='radar') el.classList.add('active');
