@@ -34,7 +34,7 @@ body {
 .nav .brand { font-size: 20px; font-weight: 700; color: var(--text); }
 .nav .brand span { color: var(--accent); }
 .nav .brand small { font-size: 14px; color: var(--text3); font-weight: 400; margin-left: 8px; }
-.nav .tabs { margin-left: auto; display: flex; gap: 4px; }
+.nav .tabs { margin-left: auto; display: flex; gap: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; flex-shrink: 0; }
 .nav .tabs a { font-size: 15px; padding: 8px 18px;
   padding: 6px 16px; border-radius: 6px; font-size: 13px;
   color: var(--text3); text-decoration: none; cursor: pointer;
@@ -249,14 +249,18 @@ body {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .nav { padding: 0 12px; }
+  .nav { padding: 0 8px; }
   .nav .brand small { display: none; }
-  .nav .tabs a { font-size: 15px; padding: 8px 18px; padding: 6px 10px; font-size: 12px; }
+  .nav .tabs a { font-size: 15px; padding: 8px 18px; padding: 6px 8px; font-size: 12px; }
   .tab-content { padding: 12px; }
   .direction-grid { grid-template-columns: 1fr; }
   .program-card .details { grid-template-columns: 1fr 1fr; }
   .compare-grid { grid-template-columns: 120px repeat(2,1fr); }
   .hero h1 { font-size: 22px; }
+}
+@media (max-width: 400px) {
+  .nav .tabs a { font-size: 11px; padding: 5px 6px; }
+  .nav .tabs a:first-child { padding-left: 0; }
 }
 
 /* ===== SCROLLBAR ===== */
